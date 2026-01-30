@@ -6,7 +6,9 @@ import { useSearchParams } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortOrder, setSortOrder] = useState("default");
   const userId = "user123";
 
   useEffect(() => {
@@ -23,16 +25,37 @@ const Home = () => {
   };
 
   const searchQuery = searchParams.get("search")?.toLowerCase() || "";
-  const filteredProducts = products.filter(p =>
-    p.name?.toLowerCase().includes(searchQuery) ||
-    p.category?.toLowerCase().includes(searchQuery) ||
-    p.description?.toLowerCase().includes(searchQuery)
-  );
+
+  // Apply Search, Category, and Sorting
+  let filteredProducts = products.filter(p => {
+    const matchesSearch =
+      p.name?.toLowerCase().includes(searchQuery) ||
+      p.category?.toLowerCase().includes(searchQuery) ||
+      p.description?.toLowerCase().includes(searchQuery);
+
+    const matchesCategory = selectedCategory === "All" || p.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
+
+  if (sortOrder === "low-high") {
+    filteredProducts.sort((a, b) => a.price - b.price);
+  } else if (sortOrder === "high-low") {
+    filteredProducts.sort((a, b) => b.price - a.price);
+  }
+
+  const categories = ["All", ...new Set(products.map(p => p.category).filter(Boolean))];
+
+  const clearFilters = () => {
+    setSearchParams({});
+    setSelectedCategory("All");
+    setSortOrder("default");
+  };
 
   return (
     <div className="container">
       {/* Hero Section */}
-      {!searchQuery && (
+      {!searchQuery && selectedCategory === "All" && (
         <section style={{
           padding: '60px 0',
           textAlign: 'center',
@@ -54,13 +77,75 @@ const Home = () => {
         </section>
       )}
 
-      {/* Product Grid */}
-      <div style={{ marginTop: searchQuery ? '20px' : '60px' }}>
-        <div className="flex justify-between items-center" style={{ marginBottom: '32px' }}>
-          <h2 style={{ fontSize: '2rem' }}>
-            {searchQuery ? `Results for "${searchQuery}"` : "Featured Products"}
-          </h2>
-          <span style={{ color: 'var(--text-muted)' }}>{filteredProducts.length} items found</span>
+      {/* Filter UI */}
+      <div style={{ marginTop: searchQuery || selectedCategory !== "All" ? '20px' : '60px', marginBottom: '40px' }}>
+        <div className="flex flex-col gap-6">
+          <div className="flex justify-between items-end flex-wrap gap-4">
+            <div>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>
+                Categories
+              </p>
+              <div className="flex gap-2 flex-wrap">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`btn ${selectedCategory === cat ? 'btn-primary' : 'btn-outline'}`}
+                    style={{
+                      padding: '8px 20px',
+                      borderRadius: '99px',
+                      fontSize: '0.85rem'
+                    }}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex gap-4 items-center">
+              <div>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  Sort By
+                </p>
+                <select
+                  value={sortOrder}
+                  onChange={(e) => setSortOrder(e.target.value)}
+                  className="glass"
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '12px',
+                    color: 'var(--text-primary)',
+                    outline: 'none',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <option value="default">Default</option>
+                  <option value="low-high">Price: Low to High</option>
+                  <option value="high-low">Price: High to Low</option>
+                </select>
+              </div>
+
+              {(searchQuery || selectedCategory !== "All" || sortOrder !== "default") && (
+                <button
+                  onClick={clearFilters}
+                  className="btn btn-outline"
+                  style={{ marginTop: '30px', borderColor: 'rgba(239, 68, 68, 0.2)', color: '#EF4444' }}
+                >
+                  Clear All
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div style={{ height: '1px', background: 'var(--glass-border)', width: '100%' }}></div>
+
+          <div className="flex justify-between items-center">
+            <h2 style={{ fontSize: '1.75rem' }}>
+              {searchQuery ? `Results for "${searchQuery}"` : selectedCategory !== "All" ? `${selectedCategory} Products` : "Featured Products"}
+            </h2>
+            <span style={{ color: 'var(--text-muted)' }}>{filteredProducts.length} items found</span>
+          </div>
         </div>
 
         {filteredProducts.length > 0 ? (
@@ -68,6 +153,7 @@ const Home = () => {
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
             gap: '32px',
+            paddingTop: '32px',
             paddingBottom: '60px'
           }}>
             {filteredProducts.map((p, index) => (
