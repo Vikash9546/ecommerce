@@ -58,7 +58,7 @@ const Navbar = () => {
                     <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                     <input
                         type="text"
-                        placeholder="Search products..."
+                        placeholder="Search household items..."
                         value={searchQuery}
                         onChange={handleSearch}
                         className="search-input"

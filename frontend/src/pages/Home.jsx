@@ -65,14 +65,14 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             style={{ fontSize: '4rem', marginBottom: '20px' }}>
-            Future of <span style={{ color: 'var(--accent-primary)' }}>Shopping</span>
+            Elevate Your <span style={{ color: 'var(--accent-primary)' }}>Home</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             style={{ fontSize: '1.2rem', marginBottom: '40px', maxWidth: '600px', margin: '0 auto 40px' }}>
-            Experience the most premium and fast ecommerce platform built with cutting-edge technology.
+            Discover the most premium essentials for modern living. Curated, minimalist, and built for your sanctuary.
           </motion.p>
         </section>
       )}
