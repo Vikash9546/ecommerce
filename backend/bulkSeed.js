@@ -22,19 +22,17 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model("Product", productSchema);
 
 const categories = [
-    { name: "Electronics", keywords: ["laptop", "phone", "headphones", "monitor", "keyboard", "mouse", "tablet", "smartwatch", "camera", "speaker"] },
-    { name: "Kitchen", keywords: ["pan", "kettle", "coffee maker", "blender", "toaster", "knife", "plate", "bowl", "mug", "grill"] },
-    { name: "Home", keywords: ["sofa", "lamp", "pillow", "bed", "curtain", "rug", "chair", "table", "shelf", "clock"] },
-    { name: "Fashion", keywords: ["shirt", "pants", "sneakers", "dress", "jacket", "hoodie", "scarf", "socks", "belt", "hat"] },
-    { name: "Personal Care", keywords: ["shampoo", "soap", "brush", "razor", "lotion", "perfume", "spa kit", "mirror", "comb", "towel"] },
-    { name: "Fitness", keywords: ["dumbbells", "mat", "treadmill", "cycle", "bottle", "towel", "bands", "gloves", "tracker", "gym bag"] },
-    { name: "Stationery", keywords: ["pen", "notebook", "desk", "paper", "stapler", "marker", "folder", "planner", "calendar", "lamp"] },
-    { name: "Accessories", keywords: ["watch", "wallet", "glasses", "necklace", "ring", "bracelet", "earrings", "umbrella", "tie", "keychain"] },
-    { name: "Decor", keywords: ["vase", "frame", "painting", "candle", "plant", "sculpture", "mirror", "basket", "tray", "hooks"] },
-    { name: "Garden", keywords: ["tools", "seeds", "pot", "gloves", "mower", "hose", "bench", "fountain", "lights", "fence"] }
+    { name: "Kitchen & Dining", keywords: ["cookware", "cutlery", "blender", "coffee maker", "dinnerware", "toaster", "kettle", "pan", "grill", "mixing bowl"] },
+    { name: "Home Decor", keywords: ["vase", "sculpture", "painting", "candle", "mirror", "clock", "rug", "curtain", "pillow", "frame"] },
+    { name: "Furniture", keywords: ["sofa", "chair", "table", "bookshelf", "bed", "desk", "stool", "cabinet", "shelf", "bench"] },
+    { name: "Bedding & Bath", keywords: ["towel", "bathrobe", "sheet", "duvet", "pillowcase", "bath mat", "shower curtain", "shampoo", "soap", "lotion"] },
+    { name: "Garden & Outdoor", keywords: ["planter", "garden tools", "bench", "fountain", "outdoor light", "patio chair", "hose", "mower", "fence", "seeds"] },
+    { name: "Cleaning Essentials", keywords: ["vacuum", "mop", "detergent", "brush", "bucket", "gloves", "spray", "sponge", "duster", "bin"] },
+    { name: "Lighting", keywords: ["floor lamp", "desk lamp", "pendant light", "chandelier", "sconce", "smart bulb", "lantern", "night light", "ceiling fan", "torch"] },
+    { name: "Organization", keywords: ["basket", "tray", "hooks", "rack", "organizer", "bin", "box", "hanger", "drawer", "shelf"] }
 ];
 
-const adjectives = ["Premium", "Ultra", "Smart", "Eco", "Pro", "Essential", "Modern", "Classic", "Deluxe", "Ergonomic", "Luxury", "Minimalist", "Portable", "Wireless", "Sleek", "Durable", "Advanced", "Compact", "Elegant", "Vintage"];
+const adjectives = ["Premium", "Minimalist", "Modern", "Classic", "Deluxe", "Ergonomic", "Luxury", "Handcrafted", "Sustainable", "Sleek", "Durable", "Elegant", "Vintage", "Compact", "Nordic", "Artisan"];
 
 const seed = async () => {
     try {
@@ -53,20 +51,13 @@ const seed = async () => {
             const name = `${adj} ${keyword.charAt(0).toUpperCase() + keyword.slice(1)}`;
             const price = Math.floor(Math.random() * 20000) + 500;
             const stock = Math.floor(Math.random() * 100) + 10;
-            const description = `This is a high-quality ${name} from our ${categoryObj.name} collection. Perfect for your daily life.`;
-
-            // Use specific Unsplash IDs or search queries with indices to ensure variation
-            const image = `https://images.unsplash.com/photo-${i + 1500000000000}?auto=format&fit=crop&q=60&w=800&q=${keyword}`;
-            // Better way for Unsplash variation: use source.unsplash.com with tags and random seed
-            const imageUrl = `https://source.unsplash.com/featured/800x800?${keyword},${i}`;
-
-            // Actually, source.unsplash is deprecated. Let's use a more stable pattern or curated list of IDs
-            // For 1000, we can use a query and random page/ID approach
+            const description = `The ${name} represents the pinnacle of Lumina's ${categoryObj.name} collection. Engineered for those who demand minimalist beauty and professional performance.`;
 
             products.push({
                 name,
                 price,
-                image: `https://loremflickr.com/800/800/${keyword}?lock=${i}`, // Reliable placeholder for variety
+                // Using 'minimalist' tag which was verified to provide high-quality, professional product shots
+                image: `https://loremflickr.com/800/800/${keyword},minimalist?lock=${i}`,
                 description,
                 category: categoryObj.name,
                 stock
