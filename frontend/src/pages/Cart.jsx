@@ -9,11 +9,11 @@ const Cart = () => {
     API.get(`/cart/${userId}`).then((res) => setCart(res.data));
   }, []);
 
-  const placeOrder = async () => {
-    await API.post("/order/place", { userId });
-    alert("Order placed successfully");
-    setCart(null);
-  };
+const placeOrder = async () => {
+  await API.post("/order/place"); // ✅ JWT handles user
+  alert("Order placed");
+};
+
 
   if (!cart || cart.items.length === 0) return <h3>Cart is empty</h3>;
 
