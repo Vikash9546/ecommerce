@@ -22,19 +22,19 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model("Product", productSchema);
 
 const categories = [
-    { name: "Electronics", keywords: ["tech", "gadget", "device", "laptop", "phone"] },
-    { name: "Kitchen", keywords: ["cook", "chef", "pan", "kettle", "coffee"] },
-    { name: "Home", keywords: ["furniture", "decor", "lamp", "pillow", "bed"] },
-    { name: "Fashion", keywords: ["clothing", "style", "watch", "shoes", "bag"] },
-    { name: "Personal Care", keywords: ["grooming", "shampoo", "soap", "brush", "spa"] },
-    { name: "Fitness", keywords: ["gym", "workout", "yoga", "dumbbells", "sport"] },
-    { name: "Stationery", keywords: ["office", "pen", "notebook", "desk", "paper"] },
-    { name: "Accessories", keywords: ["jewelry", "belt", "wallet", "glasses", "hat"] },
-    { name: "Decor", keywords: ["art", "plant", "vase", "frame", "mirror"] },
-    { name: "Garden", keywords: ["tools", "plants", "seeds", "outdoor", "grass"] }
+    { name: "Electronics", keywords: ["laptop", "phone", "headphones", "monitor", "keyboard", "mouse", "tablet", "smartwatch", "camera", "speaker"] },
+    { name: "Kitchen", keywords: ["pan", "kettle", "coffee maker", "blender", "toaster", "knife", "plate", "bowl", "mug", "grill"] },
+    { name: "Home", keywords: ["sofa", "lamp", "pillow", "bed", "curtain", "rug", "chair", "table", "shelf", "clock"] },
+    { name: "Fashion", keywords: ["shirt", "pants", "sneakers", "dress", "jacket", "hoodie", "scarf", "socks", "belt", "hat"] },
+    { name: "Personal Care", keywords: ["shampoo", "soap", "brush", "razor", "lotion", "perfume", "spa kit", "mirror", "comb", "towel"] },
+    { name: "Fitness", keywords: ["dumbbells", "mat", "treadmill", "cycle", "bottle", "towel", "bands", "gloves", "tracker", "gym bag"] },
+    { name: "Stationery", keywords: ["pen", "notebook", "desk", "paper", "stapler", "marker", "folder", "planner", "calendar", "lamp"] },
+    { name: "Accessories", keywords: ["watch", "wallet", "glasses", "necklace", "ring", "bracelet", "earrings", "umbrella", "tie", "keychain"] },
+    { name: "Decor", keywords: ["vase", "frame", "painting", "candle", "plant", "sculpture", "mirror", "basket", "tray", "hooks"] },
+    { name: "Garden", keywords: ["tools", "seeds", "pot", "gloves", "mower", "hose", "bench", "fountain", "lights", "fence"] }
 ];
 
-const adjectives = ["Premium", "Ultra", "Smart", "Eco", "Pro", "Essential", "Modern", "Classic", "Deluxe", "Ergonomic"];
+const adjectives = ["Premium", "Ultra", "Smart", "Eco", "Pro", "Essential", "Modern", "Classic", "Deluxe", "Ergonomic", "Luxury", "Minimalist", "Portable", "Wireless", "Sleek", "Durable", "Advanced", "Compact", "Elegant", "Vintage"];
 
 const seed = async () => {
     try {
