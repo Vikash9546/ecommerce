@@ -1,12 +1,29 @@
-import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCart, Package, User, LogOut, Layout, Menu, X } from "lucide-react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { ShoppingCart, Package, User, LogOut, Layout, Menu, X, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
     const token = localStorage.getItem("token");
     const [isOpen, setIsOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
+
+    useEffect(() => {
+        const search = searchParams.get("search") || "";
+        setSearchQuery(search);
+    }, [searchParams]);
+
+    const handleSearch = (e) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+        if (query) {
+            setSearchParams({ search: query });
+        } else {
+            setSearchParams({});
+        }
+    };
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -25,7 +42,7 @@ const Navbar = () => {
             padding: '12px 24px'
         }}>
             <div className="container flex justify-between items-center">
-                <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 'fit-content' }}>
                     <motion.div
                         whileHover={{ rotate: 180 }}
                         transition={{ type: "spring", stiffness: 200 }}
@@ -35,6 +52,28 @@ const Navbar = () => {
                     </motion.div>
                     <span style={{ fontSize: '1.5rem', fontWeight: 700, letterSpacing: '-0.04em' }}>Lumina</span>
                 </Link>
+
+                {/* Search Bar */}
+                <div className="search-container flex-1 max-w-md mx-4" style={{ position: 'relative', margin: '0 24px' }}>
+                    <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                    <input
+                        type="text"
+                        placeholder="Search products..."
+                        value={searchQuery}
+                        onChange={handleSearch}
+                        className="search-input"
+                        style={{
+                            width: '100%',
+                            paddingLeft: '40px',
+                            borderRadius: '99px',
+                            height: '40px',
+                            fontSize: '0.9rem',
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid var(--glass-border)',
+                            color: 'var(--text-primary)'
+                        }}
+                    />
+                </div>
 
                 {/* Desktop Menu */}
                 <div className="desktop-menu flex gap-4 items-center">
