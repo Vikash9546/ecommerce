@@ -49,7 +49,7 @@ const seed = async () => {
             const keyword = categoryObj.keywords[Math.floor(Math.random() * categoryObj.keywords.length)];
 
             const name = `${adj} ${keyword.charAt(0).toUpperCase() + keyword.slice(1)}`;
-            const price = Math.floor(Math.random() * 20000) + 500;
+            const price = Math.floor(Math.random() * 1800) + 200; // Prices between ₹200 and ₹2000
             const stock = Math.floor(Math.random() * 100) + 10;
             const description = `The ${name} represents the pinnacle of Lumina's ${categoryObj.name} collection. Engineered for those who demand minimalist beauty and professional performance.`;
 
