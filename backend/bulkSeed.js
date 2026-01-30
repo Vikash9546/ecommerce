@@ -50,7 +50,7 @@ const seed = async () => {
             const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
             const keyword = categoryObj.keywords[Math.floor(Math.random() * categoryObj.keywords.length)];
 
-            const name = `${adj} ${keyword.charAt(0).toUpperCase() + keyword.slice(1)} ${i}`;
+            const name = `${adj} ${keyword.charAt(0).toUpperCase() + keyword.slice(1)}`;
             const price = Math.floor(Math.random() * 20000) + 500;
             const stock = Math.floor(Math.random() * 100) + 10;
             const description = `This is a high-quality ${name} from our ${categoryObj.name} collection. Perfect for your daily life.`;
