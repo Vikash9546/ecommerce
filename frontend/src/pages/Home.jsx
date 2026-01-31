@@ -79,28 +79,6 @@ const Home = () => {
           Elevate Your <span style={{ color: 'var(--accent-primary)' }}>Home</span>
         </motion.h1>
 
-        {/* Search Bar */}
-        <div style={{ maxWidth: '600px', margin: '20px auto 40px', position: 'relative', padding: '0 20px' }}>
-          <Search size={22} style={{ position: 'absolute', left: '40px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-          <input
-            type="text"
-            placeholder="Search household items..."
-            value={searchQuery}
-            onChange={(e) => setSearchParams(e.target.value ? { search: e.target.value } : {})}
-            className="glass"
-            style={{
-              width: '100%',
-              padding: '16px 20px 16px 60px',
-              borderRadius: '99px',
-              fontSize: '1.1rem',
-              color: 'var(--text-primary)',
-              border: '1px solid var(--glass-border)',
-              outline: 'none',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-            }}
-          />
-        </div>
-
         {!searchQuery && selectedCategory === "All" && (
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -111,6 +89,32 @@ const Home = () => {
           </motion.p>
         )}
       </section>
+
+      {/* Search Bar Container */}
+      <div style={{ maxWidth: '600px', margin: '-40px auto 40px', position: 'relative', padding: '0 20px', zIndex: 10 }}>
+        <div style={{ position: 'relative' }}>
+          <Search size={22} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+          <input
+            type="text"
+            placeholder="Search household items..."
+            value={searchQuery}
+            onChange={(e) => setSearchParams(e.target.value ? { search: e.target.value } : {})}
+            className="glass"
+            style={{
+              width: '100%',
+              padding: '16px 20px 16px 56px',
+              borderRadius: '99px',
+              fontSize: '1.1rem',
+              color: 'var(--text-primary)',
+              border: '1px solid var(--glass-border)',
+              outline: 'none',
+              boxShadow: '0 8px 32px rgba(99, 102, 241, 0.15)',
+              background: 'rgba(255, 255, 255, 0.03)',
+              backdropFilter: 'blur(20px)'
+            }}
+          />
+        </div>
+      </div>
 
       {/* Filter UI */}
       <div style={{ marginBottom: '40px' }}>
