@@ -68,7 +68,7 @@ const Home = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           style={{ fontSize: '4rem', marginBottom: '20px' }}>
-          Elevate Your <span style={{ color: 'var(--accent-primary)' }}>Home</span>
+          Elevate Your Home
         </motion.h1>
 
         {!searchQuery && selectedCategory === "All" && (
@@ -85,7 +85,7 @@ const Home = () => {
       {/* Search Bar Container */}
       <div style={{ maxWidth: '600px', margin: '20px auto 40px', position: 'relative', padding: '0 20px', zIndex: 10 }}>
         <div style={{ position: 'relative' }}>
-          <Search size={22} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'var(--bg-main)' }} />
+          <Search size={22} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} />
           <input
             type="text"
             placeholder="Search household items..."
@@ -94,24 +94,25 @@ const Home = () => {
             style={{
               width: '100%',
               padding: '16px 20px 16px 56px',
-              borderRadius: '12px',
+              borderRadius: '16px',
               fontSize: '1.1rem',
-              color: 'var(--bg-main)',
-              backgroundColor: 'var(--text-primary)',
-              border: '2px solid transparent',
+              color: 'var(--text-primary)',
+              backgroundColor: 'rgba(0, 0, 0, 0.2)', // Darker translucent background
+              border: '1px solid rgba(255, 255, 255, 0.1)', // Subtle light border
               outline: 'none',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+              boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.1)', // Inner shadow for depth
+              backdropFilter: 'blur(10px)',
               transition: 'all 0.3s ease'
             }}
             onFocus={(e) => {
-              e.target.style.transform = 'scale(1.02)';
-              e.target.style.boxShadow = '0 8px 30px rgba(251, 113, 133, 0.4)';
+              e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
               e.target.style.borderColor = 'var(--accent-primary)';
+              e.target.style.boxShadow = '0 0 0 4px rgba(251, 113, 133, 0.15)';
             }}
             onBlur={(e) => {
-              e.target.style.transform = 'scale(1)';
-              e.target.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
-              e.target.style.borderColor = 'transparent';
+              e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+              e.target.style.boxShadow = 'inset 0 2px 4px rgba(0, 0, 0, 0.1)';
             }}
           />
         </div>
