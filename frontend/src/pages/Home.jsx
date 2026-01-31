@@ -115,7 +115,7 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="flex gap-4 items-center">
+            <div className="flex gap-4 items-center flex-wrap">
               <div>
                 <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>
                   Sort By
@@ -135,6 +135,28 @@ const Home = () => {
                   <option value="default">Default</option>
                   <option value="low-high">Price: Low to High</option>
                   <option value="high-low">Price: High to Low</option>
+                </select>
+              </div>
+
+              <div>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  Show
+                </p>
+                <select
+                  value={itemsPerPage}
+                  onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                  className="glass"
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '12px',
+                    color: 'var(--text-primary)',
+                    outline: 'none',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <option value={10}>10 Items</option>
+                  <option value={12}>12 Items</option>
+                  <option value={15}>15 Items</option>
                 </select>
               </div>
 
@@ -159,114 +181,109 @@ const Home = () => {
             <span style={{ color: 'var(--text-muted)' }}>{filteredProducts.length} items found</span>
           </div>
         </div>
+      </div>
 
-        {currentProducts.length > 0 ? (
-          <>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-              gap: '32px',
-              paddingTop: '32px',
-              paddingBottom: '60px'
-            }}>
-              {currentProducts.map((p, index) => (
-                <motion.div
-                  key={p._id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="glass"
-                  whileHover={{ y: -10, borderColor: 'var(--accent-primary)' }}
-                  style={{ padding: '24px', borderRadius: '24px', position: 'relative', overflow: 'hidden' }}
-                >
-                  <div style={{
-                    height: '240px',
-                    borderRadius: '16px',
-                    marginBottom: '20px',
-                    overflow: 'hidden',
-                    background: 'var(--bg-tertiary)'
-                  }}>
-                    <img
-                      src={p.image || "https://images.unsplash.com/photo-1560343090-f0409e92791a?q=80&w=1000&auto=format&fit=crop"}
-                      alt={p.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                  </div>
-                  <div style={{ marginBottom: '16px' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--accent-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>
-                      {p.category}
-                    </span>
-                    <h3 style={{ fontSize: '1.25rem', margin: '4px 0' }}>{p.name}</h3>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                      {p.description}
-                    </p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <p style={{ fontSize: '1.5rem', color: 'var(--text-primary)', fontWeight: 700 }}>₹{p.price}</p>
-                    <motion.button
-                      whileTap={{ scale: 0.95 }}
-                      className="btn btn-primary"
-                      style={{ padding: '10px' }}
-                      onClick={() => addToCart(p._id)}
-                    >
-                      <ShoppingCart size={20} />
-                    </motion.button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+      {currentProducts.length > 0 ? (
+        <>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '32px',
+            paddingTop: '32px',
+            paddingBottom: '60px'
+          }}>
+            {currentProducts.map((p, index) => (
+              <motion.div
+                key={p._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="glass"
+                whileHover={{ y: -10, borderColor: 'var(--accent-primary)' }}
+                style={{ padding: '24px', borderRadius: '24px', position: 'relative', overflow: 'hidden' }}
+              >
+                <div style={{
+                  height: '240px',
+                  borderRadius: '16px',
+                  marginBottom: '20px',
+                  overflow: 'hidden',
+                  background: 'var(--bg-tertiary)'
+                }}>
+                  <img
+                    src={p.image || "https://images.unsplash.com/photo-1560343090-f0409e92791a?q=80&w=1000&auto=format&fit=crop"}
+                    alt={p.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </div>
+                <div style={{ marginBottom: '16px' }}>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--accent-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>
+                    {p.category}
+                  </span>
+                  <h3 style={{ fontSize: '1.25rem', margin: '4px 0' }}>{p.name}</h3>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    {p.description}
+                  </p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <p style={{ fontSize: '1.5rem', color: 'var(--text-primary)', fontWeight: 700 }}>₹{p.price}</p>
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
+                    className="btn btn-primary"
+                    style={{ padding: '10px' }}
+                    onClick={() => addToCart(p._id)}
+                  >
+                    <ShoppingCart size={20} />
+                  </motion.button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
 
-            {/* Pagination Controls */}
-            <div className="flex justify-between items-center" style={{ padding: '40px 0', borderTop: '1px solid var(--glass-border)' }}>
-              <div className="flex items-center gap-4">
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>
-                  Show
-                </p>
-                <select
-                  value={itemsPerPage}
-                  onChange={(e) => setItemsPerPage(Number(e.target.value))}
-                  className="glass"
-                  style={{ padding: '8px 16px', borderRadius: '12px', color: 'var(--text-primary)', outline: 'none', cursor: 'pointer' }}
-                >
-                  <option value={10}>10 Items</option>
-                  <option value={12}>12 Items</option>
-                  <option value={15}>15 Items</option>
-                </select>
-              </div>
+          {/* Pagination Controls */}
+          <div className="flex flex-col items-center gap-6" style={{ padding: '60px 0', borderTop: '1px solid var(--glass-border)' }}>
+            <div className="flex items-center gap-6">
+              <button
+                onClick={() => {
+                  setCurrentPage(prev => Math.max(prev - 1, 1));
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                disabled={currentPage === 1}
+                className={`btn ${currentPage === 1 ? 'btn-outline' : 'btn-primary'}`}
+                style={{ padding: '12px 28px', borderRadius: '99px', opacity: currentPage === 1 ? 0.5 : 1 }}
+              >
+                Previous
+              </button>
 
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                  disabled={currentPage === 1}
-                  className={`btn ${currentPage === 1 ? 'btn-outline' : 'btn-primary'}`}
-                  style={{ padding: '8px 20px', borderRadius: '99px', opacity: currentPage === 1 ? 0.5 : 1 }}
-                >
-                  Previous
-                </button>
-
-                <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+              <div className="flex flex-col items-center">
+                <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '1.1rem' }}>
                   Page {currentPage} of {totalPages || 1}
                 </span>
-
-                <button
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                  disabled={currentPage === totalPages || totalPages === 0}
-                  className={`btn ${currentPage === totalPages || totalPages === 0 ? 'btn-outline' : 'btn-primary'}`}
-                  style={{ padding: '8px 20px', borderRadius: '99px', opacity: (currentPage === totalPages || totalPages === 0) ? 0.5 : 1 }}
-                >
-                  Next
-                </button>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  Items {(currentPage - 1) * itemsPerPage + 1} - {Math.min(currentPage * itemsPerPage, filteredProducts.length)} of {filteredProducts.length}
+                </span>
               </div>
+
+              <button
+                onClick={() => {
+                  setCurrentPage(prev => Math.min(prev + 1, totalPages));
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className={`btn ${currentPage === totalPages || totalPages === 0 ? 'btn-outline' : 'btn-primary'}`}
+                style={{ padding: '12px 28px', borderRadius: '99px', opacity: (currentPage === totalPages || totalPages === 0) ? 0.5 : 1 }}
+              >
+                Next
+              </button>
             </div>
-          </>
-        ) : (
-          <div className="glass flex flex-col items-center justify-center" style={{ padding: '100px', borderRadius: '32px', textAlign: 'center' }}>
-            <SearchX size={48} color="var(--text-muted)" style={{ marginBottom: '24px' }} />
-            <h3 style={{ fontSize: '1.5rem', marginBottom: '8px' }}>No products found</h3>
-            <p>Try searching for something else or clear the search bar.</p>
           </div>
-        )}
-      </div>
+        </>
+      ) : (
+        <div className="glass flex flex-col items-center justify-center" style={{ padding: '100px', borderRadius: '32px', textAlign: 'center' }}>
+          <SearchX size={48} color="var(--text-muted)" style={{ marginBottom: '24px' }} />
+          <h3 style={{ fontSize: '1.5rem', marginBottom: '8px' }}>No products found</h3>
+          <p>Try searching for something else or clear the search bar.</p>
+        </div>
+      )}
     </div>
   );
 };
