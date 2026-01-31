@@ -62,3 +62,43 @@ export const cancelOrder = async (req, res) => {
     res.status(500).json({ message: "Failed to cancel order" });
   }
 };
+
+export const cancelOrderItem = async (req, res) => {
+  const { orderId, itemId } = req.params;
+  const userId = req.userId;
+
+  try {
+    const order = await Order.findOne({ _id: orderId, userId }).populate("items.productId");
+    if (!order) return res.status(404).json({ message: "Order not found" });
+
+    if (["Delivered", "Cancelled"].includes(order.status)) {
+      return res.status(400).json({ message: "Order cannot be modified" });
+    }
+
+    const itemIndex = order.items.findIndex(item => item.productId._id.toString() === itemId || item._id.toString() === itemId);
+
+    if (itemIndex === -1) return res.status(404).json({ message: "Item not found in order" });
+
+    // Remove item
+    order.items.splice(itemIndex, 1);
+
+    // Recalculate total logic needs original product price which might be lost if price changed. 
+    // Ideally Order should store price snapshot. For now, assuming price is from populated product.
+    // However, better way is to Recalculate from remaining items.
+
+    // Actually, simpler fallback if items are empty -> Cancel Order
+    if (order.items.length === 0) {
+      order.status = "Cancelled";
+      order.totalAmount = 0;
+    } else {
+      order.totalAmount = order.items.reduce((sum, item) => sum + (item.productId.price * item.quantity), 0);
+    }
+
+    await order.save();
+    res.json(order);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to cancel item" });
+  }
+};

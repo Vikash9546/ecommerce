@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../api/api";
 import { motion } from "framer-motion";
-import { Package, Clock, CheckCircle, ArrowRight } from "lucide-react";
+import { Package, Clock, CheckCircle, ArrowRight, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Orders = () => {
@@ -9,7 +9,13 @@ const Orders = () => {
 
 
   useEffect(() => {
-    API.get(`/order/history`).then((res) => setOrders(res.data)).catch(() => setOrders([]));
+    API.get(`/order/history`)
+      .then((res) => {
+        // Filter out cancelled orders so they don't appear
+        const activeOrders = res.data.filter(o => o.status !== 'Cancelled');
+        setOrders(activeOrders);
+      })
+      .catch(() => setOrders([]));
   }, []);
 
   const [cancellingId, setCancellingId] = useState(null);
@@ -18,13 +24,37 @@ const Orders = () => {
     if (!window.confirm("Are you sure you want to cancel this order?")) return;
     try {
       setCancellingId(orderId);
-      const res = await API.put(`/order/cancel/${orderId}`);
-      setOrders(orders.map(o => o._id === orderId ? res.data : o));
+      await API.put(`/order/cancel/${orderId}`);
+      // Remove the order from the list immediately
+      setOrders(orders.filter(o => o._id !== orderId));
     } catch (err) {
       console.error(err);
       alert("Failed to cancel order");
     } finally {
       setCancellingId(null);
+    }
+  };
+
+  const [cancellingItemId, setCancellingItemId] = useState(null);
+
+  const handleCancelItem = async (orderId, itemId) => {
+    if (!window.confirm("Remove this item from the order?")) return;
+    try {
+      setCancellingItemId(itemId);
+      const res = await API.put(`/order/cancel-item/${orderId}/${itemId}`);
+
+      // If the order status is now 'Cancelled', remove it from the list
+      if (res.data.status === 'Cancelled') {
+        setOrders(orders.filter(o => o._id !== orderId));
+      } else {
+        // Otherwise update it in place
+        setOrders(orders.map(o => o._id === orderId ? res.data : o));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to remove item");
+    } finally {
+      setCancellingItemId(null);
     }
   };
 
@@ -64,7 +94,7 @@ const Orders = () => {
                   {order.status || "Processing"}
                 </div>
 
-                {/* Cancel Button */}
+                {/* Cancel Order Button */}
                 {!['Delivered', 'Cancelled'].includes(order.status) && (
                   <button
                     onClick={() => handleCancelOrder(order._id)}
@@ -79,28 +109,50 @@ const Orders = () => {
                       cursor: cancellingId === order._id ? 'not-allowed' : 'pointer'
                     }}
                   >
-                    {cancellingId === order._id ? "Cancelling..." : "Cancel"}
+                    {cancellingId === order._id ? "Cancelling..." : "Cancel Order"}
                   </button>
                 )}
               </div>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
-              {(order.items || []).map((p) => (
-                <div key={p.productId?._id} className="flex gap-4 items-center">
-                  <div style={{ width: '56px', height: '56px', background: 'var(--bg-tertiary)', borderRadius: '12px', overflow: 'hidden' }}>
-                    <img
-                      src={p.productId?.image || "https://images.unsplash.com/photo-1560343090-f0409e92791a?q=80&w=1000&auto=format&fit=crop"}
-                      alt={p.productId?.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
+              {(order.items || []).map((p) => {
+                const itemId = p._id || p.productId?._id;
+                return (
+                  <div key={itemId} className="flex gap-4 items-center" style={{ position: 'relative' }}>
+                    <div style={{ width: '56px', height: '56px', background: 'var(--bg-tertiary)', borderRadius: '12px', overflow: 'hidden' }}>
+                      <img
+                        src={p.productId?.image || "https://images.unsplash.com/photo-1560343090-f0409e92791a?q=80&w=1000&auto=format&fit=crop"}
+                        alt={p.productId?.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    </div>
+                    <div>
+                      <p style={{ fontWeight: 500, color: 'var(--text-primary)' }}>{p.productId?.name}</p>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Qty: {p.quantity}</p>
+                    </div>
+
+                    {/* Item Cancel Button */}
+                    {!['Delivered', 'Cancelled'].includes(order.status) && (
+                      <button
+                        onClick={() => handleCancelItem(order._id, itemId)}
+                        disabled={cancellingItemId === itemId}
+                        style={{
+                          background: 'transparent',
+                          border: 'none',
+                          color: '#EF4444',
+                          cursor: 'pointer',
+                          marginLeft: 'auto',
+                          opacity: cancellingItemId === itemId ? 0.5 : 1
+                        }}
+                        title="Remove Item"
+                      >
+                        {cancellingItemId === itemId ? <Clock size={16} /> : <X size={18} />}
+                      </button>
+                    )}
                   </div>
-                  <div>
-                    <p style={{ fontWeight: 500, color: 'var(--text-primary)' }}>{p.productId?.name}</p>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Qty: {p.quantity}</p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid var(--glass-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
