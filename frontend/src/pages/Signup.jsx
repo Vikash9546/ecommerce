@@ -2,6 +2,7 @@ import { useState } from "react";
 import API from "../api/api";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
 import { Mail, Lock, User, UserPlus, LogIn } from "lucide-react";
 
 const Signup = () => {
@@ -9,11 +10,12 @@ const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const { signup } = useAuth();
 
     const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            await API.post("/auth/register", { name, email, password });
+            await signup(name, email, password);
             alert("Account created successfully! Please login.");
             navigate("/login");
         } catch (err) {

@@ -197,7 +197,7 @@ const Home = () => {
             <h2 style={{ fontSize: '1.75rem' }}>
               {searchQuery ? `Results for "${searchQuery}"` : selectedCategory !== "All" ? `${selectedCategory} Products` : "Featured Products"}
             </h2>
-            <span style={{ color: 'var(--text-muted)' }}>{filteredProducts.length} items found</span>
+            {/* <span style={{ color: 'var(--text-muted)' }}>{filteredProducts.length} items found</span> */}
           </div>
         </div>
       </div>

@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import API from "../api/api";
 
+import { useAuth } from "./AuthContext";
+
 const CartContext = createContext();
 
 export const useCart = () => useContext(CartContext);
@@ -8,12 +10,13 @@ export const useCart = () => useContext(CartContext);
 export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState({ items: [] });
     const [loading, setLoading] = useState(false);
-    const userId = "user123"; // Using the placeholder as per existing implementation
+    const { token, user } = useAuth();
+    const userId = user?.id || "guest"; // We'll update backend to use token, but keeping a fallback
 
     const fetchCart = async () => {
         try {
             setLoading(true);
-            const res = await API.get(`/cart/${userId}`);
+            const res = await API.get(`/cart`);
             if (res.data) {
                 setCart(res.data);
             }
@@ -26,12 +29,16 @@ export const CartProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        fetchCart();
-    }, []);
+        if (token) {
+            fetchCart();
+        } else {
+            setCart({ items: [] });
+        }
+    }, [token]);
 
     const addToCart = async (productId, quantity = 1) => {
         try {
-            const res = await API.post("/cart/add", { userId, productId, quantity });
+            const res = await API.post("/cart/add", { productId, quantity });
             setCart(res.data);
             return res.data;
         } catch (err) {
@@ -41,7 +48,7 @@ export const CartProvider = ({ children }) => {
 
     const updateQuantity = async (productId, quantity) => {
         try {
-            const res = await API.put("/cart/update", { userId, productId, quantity });
+            const res = await API.put("/cart/update", { productId, quantity });
             setCart(res.data);
         } catch (err) {
             console.error("Failed to update quantity:", err);
@@ -50,7 +57,7 @@ export const CartProvider = ({ children }) => {
 
     const removeFromCart = async (productId) => {
         try {
-            const res = await API.delete(`/cart/remove/${userId}/${productId}`);
+            const res = await API.delete(`/cart/remove/${productId}`);
             setCart(res.data);
         } catch (err) {
             console.error("Failed to remove from cart:", err);

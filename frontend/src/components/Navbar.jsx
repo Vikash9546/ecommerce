@@ -3,11 +3,12 @@ import { ShoppingCart, Package, User, LogOut, Layout, Menu, X, Search, Sun, Moon
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
-    const token = localStorage.getItem("token");
+    const { token, logout } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
     const { cartCount } = useCart();
@@ -22,8 +23,7 @@ const Navbar = () => {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        navigate("/login");
+        logout();
     };
 
     return (

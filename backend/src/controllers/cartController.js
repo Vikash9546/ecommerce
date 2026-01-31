@@ -1,7 +1,8 @@
 import Cart from "../models/Cart.js";
 
 export const addToCart = async (req, res) => {
-  const { userId, productId, quantity } = req.body;
+  const { productId, quantity } = req.body;
+  const userId = req.userId;
 
   try {
     let cart = await Cart.findOne({ userId });
@@ -30,7 +31,8 @@ export const addToCart = async (req, res) => {
 };
 
 export const updateQuantity = async (req, res) => {
-  const { userId, productId, quantity } = req.body;
+  const { productId, quantity } = req.body;
+  const userId = req.userId;
 
   try {
     let cart = await Cart.findOne({ userId });
@@ -58,7 +60,8 @@ export const updateQuantity = async (req, res) => {
 };
 
 export const removeFromCart = async (req, res) => {
-  const { userId, productId } = req.params;
+  const { productId } = req.params;
+  const userId = req.userId;
 
   try {
     let cart = await Cart.findOne({ userId });
@@ -77,7 +80,7 @@ export const removeFromCart = async (req, res) => {
 };
 
 export const getCart = async (req, res) => {
-  const { userId } = req.params;
+  const userId = req.userId;
 
   try {
     const cart = await Cart.findOne({ userId }).populate("items.productId");

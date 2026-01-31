@@ -6,23 +6,26 @@ import Signup from "./pages/Signup";
 import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import { CartProvider } from "./context/CartContext";
+import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
   return (
-    <CartProvider>
-      <BrowserRouter>
-        <Navbar />
-        <main style={{ paddingTop: '100px' }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/orders" element={<Orders />} />
-          </Routes>
-        </main>
-      </BrowserRouter>
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <Navbar />
+          <main style={{ paddingTop: '100px' }}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/orders" element={<Orders />} />
+            </Routes>
+          </main>
+        </BrowserRouter>
+      </CartProvider>
+    </AuthProvider>
   );
 };
 
