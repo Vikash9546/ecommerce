@@ -12,13 +12,19 @@ const Orders = () => {
     API.get(`/order/history`).then((res) => setOrders(res.data)).catch(() => setOrders([]));
   }, []);
 
+  const [cancellingId, setCancellingId] = useState(null);
+
   const handleCancelOrder = async (orderId) => {
     if (!window.confirm("Are you sure you want to cancel this order?")) return;
     try {
+      setCancellingId(orderId);
       const res = await API.put(`/order/cancel/${orderId}`);
       setOrders(orders.map(o => o._id === orderId ? res.data : o));
     } catch (err) {
+      console.error(err);
       alert("Failed to cancel order");
+    } finally {
+      setCancellingId(null);
     }
   };
 
@@ -63,9 +69,17 @@ const Orders = () => {
                   <button
                     onClick={() => handleCancelOrder(order._id)}
                     className="btn btn-outline"
-                    style={{ fontSize: '0.85rem', padding: '6px 16px', borderColor: '#EF4444', color: '#EF4444' }}
+                    disabled={cancellingId === order._id}
+                    style={{
+                      fontSize: '0.85rem',
+                      padding: '6px 16px',
+                      borderColor: '#EF4444',
+                      color: '#EF4444',
+                      opacity: cancellingId === order._id ? 0.5 : 1,
+                      cursor: cancellingId === order._id ? 'not-allowed' : 'pointer'
+                    }}
                   >
-                    Cancel
+                    {cancellingId === order._id ? "Cancelling..." : "Cancel"}
                   </button>
                 )}
               </div>
@@ -74,7 +88,13 @@ const Orders = () => {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
               {(order.items || []).map((p) => (
                 <div key={p.productId?._id} className="flex gap-4 items-center">
-                  <div style={{ width: '56px', height: '56px', background: 'var(--bg-tertiary)', borderRadius: '12px' }}></div>
+                  <div style={{ width: '56px', height: '56px', background: 'var(--bg-tertiary)', borderRadius: '12px', overflow: 'hidden' }}>
+                    <img
+                      src={p.productId?.image || "https://images.unsplash.com/photo-1560343090-f0409e92791a?q=80&w=1000&auto=format&fit=crop"}
+                      alt={p.productId?.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  </div>
                   <div>
                     <p style={{ fontWeight: 500, color: 'var(--text-primary)' }}>{p.productId?.name}</p>
                     <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Qty: {p.quantity}</p>
