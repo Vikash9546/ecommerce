@@ -1,6 +1,6 @@
 import { useState } from "react";
 import API from "../api/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Mail, Lock, LogIn } from "lucide-react";
 
@@ -64,7 +64,7 @@ const Login = () => {
         </form>
 
         <p style={{ marginTop: '24px', textAlign: 'center', fontSize: '0.9rem' }}>
-          Don't have an account? <a href="#">Create one</a>
+          Don't have an account? <Link to="/signup" style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>Create one</Link>
         </p>
       </motion.div>
     </div>
