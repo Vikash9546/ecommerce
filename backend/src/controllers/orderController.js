@@ -38,3 +38,27 @@ export const getOrderHistory = async (req, res) => {
 
   res.json(orders);
 };
+
+export const cancelOrder = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.userId;
+
+  try {
+    const order = await Order.findOne({ _id: id, userId });
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    if (["Delivered", "Cancelled"].includes(order.status)) {
+      return res.status(400).json({ message: "Order cannot be cancelled" });
+    }
+
+    order.status = "Cancelled";
+    await order.save();
+
+    res.json(order);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to cancel order" });
+  }
+};

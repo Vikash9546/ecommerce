@@ -12,6 +12,16 @@ const Orders = () => {
     API.get(`/order/history`).then((res) => setOrders(res.data)).catch(() => setOrders([]));
   }, []);
 
+  const handleCancelOrder = async (orderId) => {
+    if (!window.confirm("Are you sure you want to cancel this order?")) return;
+    try {
+      const res = await API.put(`/order/cancel/${orderId}`);
+      setOrders(orders.map(o => o._id === orderId ? res.data : o));
+    } catch (err) {
+      alert("Failed to cancel order");
+    }
+  };
+
   return (
     <div className="container" style={{ paddingBottom: '100px' }}>
       <div className="flex items-center gap-4" style={{ marginBottom: '40px' }}>
@@ -34,16 +44,30 @@ const Orders = () => {
                 <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Order ID</p>
                 <h3 style={{ fontSize: '1.1rem', letterSpacing: '1px' }}>#{order._id.slice(-8).toUpperCase()}</h3>
               </div>
-              <div className="flex items-center gap-2" style={{
-                padding: '8px 16px',
-                borderRadius: '99px',
-                background: order.status === 'Delivered' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(99, 102, 241, 0.1)',
-                color: order.status === 'Delivered' ? 'var(--accent-secondary)' : 'var(--accent-primary)',
-                fontSize: '0.9rem',
-                fontWeight: 600
-              }}>
-                {order.status === 'Delivered' ? <CheckCircle size={16} /> : <Clock size={16} />}
-                {order.status || "Processing"}
+              <div className="flex items-center gap-4">
+                {/* Status Badge */}
+                <div className="flex items-center gap-2" style={{
+                  padding: '8px 16px',
+                  borderRadius: '99px',
+                  background: order.status === 'Delivered' ? 'rgba(16, 185, 129, 0.1)' : order.status === 'Cancelled' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(99, 102, 241, 0.1)',
+                  color: order.status === 'Delivered' ? 'var(--accent-secondary)' : order.status === 'Cancelled' ? '#EF4444' : 'var(--accent-primary)',
+                  fontSize: '0.9rem',
+                  fontWeight: 600
+                }}>
+                  {order.status === 'Delivered' ? <CheckCircle size={16} /> : order.status === 'Cancelled' ? <Package size={16} /> : <Clock size={16} />}
+                  {order.status || "Processing"}
+                </div>
+
+                {/* Cancel Button */}
+                {!['Delivered', 'Cancelled'].includes(order.status) && (
+                  <button
+                    onClick={() => handleCancelOrder(order._id)}
+                    className="btn btn-outline"
+                    style={{ fontSize: '0.85rem', padding: '6px 16px', borderColor: '#EF4444', color: '#EF4444' }}
+                  >
+                    Cancel
+                  </button>
+                )}
               </div>
             </div>
 
