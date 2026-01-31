@@ -70,7 +70,7 @@ const Home = () => {
       <section style={{
         padding: '60px 0 20px',
         textAlign: 'center',
-        background: 'radial-gradient(circle at center, rgba(99, 102, 241, 0.1) 0%, transparent 70%)'
+        background: 'radial-gradient(circle at center, rgba(251, 113, 133, 0.1) 0%, transparent 70%)'
       }}>
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -108,7 +108,7 @@ const Home = () => {
               color: 'var(--text-primary)',
               border: '1px solid var(--glass-border)',
               outline: 'none',
-              boxShadow: '0 8px 32px rgba(99, 102, 241, 0.15)',
+              boxShadow: '0 8px 32px rgba(251, 113, 133, 0.15)',
               background: 'rgba(255, 255, 255, 0.03)',
               backdropFilter: 'blur(20px)'
             }}
