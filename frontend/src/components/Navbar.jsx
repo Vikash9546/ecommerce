@@ -2,6 +2,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ShoppingCart, Package, User, LogOut, Layout, Menu, X, Search, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useCart } from "../context/CartContext";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -9,6 +10,7 @@ const Navbar = () => {
     const token = localStorage.getItem("token");
     const [isOpen, setIsOpen] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+    const { cartCount } = useCart();
 
     useEffect(() => {
         document.documentElement.setAttribute("data-theme", theme);
@@ -57,6 +59,30 @@ const Navbar = () => {
                     <Link to="/orders" className="nav-link"><Package size={20} /></Link>
                     <Link to="/cart" className="nav-link" style={{ position: 'relative' }}>
                         <ShoppingCart size={20} />
+                        {cartCount > 0 && (
+                            <motion.span
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                style={{
+                                    position: 'absolute',
+                                    top: '-4px',
+                                    right: '-4px',
+                                    background: 'var(--accent-primary)',
+                                    color: 'white',
+                                    fontSize: '0.7rem',
+                                    fontWeight: 700,
+                                    width: '18px',
+                                    height: '18px',
+                                    borderRadius: '50%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    boxShadow: '0 0 10px rgba(251, 113, 133, 0.4)'
+                                }}
+                            >
+                                {cartCount}
+                            </motion.span>
+                        )}
                     </Link>
                     {token ? (
                         <button onClick={handleLogout} className="btn btn-outline" style={{ padding: '8px 12px' }}>

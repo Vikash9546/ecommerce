@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import API from "../api/api";
 import { motion } from "framer-motion";
-import { ShoppingCart, ArrowRight, SearchX, Search } from "lucide-react";
+import { ShoppingCart, ArrowRight, SearchX, Search, Plus, Minus, Trash2 } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -11,20 +12,11 @@ const Home = () => {
   const [sortOrder, setSortOrder] = useState("default");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
-  const userId = "user123";
+  const { cart, addToCart, updateQuantity, removeFromCart } = useCart();
 
   useEffect(() => {
     API.get("/products").then((res) => setProducts(res.data));
   }, []);
-
-  const addToCart = async (productId) => {
-    await API.post("/cart/add", {
-      userId,
-      productId,
-      quantity: 1,
-    });
-    alert("Added to cart");
-  };
 
   useEffect(() => {
     setCurrentPage(1);
@@ -167,7 +159,7 @@ const Home = () => {
 
               <div>
                 <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>
-                  Show
+                  Show Items
                 </p>
                 <select
                   value={itemsPerPage}
@@ -181,9 +173,9 @@ const Home = () => {
                     cursor: 'pointer'
                   }}
                 >
-                  <option value={10}>10 Items</option>
-                  <option value={12}>12 Items</option>
-                  <option value={15}>15 Items</option>
+                  <option value={10}>10</option>
+                  <option value={12}>12</option>
+                  <option value={15}>15</option>
                 </select>
               </div>
 
@@ -253,14 +245,40 @@ const Home = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <p style={{ fontSize: '1.5rem', color: 'var(--text-primary)', fontWeight: 700 }}>₹{p.price}</p>
-                  <motion.button
-                    whileTap={{ scale: 0.95 }}
-                    className="btn btn-primary"
-                    style={{ padding: '10px' }}
-                    onClick={() => addToCart(p._id)}
-                  >
-                    <ShoppingCart size={20} />
-                  </motion.button>
+                  {(() => {
+                    const cartItem = cart.items.find(item => item.productId?._id === p._id);
+                    if (cartItem) {
+                      return (
+                        <div className="flex items-center gap-3 glass" style={{ padding: '4px 8px', borderRadius: '12px' }}>
+                          <motion.button
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => updateQuantity(p._id, cartItem.quantity - 1)}
+                            style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: '4px' }}
+                          >
+                            <Trash2 size={16} color={cartItem.quantity === 1 ? "#F87171" : "currentColor"} />
+                          </motion.button>
+                          <span style={{ fontWeight: 700, minWidth: '20px', textAlign: 'center' }}>{cartItem.quantity}</span>
+                          <motion.button
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => updateQuantity(p._id, cartItem.quantity + 1)}
+                            style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: '4px' }}
+                          >
+                            <Plus size={16} />
+                          </motion.button>
+                        </div>
+                      );
+                    }
+                    return (
+                      <motion.button
+                        whileTap={{ scale: 0.95 }}
+                        className="btn btn-primary"
+                        style={{ padding: '10px' }}
+                        onClick={() => addToCart(p._id)}
+                      >
+                        <ShoppingCart size={20} />
+                      </motion.button>
+                    );
+                  })()}
                 </div>
               </motion.div>
             ))}
