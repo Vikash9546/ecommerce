@@ -2,7 +2,7 @@ import Order from "../models/Order.js";
 import Cart from "../models/Cart.js";
 
 export const placeOrder = async (req, res) => {
-  const { userId } = req.body;
+  const userId = req.userId;
 
   try {
     const cart = await Cart.findOne({ userId }).populate("items.productId");

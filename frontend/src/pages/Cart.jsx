@@ -1,19 +1,26 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Plus, Minus, Search, Trash2, ShoppingBag, CreditCard, ArrowRight } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { motion } from "framer-motion";
 import API from "../api/api";
 
 const Cart = () => {
-  const { cart, updateQuantity, removeFromCart, cartTotal, loading } = useCart();
+  const navigate = useNavigate();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const { cart, updateQuantity, removeFromCart, cartTotal, loading: cartLoading, fetchCart } = useCart();
 
   const placeOrder = async () => {
     try {
+      setIsCheckingOut(true);
       await API.post("/order/place");
-      alert("Order placed successfully!");
-      // Logic to clear cart or navigate
+      await fetchCart(); // Clear the cart state in context
+      navigate("/orders");
     } catch (err) {
+      console.error(err);
       alert("Failed to place order. Ensure you are logged in.");
+    } finally {
+      setIsCheckingOut(false);
     }
   };
 
@@ -126,8 +133,17 @@ const Cart = () => {
               <span>Total</span>
               <span>₹{cartTotal}</span>
             </div>
-            <button className="btn btn-primary" style={{ width: '100%' }} onClick={placeOrder}>
-              <CreditCard size={18} /> Checkout
+            <button
+              className="btn btn-primary"
+              style={{ width: '100%', opacity: isCheckingOut ? 0.7 : 1, cursor: isCheckingOut ? 'not-allowed' : 'pointer' }}
+              onClick={placeOrder}
+              disabled={isCheckingOut}
+            >
+              {isCheckingOut ? (
+                <>Processing...</>
+              ) : (
+                <><CreditCard size={18} /> Checkout</>
+              )}
             </button>
           </motion.div>
         )}

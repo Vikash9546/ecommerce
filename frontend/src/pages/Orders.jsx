@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const userId = "user123";
+
 
   useEffect(() => {
     API.get(`/order/history`).then((res) => setOrders(res.data)).catch(() => setOrders([]));
