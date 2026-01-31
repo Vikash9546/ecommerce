@@ -91,7 +91,7 @@ const Home = () => {
       </section>
 
       {/* Search Bar Container */}
-      <div style={{ maxWidth: '600px', margin: '-40px auto 40px', position: 'relative', padding: '0 20px', zIndex: 10 }}>
+      <div style={{ maxWidth: '600px', margin: '20px auto 40px', position: 'relative', padding: '0 20px', zIndex: 10 }}>
         <div style={{ position: 'relative' }}>
           <Search size={22} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input
