@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../api/api";
 import { motion } from "framer-motion";
-import { ShoppingCart, ArrowRight, SearchX } from "lucide-react";
+import { ShoppingCart, ArrowRight, SearchX, Search } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 
 const Home = () => {
@@ -67,30 +67,53 @@ const Home = () => {
   return (
     <div className="container">
       {/* Hero Section */}
-      {!searchQuery && selectedCategory === "All" && (
-        <section style={{
-          padding: '60px 0',
-          textAlign: 'center',
-          background: 'radial-gradient(circle at center, rgba(99, 102, 241, 0.1) 0%, transparent 70%)'
-        }}>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            style={{ fontSize: '4rem', marginBottom: '20px' }}>
-            Elevate Your <span style={{ color: 'var(--accent-primary)' }}>Home</span>
-          </motion.h1>
+      <section style={{
+        padding: '60px 0 20px',
+        textAlign: 'center',
+        background: 'radial-gradient(circle at center, rgba(99, 102, 241, 0.1) 0%, transparent 70%)'
+      }}>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{ fontSize: '4rem', marginBottom: '20px' }}>
+          Elevate Your <span style={{ color: 'var(--accent-primary)' }}>Home</span>
+        </motion.h1>
+
+        {/* Search Bar */}
+        <div style={{ maxWidth: '600px', margin: '20px auto 40px', position: 'relative', padding: '0 20px' }}>
+          <Search size={22} style={{ position: 'absolute', left: '40px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+          <input
+            type="text"
+            placeholder="Search household items..."
+            value={searchQuery}
+            onChange={(e) => setSearchParams(e.target.value ? { search: e.target.value } : {})}
+            className="glass"
+            style={{
+              width: '100%',
+              padding: '16px 20px 16px 60px',
+              borderRadius: '99px',
+              fontSize: '1.1rem',
+              color: 'var(--text-primary)',
+              border: '1px solid var(--glass-border)',
+              outline: 'none',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+            }}
+          />
+        </div>
+
+        {!searchQuery && selectedCategory === "All" && (
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            style={{ fontSize: '1.2rem', marginBottom: '40px', maxWidth: '600px', margin: '0 auto 40px' }}>
+            style={{ fontSize: '1.2rem', marginBottom: '20px', maxWidth: '600px', margin: '0 auto' }}>
             Discover the most premium essentials for modern living. Curated, minimalist, and built for your sanctuary.
           </motion.p>
-        </section>
-      )}
+        )}
+      </section>
 
       {/* Filter UI */}
-      <div style={{ marginTop: searchQuery || selectedCategory !== "All" ? '20px' : '60px', marginBottom: '40px' }}>
+      <div style={{ marginBottom: '40px' }}>
         <div className="flex flex-col gap-6">
           <div className="flex justify-between items-end flex-wrap gap-4">
             <div>

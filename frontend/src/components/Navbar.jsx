@@ -8,23 +8,6 @@ const Navbar = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const token = localStorage.getItem("token");
     const [isOpen, setIsOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
-
-    useEffect(() => {
-        const search = searchParams.get("search") || "";
-        setSearchQuery(search);
-    }, [searchParams]);
-
-    const handleSearch = (e) => {
-        const query = e.target.value;
-        setSearchQuery(query);
-        if (query) {
-            setSearchParams({ search: query });
-        } else {
-            setSearchParams({});
-        }
-    };
-
     const handleLogout = () => {
         localStorage.removeItem("token");
         navigate("/login");
@@ -53,27 +36,6 @@ const Navbar = () => {
                     <span style={{ fontSize: '1.5rem', fontWeight: 700, letterSpacing: '-0.04em' }}>Lumina</span>
                 </Link>
 
-                {/* Search Bar */}
-                <div className="search-container flex-1 max-w-md mx-4" style={{ position: 'relative', margin: '0 24px' }}>
-                    <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                    <input
-                        type="text"
-                        placeholder="Search household items..."
-                        value={searchQuery}
-                        onChange={handleSearch}
-                        className="search-input"
-                        style={{
-                            width: '100%',
-                            paddingLeft: '40px',
-                            borderRadius: '99px',
-                            height: '40px',
-                            fontSize: '0.9rem',
-                            background: 'rgba(255, 255, 255, 0.05)',
-                            border: '1px solid var(--glass-border)',
-                            color: 'var(--text-primary)'
-                        }}
-                    />
-                </div>
 
                 {/* Desktop Menu */}
                 <div className="desktop-menu flex gap-4 items-center">
