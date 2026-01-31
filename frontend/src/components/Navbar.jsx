@@ -1,5 +1,5 @@
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { ShoppingCart, Package, User, LogOut, Layout, Menu, X, Search } from "lucide-react";
+import { ShoppingCart, Package, User, LogOut, Layout, Menu, X, Search, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
@@ -8,6 +8,17 @@ const Navbar = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const token = localStorage.getItem("token");
     const [isOpen, setIsOpen] = useState(false);
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme(theme === "dark" ? "light" : "dark");
+    };
+
     const handleLogout = () => {
         localStorage.removeItem("token");
         navigate("/login");
@@ -39,6 +50,9 @@ const Navbar = () => {
 
                 {/* Desktop Menu */}
                 <div className="desktop-menu flex gap-4 items-center">
+                    <button onClick={toggleTheme} className="nav-link" style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}>
+                        {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+                    </button>
                     <Link to="/" className="nav-link">Home</Link>
                     <Link to="/orders" className="nav-link"><Package size={20} /></Link>
                     <Link to="/cart" className="nav-link" style={{ position: 'relative' }}>
