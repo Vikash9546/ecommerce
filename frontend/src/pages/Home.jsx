@@ -239,7 +239,7 @@ const Home = () => {
                   background: 'var(--bg-tertiary)'
                 }}>
                   <img
-                    src={p.image || "https://images.unsplash.com/photo-1560343090-f0409e92791a?q=80&w=1000&auto=format&fit=crop"}
+                    src={p.image || "https://www.freepik.com/free-photos-vectors/no-item-found"}
                     alt={p.name}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
