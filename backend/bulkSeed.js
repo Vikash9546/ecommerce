@@ -43,7 +43,7 @@ const seed = async () => {
         console.log("Cleared existing products.");
 
         const products = [];
-        for (let i = 1; i <= 1000; i++) {
+        for (let i = 1; i <= 100; i++) {
             const categoryObj = categories[Math.floor(Math.random() * categories.length)];
             const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
             const keyword = categoryObj.keywords[Math.floor(Math.random() * categoryObj.keywords.length)];
@@ -67,7 +67,7 @@ const seed = async () => {
         }
 
         await Product.insertMany(products);
-        console.log("Successfully seeded 1000 products!");
+        console.log("Successfully seeded 100 products!");
         process.exit(0);
     } catch (error) {
         console.error("Seeding failed:", error);
