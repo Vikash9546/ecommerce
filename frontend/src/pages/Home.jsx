@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../api/api";
 import { motion } from "framer-motion";
 import { ShoppingCart, ArrowRight, SearchX, Search, Plus, Minus, Trash2 } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
 const Home = () => {
@@ -231,28 +231,30 @@ const Home = () => {
                 whileHover={{ y: -10, borderColor: 'var(--accent-primary)' }}
                 style={{ padding: '24px', borderRadius: '24px', position: 'relative', overflow: 'hidden' }}
               >
-                <div style={{
-                  height: '240px',
-                  borderRadius: '16px',
-                  marginBottom: '20px',
-                  overflow: 'hidden',
-                  background: 'var(--bg-tertiary)'
-                }}>
-                  <img
-                    src={p.image || "https://www.freepik.com/free-photos-vectors/no-item-found"}
-                    alt={p.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                </div>
-                <div style={{ marginBottom: '16px' }}>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--accent-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>
-                    {p.category}
-                  </span>
-                  <h3 style={{ fontSize: '1.25rem', margin: '4px 0' }}>{p.name}</h3>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                    {p.description}
-                  </p>
-                </div>
+                <Link to={`/product/${p._id}`} style={{ cursor: 'pointer', display: 'block' }}>
+                  <div style={{
+                    height: '240px',
+                    borderRadius: '16px',
+                    marginBottom: '20px',
+                    overflow: 'hidden',
+                    background: 'var(--bg-tertiary)'
+                  }}>
+                    <img
+                      src={p.image || "https://www.freepik.com/free-photos-vectors/no-item-found"}
+                      alt={p.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div style={{ marginBottom: '16px' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--accent-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>
+                      {p.category}
+                    </span>
+                    <h3 style={{ fontSize: '1.25rem', margin: '4px 0' }}>{p.name}</h3>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {p.description}
+                    </p>
+                  </div>
+                </Link>
                 <div className="flex justify-between items-center">
                   <p style={{ fontSize: '1.5rem', color: 'var(--text-primary)', fontWeight: 700 }}>₹{p.price}</p>
                   {(() => {

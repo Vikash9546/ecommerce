@@ -4,6 +4,7 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Orders from "./pages/Orders";
+import ProductDetail from "./pages/ProductDetail";
 import Navbar from "./components/Navbar";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
@@ -21,6 +22,7 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/orders" element={<Orders />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
             </Routes>
           </main>
         </BrowserRouter>
