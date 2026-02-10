@@ -226,3 +226,18 @@ input:focus {
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out forwards;
 }
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  h1 { font-size: 2.2rem !important; }
+  h2 { font-size: 1.8rem !important; }
+  h3 { font-size: 1.4rem !important; }
+  .container { padding: 0 16px !important; }
+}
+
+.scroll-x {
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.scroll-x::-webkit-scrollbar { display: none; }

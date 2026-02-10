@@ -70,7 +70,7 @@ const Home = () => {
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          style={{ fontSize: '4rem', marginBottom: '20px' }}>
+          style={{ fontSize: window.innerWidth < 768 ? '2.5rem' : '4rem', marginBottom: '20px' }}>
           Elevate Your Home
         </motion.h1>
 
@@ -129,7 +129,7 @@ const Home = () => {
               <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>
                 Categories
               </p>
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-2 scroll-x" style={{ paddingBottom: '8px' }}>
                 {categories.map((cat) => (
                   <button
                     key={cat}
@@ -138,7 +138,8 @@ const Home = () => {
                     style={{
                       padding: '8px 20px',
                       borderRadius: '99px',
-                      fontSize: '0.85rem'
+                      fontSize: '0.85rem',
+                      whiteSpace: 'nowrap'
                     }}
                   >
                     {cat}
@@ -219,8 +220,8 @@ const Home = () => {
         <>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: '32px',
+            gridTemplateColumns: window.innerWidth < 768 ? 'repeat(auto-fill, minmax(160px, 1fr))' : 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: window.innerWidth < 768 ? '16px' : '32px',
             paddingTop: '32px',
             paddingBottom: '60px'
           }}>
@@ -232,13 +233,18 @@ const Home = () => {
                 transition={{ delay: index * 0.05 }}
                 className="glass"
                 whileHover={{ y: -10, borderColor: 'var(--accent-primary)' }}
-                style={{ padding: '24px', borderRadius: '24px', position: 'relative', overflow: 'hidden' }}
+                style={{
+                  padding: window.innerWidth < 768 ? '12px' : '24px',
+                  borderRadius: '24px',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
               >
                 <Link to={`/product/${p._id}`} style={{ cursor: 'pointer', display: 'block' }}>
                   <div style={{
-                    height: '240px',
+                    height: window.innerWidth < 768 ? '160px' : '240px',
                     borderRadius: '16px',
-                    marginBottom: '20px',
+                    marginBottom: '16px',
                     overflow: 'hidden',
                     background: 'var(--bg-tertiary)'
                   }}>

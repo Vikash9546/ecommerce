@@ -33,7 +33,7 @@ const Navbar = () => {
             left: '0',
             right: '0',
             zIndex: 1000,
-            margin: '16px 24px',
+            margin: window.innerWidth < 768 ? '10px 12px' : '16px 24px',
             borderRadius: '16px',
             padding: '12px 24px'
         }}>
@@ -108,7 +108,15 @@ const Navbar = () => {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        style={{ overflow: 'hidden' }}
+                        className="glass"
+                        style={{
+                            overflow: 'hidden',
+                            marginTop: '12px',
+                            borderRadius: '16px',
+                            background: 'var(--bg-secondary)',
+                            boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+                            padding: '16px'
+                        }}
                     >
                         <div className="flex flex-col gap-4" style={{ paddingTop: '20px' }}>
                             <Link to="/" className="nav-link" onClick={() => setIsOpen(false)}>Home</Link>

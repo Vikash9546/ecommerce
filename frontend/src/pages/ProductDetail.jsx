@@ -49,7 +49,7 @@ const ProductDetail = () => {
                 <ArrowLeft size={20} /> Back to Collection
             </button>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <div className={`grid grid-cols-1 md:grid-cols-2 ${window.innerWidth < 768 ? 'gap-6' : 'gap-12'} items-start`}>
                 {/* Product Image */}
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
@@ -80,7 +80,7 @@ const ProductDetail = () => {
                         }}>
                             {product.category}
                         </span>
-                        <h1 style={{ fontSize: '3rem', fontWeight: 700, marginTop: '8px' }}>{product.name}</h1>
+                        <h1 style={{ fontSize: window.innerWidth < 768 ? '2rem' : '3rem', fontWeight: 700, marginTop: '8px' }}>{product.name}</h1>
                         <div className="flex items-center gap-4 mt-4">
                             <div className="flex items-center text-yellow-400">
                                 {[...Array(5)].map((_, i) => <Star key={i} size={18} fill="currentColor" />)}
@@ -89,12 +89,12 @@ const ProductDetail = () => {
                         </div>
                     </div>
 
-                    <div style={{ fontSize: '2.5rem', fontWeight: 600, color: 'var(--primary)' }}>
+                    <div style={{ fontSize: window.innerWidth < 768 ? '1.8rem' : '2.5rem', fontWeight: 600, color: 'var(--primary)' }}>
                         ₹{product.price}
                     </div>
 
                     <p style={{
-                        fontSize: '1.1rem',
+                        fontSize: window.innerWidth < 768 ? '0.95rem' : '1.1rem',
                         color: 'var(--text-muted)',
                         lineHeight: '1.8',
                         maxWidth: '600px'
