@@ -4,6 +4,7 @@ import API from "../api/api";
 import { motion } from "framer-motion";
 import { ShoppingCart, ArrowLeft, Star, ShieldCheck, Truck, RefreshCw } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -11,6 +12,7 @@ const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
+    const { token } = useAuth();
 
     useEffect(() => {
         API.get(`/products/${id}`)
@@ -102,7 +104,13 @@ const ProductDetail = () => {
 
                     <div className="flex flex-col gap-4 mt-4">
                         <button
-                            onClick={() => addToCart(product._id)}
+                            onClick={() => {
+                                if (!token) {
+                                    navigate("/login");
+                                    return;
+                                }
+                                addToCart(product._id);
+                            }}
                             className="btn btn-primary w-full md:w-auto text-lg py-4 px-12 flex items-center justify-center gap-3"
                         >
                             <ShoppingCart size={22} /> Add to Cart

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import API from "../api/api";
 import { motion } from "framer-motion";
 import { ShoppingCart, ArrowRight, SearchX, Search, Plus, Minus, Trash2 } from "lucide-react";
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -13,6 +14,8 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const { cart, addToCart, updateQuantity, removeFromCart } = useCart();
+  const { token } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     API.get("/products").then((res) => setProducts(res.data));
@@ -258,6 +261,14 @@ const Home = () => {
                 <div className="flex justify-between items-center">
                   <p style={{ fontSize: '1.5rem', color: 'var(--text-primary)', fontWeight: 700 }}>₹{p.price}</p>
                   {(() => {
+                    const handleAddToCart = (productId) => {
+                      if (!token) {
+                        navigate("/login");
+                        return;
+                      }
+                      addToCart(productId);
+                    };
+
                     const cartItem = cart.items.find(item => item.productId?._id === p._id);
                     if (cartItem) {
                       return (
@@ -285,7 +296,7 @@ const Home = () => {
                         whileTap={{ scale: 0.95 }}
                         className="btn btn-primary"
                         style={{ padding: '10px' }}
-                        onClick={() => addToCart(p._id)}
+                        onClick={() => handleAddToCart(p._id)}
                       >
                         <ShoppingCart size={20} />
                       </motion.button>
