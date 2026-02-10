@@ -17,7 +17,8 @@ app.use(cors({
     origin: [
         process.env.FRONTEND_URL,
         "http://localhost:5173",
-        "https://ecommerce-kw0k.onrender.com" // Adding your specific Render URL for safety
+        "https://ecommerce-kw0k.onrender.com",
+        "https://ecommerce-lime-coral.vercel.app" // Your new Vercel URL
     ].filter(Boolean),
     credentials: true
 }));
