@@ -38,8 +38,15 @@ if (process.env.NODE_ENV === "production") {
         try {
             const rootPath = path.resolve(__dirname, "../..");
             console.log("Root directory contents:", fs.readdirSync(rootPath));
+
+            const localFrontendPath = path.resolve(rootPath, "frontend");
+            if (fs.existsSync(localFrontendPath)) {
+                console.log("Frontend directory found. Contents:", fs.readdirSync(localFrontendPath));
+            } else {
+                console.warn("Frontend directory NOT found at root level!");
+            }
         } catch (e) {
-            console.error("Could not read root directory");
+            console.error("Could not read directories for diagnostic");
         }
     }
 
