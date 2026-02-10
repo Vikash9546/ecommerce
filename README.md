@@ -2,26 +2,31 @@
 
 A premium, minimalist e-commerce platform built with React, Node.js, and MongoDB.
 
-## Deployment on Render
+## Deployment on Render (Separate Services)
 
-This project is configured for a single-service deployment on Render.
+You can deploy the frontend and backend as two distinct services on Render for better performance and separation.
 
-### Prerequisites
-- A MongoDB database (e.g., MongoDB Atlas).
-- A Render account.
+### 1. Backend (Web Service)
+- **Repo**: This repo
+- **Root Directory**: `backend`
+- **Build Command**: `npm install`
+- **Start Command**: `npm start`
+- **Environment Variables**:
+  - `MONGO_URI`: Your MongoDB string
+  - `JWT_SECRET`: Your secret key
+  - `FRONTEND_URL`: `https://your-frontend-link.onrender.com`
+  - `NODE_ENV`: `production`
 
-### Steps
-1. **Create a New Web Service**: Connect your GitHub repository.
-2. **Environment Variables**:
-   - `MONGO_URI`: Your MongoDB connection string.
-   - `JWT_SECRET`: A long, random string.
-   - `NODE_ENV`: `production`
-   - `PORT`: 5001 (or any port, Render will provide one)
-3. **Build Settings**:
-   - **Build Command**: `npm run build`
-   - **Start Command**: `npm start`
+### 2. Frontend (Static Site)
+- **Repo**: This repo
+- **Root Directory**: `frontend`
+- **Build Command**: `npm run build`
+- **Publish Directory**: `dist`
+- **Environment Variables**:
+  - `VITE_API_BASE_URL`: `https://your-backend-link.onrender.com/api`
 
 ## Local Development
+...
 
 ### 1. Backend
 ```bash

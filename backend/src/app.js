@@ -30,40 +30,27 @@ app.use("/api/cart", cartRoutes);
 
 import fs from "fs";
 
-// Serve static assets in production
+// Serve static assets in production (optional for separate frontend deployment)
 if (process.env.NODE_ENV === "production") {
     const frontendPath = path.resolve(__dirname, "../../frontend/dist");
-    console.log("Production Mode: Serving static files from", frontendPath);
 
     if (fs.existsSync(frontendPath)) {
-        console.log("Frontend dist found. Contents:", fs.readdirSync(frontendPath));
-    } else {
-        console.warn("WARNING: Frontend dist NOT found at", frontendPath);
-        try {
-            const rootPath = path.resolve(__dirname, "../..");
-            console.log("Root directory contents:", fs.readdirSync(rootPath));
-
-            const localFrontendPath = path.resolve(rootPath, "frontend");
-            if (fs.existsSync(localFrontendPath)) {
-                console.log("Frontend directory found. Contents:", fs.readdirSync(localFrontendPath));
+        console.log("Production: Serving static frontend from", frontendPath);
+        app.use(express.static(frontendPath));
+        app.get("*", (req, res) => {
+            const indexPath = path.join(frontendPath, "index.html");
+            if (fs.existsSync(indexPath)) {
+                res.sendFile(indexPath);
             } else {
-                console.warn("Frontend directory NOT found at root level!");
+                res.status(404).json({ message: "Frontend build not found at " + indexPath });
             }
-        } catch (e) {
-            console.error("Could not read directories for diagnostic");
-        }
+        });
+    } else {
+        console.log("Production: Dedicated Backend Mode (No local frontend dist found)");
+        app.get("/", (req, res) => {
+            res.json({ message: "Lumina API is running", frontendUrl: process.env.FRONTEND_URL });
+        });
     }
-
-    app.use(express.static(frontendPath));
-    app.get("*", (req, res) => {
-        const indexPath = path.join(frontendPath, "index.html");
-        if (fs.existsSync(indexPath)) {
-            res.sendFile(indexPath);
-        } else {
-            console.error("Requested file not found:", indexPath);
-            res.status(404).send("Frontend build not found. Please check Render logs for 'Frontend dist' status.");
-        }
-    });
 }
 
 export default app;
