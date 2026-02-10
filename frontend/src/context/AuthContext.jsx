@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     const login = async (email, password) => {
-        const res = await API.post("/auth/login", { email, password });
+        const res = await API.post("auth/login", { email, password });
         localStorage.setItem("token", res.data.token);
         setToken(res.data.token);
         // In a real app, you might decode the token or fetch user profile here
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const signup = async (name, email, password) => {
-        const res = await API.post("/auth/register", { name, email, password });
+        const res = await API.post("auth/register", { name, email, password });
         return res.data;
     };
 

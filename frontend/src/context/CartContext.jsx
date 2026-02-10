@@ -16,7 +16,7 @@ export const CartProvider = ({ children }) => {
     const fetchCart = async () => {
         try {
             setLoading(true);
-            const res = await API.get(`/cart`);
+            const res = await API.get(`cart`);
             if (res.data) {
                 setCart(res.data);
             }
@@ -38,7 +38,7 @@ export const CartProvider = ({ children }) => {
 
     const addToCart = async (productId, quantity = 1) => {
         try {
-            const res = await API.post("/cart/add", { productId, quantity });
+            const res = await API.post("cart/add", { productId, quantity });
             setCart(res.data);
             return res.data;
         } catch (err) {
@@ -48,7 +48,7 @@ export const CartProvider = ({ children }) => {
 
     const updateQuantity = async (productId, quantity) => {
         try {
-            const res = await API.put("/cart/update", { productId, quantity });
+            const res = await API.put("cart/update", { productId, quantity });
             setCart(res.data);
         } catch (err) {
             console.error("Failed to update quantity:", err);
@@ -57,7 +57,7 @@ export const CartProvider = ({ children }) => {
 
     const removeFromCart = async (productId) => {
         try {
-            const res = await API.delete(`/cart/remove/${productId}`);
+            const res = await API.delete(`cart/remove/${productId}`);
             setCart(res.data);
         } catch (err) {
             console.error("Failed to remove from cart:", err);

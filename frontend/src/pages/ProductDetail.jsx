@@ -15,7 +15,7 @@ const ProductDetail = () => {
     const { token } = useAuth();
 
     useEffect(() => {
-        API.get(`/products/${id}`)
+        API.get(`products/${id}`)
             .then((res) => {
                 setProduct(res.data);
                 setLoading(false);

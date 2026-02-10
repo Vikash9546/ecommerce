@@ -13,7 +13,7 @@ const Cart = () => {
   const placeOrder = async () => {
     try {
       setIsCheckingOut(true);
-      await API.post("/order/place");
+      await API.post("order/place");
       await fetchCart(); // Clear the cart state in context
       navigate("/orders");
     } catch (err) {

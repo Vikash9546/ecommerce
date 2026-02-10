@@ -18,7 +18,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    API.get("/products").then((res) => setProducts(res.data));
+    API.get("products").then((res) => setProducts(res.data));
   }, []);
 
   useEffect(() => {

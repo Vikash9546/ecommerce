@@ -9,7 +9,7 @@ const Orders = () => {
 
 
   useEffect(() => {
-    API.get(`/order/history`)
+    API.get(`order/history`)
       .then((res) => {
         // Filter out cancelled orders so they don't appear
         const activeOrders = res.data.filter(o => o.status !== 'Cancelled');
@@ -24,7 +24,7 @@ const Orders = () => {
     if (!window.confirm("Are you sure you want to cancel this order?")) return;
     try {
       setCancellingId(orderId);
-      await API.put(`/order/cancel/${orderId}`);
+      await API.put(`order/cancel/${orderId}`);
       // Remove the order from the list immediately
       setOrders(orders.filter(o => o._id !== orderId));
     } catch (err) {
@@ -41,7 +41,7 @@ const Orders = () => {
     if (!window.confirm("Remove this item from the order?")) return;
     try {
       setCancellingItemId(itemId);
-      const res = await API.put(`/order/cancel-item/${orderId}/${itemId}`);
+      const res = await API.put(`order/cancel-item/${orderId}/${itemId}`);
 
       // If the order status is now 'Cancelled', remove it from the list
       if (res.data.status === 'Cancelled') {
