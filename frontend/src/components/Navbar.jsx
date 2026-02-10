@@ -39,13 +39,13 @@ const Navbar = () => {
         }}>
             <div className="container flex justify-between items-center">
                 <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 'fit-content' }}>
-                    <motion.div
+                    <div
                         whileHover={{ rotate: 180 }}
                         transition={{ type: "spring", stiffness: 200 }}
                         style={{ width: '40px', height: '40px', background: 'var(--accent-primary)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                     >
                         <Layout size={24} color="white" />
-                    </motion.div>
+                    </div>
                     <span style={{ fontSize: '1.5rem', fontWeight: 700, letterSpacing: '-0.04em' }}>Lumina</span>
                 </Link>
 
