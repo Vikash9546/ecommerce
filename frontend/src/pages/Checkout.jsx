@@ -112,36 +112,57 @@ const Checkout = () => {
     return (
         <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingBottom: '100px' }}>
             {/* Stepper Progress */}
-            <div className="flex justify-between items-center mb-12 relative" style={{ padding: '0 40px' }}>
-                <div style={{ position: 'absolute', top: '50%', left: '40px', right: '40px', height: '2px', background: 'var(--glass-border)', zIndex: 0 }}></div>
-                <div style={{ position: 'absolute', top: '50%', left: '40px', width: `${(step - 1) * 50}%`, height: '2px', background: 'var(--accent-primary)', zIndex: 0, transition: 'width 0.5s ease' }}></div>
+            {step < 3 && (
+                <div className="flex justify-between items-center mb-12 relative" style={{ padding: '0 40px' }}>
+                    {/* Background line - only visible in Step 1 */}
+                    <div style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '40px',
+                        right: '40px',
+                        height: '2px',
+                        background: 'var(--glass-border)',
+                        zIndex: 0,
+                        opacity: step === 1 ? 1 : 0 // Hide in Step 2
+                    }}></div>
+                    <div style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '40px',
+                        width: `${(step - 1) * 50}%`,
+                        height: '2px',
+                        background: 'var(--accent-primary)',
+                        zIndex: 0,
+                        transition: 'width 0.5s ease'
+                    }}></div>
 
-                {[1, 2, 3].map((s) => (
-                    <div key={s} className="flex flex-col items-center gap-2" style={{ zIndex: 1, position: 'relative' }}>
-                        <div
-                            style={{
-                                width: '40px',
-                                height: '40px',
-                                borderRadius: '50%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                background: step >= s ? 'var(--accent-primary)' : 'var(--bg-secondary)',
-                                border: '2px solid',
-                                borderColor: step >= s ? 'var(--accent-primary)' : 'var(--glass-border)',
-                                color: step >= s ? 'white' : 'var(--text-muted)',
-                                fontWeight: 700,
-                                transition: 'all 0.3s ease'
-                            }}
-                        >
-                            {step > s ? <CheckCircle size={20} /> : s}
+                    {[1, 2, 3].map((s) => (
+                        <div key={s} className="flex flex-col items-center gap-2" style={{ zIndex: 1, position: 'relative' }}>
+                            <div
+                                style={{
+                                    width: '40px',
+                                    height: '40px',
+                                    borderRadius: '50%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    background: step >= s ? 'var(--accent-primary)' : 'var(--bg-secondary)',
+                                    border: '2px solid',
+                                    borderColor: step >= s ? 'var(--accent-primary)' : 'var(--glass-border)',
+                                    color: step >= s ? 'white' : 'var(--text-muted)',
+                                    fontWeight: 700,
+                                    transition: 'all 0.3s ease'
+                                }}
+                            >
+                                {step > s ? <CheckCircle size={20} /> : s}
+                            </div>
+                            <span style={{ fontSize: '0.8rem', fontWeight: 600, color: step >= s ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                                {s === 1 ? "Address" : s === 2 ? "Payment" : "Confirmed"}
+                            </span>
                         </div>
-                        <span style={{ fontSize: '0.8rem', fontWeight: 600, color: step >= s ? 'var(--text-primary)' : 'var(--text-muted)' }}>
-                            {s === 1 ? "Address" : s === 2 ? "Payment" : "Confirmed"}
-                        </span>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
 
             <AnimatePresence mode="wait">
                 {step === 1 && (
@@ -240,7 +261,6 @@ const Checkout = () => {
                                 <span>Shipping Fee</span>
                                 <span className="text-secondary">Free</span>
                             </div>
-                            <div style={{ height: '1px', background: 'var(--glass-border)' }}></div>
                             <div className="flex justify-between font-bold text-xl">
                                 <span>Order Total</span>
                                 <span>₹{cartTotal}</span>
