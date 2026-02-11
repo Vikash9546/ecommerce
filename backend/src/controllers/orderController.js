@@ -14,13 +14,18 @@ export const placeOrder = async (req, res) => {
     let totalAmount = 0;
 
     cart.items.forEach((item) => {
-      totalAmount += item.productId.price * item.quantity;
+      if (item.productId) {
+        totalAmount += (item.productId.price || 0) * item.quantity;
+      }
     });
+
+    const { shippingAddress } = req.body;
 
     const order = new Order({
       userId,
       items: cart.items,
       totalAmount,
+      shippingAddress,
     });
 
     await order.save();
@@ -28,7 +33,8 @@ export const placeOrder = async (req, res) => {
 
     res.json({ message: "Order placed successfully", order });
   } catch (err) {
-    res.status(500).json({ message: "Order failed" });
+    console.error("Order placement error:", err);
+    res.status(500).json({ message: "Order failed", error: err.message });
   }
 };
 export const getOrderHistory = async (req, res) => {

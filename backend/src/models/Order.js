@@ -4,7 +4,7 @@ const orderSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",          
+      ref: "User",
       required: true,
     },
     items: [
@@ -19,6 +19,12 @@ const orderSchema = new mongoose.Schema(
     totalAmount: {
       type: Number,
       required: true,
+    },
+    shippingAddress: {
+      address: String,
+      city: String,
+      state: String,
+      zipCode: String,
     },
     status: {
       type: String,

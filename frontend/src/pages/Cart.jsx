@@ -10,18 +10,8 @@ const Cart = () => {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const { cart, updateQuantity, removeFromCart, cartTotal, loading: cartLoading, fetchCart } = useCart();
 
-  const placeOrder = async () => {
-    try {
-      setIsCheckingOut(true);
-      await API.post("order/place");
-      await fetchCart(); // Clear the cart state in context
-      navigate("/orders");
-    } catch (err) {
-      console.error(err);
-      alert("Failed to place order. Ensure you are logged in.");
-    } finally {
-      setIsCheckingOut(false);
-    }
+  const handleCheckout = () => {
+    navigate("/checkout");
   };
 
   const products = cart?.items || [];
@@ -135,15 +125,10 @@ const Cart = () => {
             </div>
             <button
               className="btn btn-primary"
-              style={{ width: '100%', opacity: isCheckingOut ? 0.7 : 1, cursor: isCheckingOut ? 'not-allowed' : 'pointer' }}
-              onClick={placeOrder}
-              disabled={isCheckingOut}
+              style={{ width: '100%', cursor: 'pointer' }}
+              onClick={handleCheckout}
             >
-              {isCheckingOut ? (
-                <>Processing...</>
-              ) : (
-                <><CreditCard size={18} /> Checkout</>
-              )}
+              <ArrowRight size={18} /> Proceed to Checkout
             </button>
           </motion.div>
         )}

@@ -6,20 +6,24 @@ import Signup from "./pages/Signup";
 import Orders from "./pages/Orders";
 import Profile from "./pages/Profile";
 import ProductDetail from "./pages/ProductDetail";
+import Checkout from "./pages/Checkout";
 import Navbar from "./components/Navbar";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <AuthProvider>
       <CartProvider>
         <BrowserRouter>
+          <Toaster position="bottom-right" reverseOrder={false} />
           <Navbar />
           <main style={{ paddingTop: '100px' }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/orders" element={<Orders />} />
