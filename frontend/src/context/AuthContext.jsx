@@ -32,17 +32,39 @@ export const AuthProvider = ({ children }) => {
         return res.data;
     };
 
+    const fetchProfile = async () => {
+        try {
+            const res = await API.get("auth/profile");
+            setUser(res.data);
+            return res.data;
+        } catch (err) {
+            console.error("Failed to fetch profile:", err);
+            if (err.response?.status === 401) logout();
+        }
+    };
+
+    const updateProfile = async (profileData) => {
+        const res = await API.put("auth/profile", profileData);
+        setUser(res.data);
+        return res.data;
+    };
+
     useEffect(() => {
         if (token) {
-            // Validate token or fetch user profile
-            // For now, we'll just assume it's valid if present
-            setUser({ email: "authenticated_user" }); // Placeholder
+            fetchProfile();
+        } else {
+            setLoading(false);
         }
-        setLoading(false);
     }, [token]);
 
+    useEffect(() => {
+        if (user) {
+            setLoading(false);
+        }
+    }, [user]);
+
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, signup, isAuthenticated: !!token }}>
+        <AuthContext.Provider value={{ user, token, login, logout, signup, updateProfile, fetchProfile, isAuthenticated: !!token }}>
             {!loading && children}
         </AuthContext.Provider>
     );

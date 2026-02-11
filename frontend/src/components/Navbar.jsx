@@ -56,7 +56,8 @@ const Navbar = () => {
                         {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
                     </button>
                     <Link to="/" className="nav-link">Home</Link>
-                    <Link to="/orders" className="nav-link"><Package size={20} /></Link>
+                    <Link to="/orders" className="nav-link" title="Orders"><Package size={20} /></Link>
+                    {token && <Link to="/profile" className="nav-link" title="Profile"><User size={20} /></Link>}
                     <Link to="/cart" className="nav-link" style={{ position: 'relative' }}>
                         <ShoppingCart size={20} />
                         {cartCount > 0 && (
@@ -121,6 +122,7 @@ const Navbar = () => {
                         <div className="flex flex-col gap-4" style={{ paddingTop: '20px' }}>
                             <Link to="/" className="nav-link" onClick={() => setIsOpen(false)}>Home</Link>
                             <Link to="/orders" className="nav-link" onClick={() => setIsOpen(false)}>Orders</Link>
+                            {token && <Link to="/profile" className="nav-link" onClick={() => setIsOpen(false)}>Profile</Link>}
                             <Link to="/cart" className="nav-link" onClick={() => setIsOpen(false)}>Cart</Link>
                             {token ? (
                                 <button onClick={handleLogout} className="btn btn-outline" style={{ justifyContent: 'start' }}>

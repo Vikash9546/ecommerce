@@ -8,6 +8,11 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     password: String,
+    phone: String,
+    address: String,
+    city: String,
+    state: String,
+    zipCode: String,
   },
   { timestamps: true }
 );

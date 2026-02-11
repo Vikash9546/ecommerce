@@ -33,3 +33,34 @@ export const login = async (req, res) => {
 
   res.json({ token });
 };
+
+export const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching profile" });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, phone, address, city, state, zipCode } = req.body;
+    const user = await User.findById(req.userId);
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.name = name || user.name;
+    user.phone = phone || user.phone;
+    user.address = address || user.address;
+    user.city = city || user.city;
+    user.state = state || user.state;
+    user.zipCode = zipCode || user.zipCode;
+
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Error updating profile" });
+  }
+};
