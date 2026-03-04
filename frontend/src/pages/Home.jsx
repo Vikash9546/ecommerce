@@ -1,366 +1,303 @@
 import { useEffect, useState } from "react";
 import API from "../api/api";
-import { motion } from "framer-motion";
-import { ShoppingCart, ArrowRight, SearchX, Search, Plus, Minus, Trash2 } from "lucide-react";
-import { useSearchParams, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
+import { motion } from "framer-motion";
+import { Search, Heart, SlidersHorizontal, ChevronDown } from "lucide-react";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [sortOrder, setSortOrder] = useState("default");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(12);
-  const { cart, addToCart, updateQuantity, removeFromCart } = useCart();
+  const categoryParam = searchParams.get("category") || "All Lighting";
+  const [selectedCategory, setSelectedCategory] = useState(categoryParam);
+  const [sortOrder, setSortOrder] = useState("Most Popular");
+  const [priceRange, setPriceRange] = useState(2000);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
+
+  const categories = ["All Lighting", "Chandeliers", "Floor Lamps", "Lanterns", "Furniture", "Home Decor", "Sales"];
+  const colors = ["#000000", "#FFFFFF", "#FBBF24", "#9CA3AF"];
+  const materials = ["Brass", "Glass", "Wood"];
+
+  const { cart, addToCart } = useCart();
   const { token } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    API.get("products").then((res) => setProducts(res.data));
+    API.get("products")
+      .then((res) => setProducts(res.data))
+      .catch(() => setProducts([]));
   }, []);
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [searchParams, selectedCategory, sortOrder]);
+    const cat = searchParams.get("category");
+    if (cat) {
+      setSelectedCategory(cat);
+      // Scroll to main content area smoothly
+      window.scrollTo({ top: 400, behavior: 'smooth' });
+    }
+  }, [searchParams]);
 
   const searchQuery = searchParams.get("search")?.toLowerCase() || "";
 
-  // Apply Search, Category, and Sorting
+  // Apply Search, Category, Price, Color, Material
   let filteredProducts = products.filter(p => {
     const matchesSearch =
       p.name?.toLowerCase().includes(searchQuery) ||
       p.category?.toLowerCase().includes(searchQuery) ||
       p.description?.toLowerCase().includes(searchQuery);
 
-    const matchesCategory = selectedCategory === "All" || p.category === selectedCategory;
+    const apiCat = p.category || "";
+    const matchesCategory = selectedCategory === "All Lighting" || apiCat.includes(selectedCategory) || selectedCategory.includes(apiCat);
 
-    return matchesSearch && matchesCategory;
+    const matchesPrice = (p.price || 0) <= priceRange;
+
+    // Deterministically assign color and material based on ID for mockup filtering (since they are not in DB schema)
+    const idNum1 = p._id ? p._id.charCodeAt(p._id.length - 1) : 0;
+    const idNum2 = p._id ? p._id.charCodeAt(p._id.length - 2) : 0;
+    const pColor = p.color || colors[idNum1 % colors.length];
+    const pMaterial = p.material || materials[idNum2 % materials.length];
+
+    const matchesColor = !selectedColor || pColor === selectedColor;
+    const matchesMaterial = selectedMaterials.length === 0 || selectedMaterials.includes(pMaterial);
+
+    return matchesSearch && matchesCategory && matchesPrice && matchesColor && matchesMaterial;
   });
 
-  if (sortOrder === "low-high") {
+  if (sortOrder === "Price: Low to High") {
     filteredProducts.sort((a, b) => a.price - b.price);
-  } else if (sortOrder === "high-low") {
+  } else if (sortOrder === "Price: High to Low") {
     filteredProducts.sort((a, b) => b.price - a.price);
   }
 
-  // Pagination logic
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-  const indexOfLastProduct = currentPage * itemsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-
-  const categories = ["All", ...new Set(products.map(p => p.category).filter(Boolean))];
-
-  const clearFilters = () => {
-    setSearchParams({});
-    setSelectedCategory("All");
-    setSortOrder("default");
-  };
-
   return (
-    <div className="container">
+    <div style={{ backgroundColor: "#F8F9FA", minHeight: "100vh" }}>
+
       {/* Hero Section */}
-      <section style={{
-        padding: '60px 0 20px',
-        textAlign: 'center',
-        background: 'radial-gradient(circle at center, rgba(251, 113, 133, 0.1) 0%, transparent 70%)'
-      }}>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          style={{ fontSize: window.innerWidth < 768 ? '2.5rem' : '4rem', marginBottom: '20px' }}>
-          Elevate Your Home
-        </motion.h1>
+      <div style={{ padding: "0 24px" }}>
+        <div className="home-hero">
+          {/* Decorative Elements */}
+          <div style={{ position: "absolute", right: "10%", top: "40%", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(255, 46, 91, 0.15) 0%, transparent 70%)", transform: "translateY(-50%)" }}></div>
+          <div className="home-hero-text">LUMINA</div>
 
-        {!searchQuery && selectedCategory === "All" && (
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            style={{ fontSize: '1.2rem', marginBottom: '20px', maxWidth: '600px', margin: '0 auto' }}>
-            Discover the most premium essentials for modern living. Curated, minimalist, and built for your sanctuary.
-          </motion.p>
-        )}
-      </section>
-
-      {/* Search Bar Container */}
-      <div style={{ maxWidth: '600px', margin: '20px auto 40px', position: 'relative', padding: '0 20px', zIndex: 10 }}>
-        <div style={{ position: 'relative' }}>
-          <Search size={22} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} />
-          <input
-            type="text"
-            placeholder="Search household items..."
-            value={searchQuery}
-            onChange={(e) => setSearchParams(e.target.value ? { search: e.target.value } : {})}
-            style={{
-              width: '100%',
-              padding: '16px 20px 16px 56px',
-              borderRadius: '16px',
-              fontSize: '1.1rem',
-              color: 'var(--text-primary)',
-              backgroundColor: 'rgba(0, 0, 0, 0.2)', // Darker translucent background
-              border: '1px solid rgba(255, 255, 255, 0.1)', // Subtle light border
-              outline: 'none',
-              boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.1)', // Inner shadow for depth
-              backdropFilter: 'blur(10px)',
-              transition: 'all 0.3s ease'
-            }}
-            onFocus={(e) => {
-              e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
-              e.target.style.borderColor = 'var(--accent-primary)';
-              e.target.style.boxShadow = '0 0 0 4px rgba(251, 113, 133, 0.15)';
-            }}
-            onBlur={(e) => {
-              e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
-              e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-              e.target.style.boxShadow = 'inset 0 2px 4px rgba(0, 0, 0, 0.1)';
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Filter UI */}
-      <div style={{ marginBottom: '40px' }}>
-        <div className="flex flex-col gap-6">
-          <div className="flex justify-between items-end flex-wrap gap-4">
-            <div>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>
-                Categories
-              </p>
-              <div className="flex gap-2 scroll-x" style={{ paddingBottom: '8px' }}>
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`btn ${selectedCategory === cat ? 'btn-primary' : 'btn-outline'}`}
-                    style={{
-                      padding: '8px 20px',
-                      borderRadius: '99px',
-                      fontSize: '0.85rem',
-                      whiteSpace: 'nowrap'
-                    }}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
+          <div style={{ position: "relative", zIndex: 1, maxWidth: "600px" }}>
+            <div style={{ color: "#FF2E5B", fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+              <span style={{ color: "#9CA3AF" }}>Home /</span> Lighting
             </div>
-
-            <div className="flex gap-4 items-center flex-wrap">
-              <div>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>
-                  Sort By
-                </p>
-                <select
-                  value={sortOrder}
-                  onChange={(e) => setSortOrder(e.target.value)}
-                  className="glass"
-                  style={{
-                    padding: '8px 16px',
-                    borderRadius: '12px',
-                    color: 'var(--text-primary)',
-                    outline: 'none',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <option value="default">Default</option>
-                  <option value="low-high">Price: Low to High</option>
-                  <option value="high-low">Price: High to Low</option>
-                </select>
-              </div>
-
-              <div>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>
-                  Show Items
-                </p>
-                <select
-                  value={itemsPerPage}
-                  onChange={(e) => setItemsPerPage(Number(e.target.value))}
-                  className="glass"
-                  style={{
-                    padding: '8px 16px',
-                    borderRadius: '12px',
-                    color: 'var(--text-primary)',
-                    outline: 'none',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <option value={10}>10</option>
-                  <option value={12}>12</option>
-                  <option value={15}>15</option>
-                </select>
-              </div>
-
-              {(searchQuery || selectedCategory !== "All" || sortOrder !== "default") && (
-                <button
-                  onClick={clearFilters}
-                  className="btn btn-outline"
-                  style={{ marginTop: '30px', borderColor: 'rgba(239, 68, 68, 0.2)', color: '#EF4444' }}
-                >
-                  Clear All
-                </button>
-              )}
-            </div>
-          </div>
-
-          <div style={{ height: '1px', background: 'var(--glass-border)', width: '100%' }}></div>
-
-          <div className="flex justify-between items-center">
-            <h2 style={{ fontSize: '1.75rem' }}>
-              {searchQuery ? `Results for "${searchQuery}"` : selectedCategory !== "All" ? `${selectedCategory} Products` : "Featured Products"}
-            </h2>
-            {/* <span style={{ color: 'var(--text-muted)' }}>{filteredProducts.length} items found</span> */}
+            <h1 style={{ color: "#FFFFFF", fontSize: "4rem", fontWeight: "800", lineHeight: "1.1", marginBottom: "24px" }}>
+              Illuminate Your<br />Space
+            </h1>
+            <p style={{ color: "#9CA3AF", fontSize: "1.1rem", lineHeight: "1.6", marginBottom: "40px", maxWidth: "480px" }}>
+              Discover our curated range of chandeliers, floor lamps, and lanterns designed to transform your home.
+            </p>
           </div>
         </div>
       </div>
 
-      {currentProducts.length > 0 ? (
-        <>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: window.innerWidth < 768 ? 'repeat(auto-fill, minmax(160px, 1fr))' : 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: window.innerWidth < 768 ? '16px' : '32px',
-            paddingTop: '32px',
-            paddingBottom: '60px'
-          }}>
-            {currentProducts.map((p, index) => (
-              <motion.div
-                key={p._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="glass"
-                whileHover={{ y: -10, borderColor: 'var(--accent-primary)' }}
-                style={{
-                  padding: window.innerWidth < 768 ? '12px' : '24px',
-                  borderRadius: '24px',
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}
-              >
-                <Link to={`/product/${p._id}`} style={{ cursor: 'pointer', display: 'block' }}>
+      {/* Main Content Area */}
+      <div className="container home-layout" style={{ padding: "40px 24px" }}>
+
+        {/* Left Sidebar - Filters */}
+        <div className="home-sidebar">
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "30px" }}>
+            <SlidersHorizontal size={20} color="#FF2E5B" />
+            <h3 style={{ fontSize: "1.2rem", fontWeight: "700", color: "#0F172A", margin: 0 }}>Filters</h3>
+          </div>
+
+          {/* Category Filter */}
+          <div style={{ marginBottom: "32px" }}>
+            <h4 style={{ fontSize: "0.85rem", color: "#64748B", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px" }}>Category</h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {categories.map(cat => (
+                <label key={cat} style={{ display: "flex", alignItems: "center", gap: "12px", cursor: "pointer" }}>
                   <div style={{
-                    height: window.innerWidth < 768 ? '160px' : '240px',
-                    borderRadius: '16px',
-                    marginBottom: '16px',
-                    overflow: 'hidden',
-                    background: 'var(--bg-tertiary)'
+                    width: "18px", height: "18px",
+                    borderRadius: "4px",
+                    border: selectedCategory === cat ? "none" : "2px solid #CBD5E1",
+                    backgroundColor: selectedCategory === cat ? "#FF2E5B" : "transparent",
+                    display: "flex", alignItems: "center", justifyContent: "center"
                   }}>
-                    <img
-                      src={p.image || "https://www.freepik.com/free-photos-vectors/no-item-found"}
-                      alt={p.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
+                    {selectedCategory === cat && <div style={{ width: "10px", height: "10px", backgroundColor: "white" }}></div>} {/* Mock checkmark */}
                   </div>
-                  <div style={{ marginBottom: '16px' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--accent-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>
-                      {p.category}
-                    </span>
-                    <h3 style={{ fontSize: '1.25rem', margin: '4px 0' }}>{p.name}</h3>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                      {p.description}
-                    </p>
-                  </div>
-                </Link>
-                <div className="flex justify-between items-center">
-                  <p style={{ fontSize: '1.5rem', color: 'var(--text-primary)', fontWeight: 700 }}>₹{p.price}</p>
-                  {(() => {
-                    const handleAddToCart = (productId) => {
-                      if (!token) {
-                        navigate("/login");
-                        return;
-                      }
-                      addToCart(productId);
-                    };
-
-                    const cartItem = cart.items.find(item => item.productId?._id === p._id);
-                    if (cartItem) {
-                      return (
-                        <div className="flex items-center gap-3 glass" style={{ padding: '4px 8px', borderRadius: '12px' }}>
-                          <motion.button
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => updateQuantity(p._id, cartItem.quantity - 1)}
-                            style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: '4px' }}
-                          >
-                            <Trash2 size={16} color={cartItem.quantity === 1 ? "#F87171" : "currentColor"} />
-                          </motion.button>
-                          <span style={{ fontWeight: 700, minWidth: '20px', textAlign: 'center' }}>{cartItem.quantity}</span>
-                          <motion.button
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => updateQuantity(p._id, cartItem.quantity + 1)}
-                            style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: '4px' }}
-                          >
-                            <Plus size={16} />
-                          </motion.button>
-                        </div>
-                      );
-                    }
-                    return (
-                      <motion.button
-                        whileTap={{ scale: 0.95 }}
-                        className="btn btn-primary"
-                        style={{ padding: '10px' }}
-                        onClick={() => handleAddToCart(p._id)}
-                      >
-                        <ShoppingCart size={20} />
-                      </motion.button>
-                    );
-                  })()}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Pagination Controls */}
-          <div className="flex flex-col items-center gap-6" style={{ padding: '60px 0', borderTop: '1px solid var(--glass-border)' }}>
-            <div className="flex items-center gap-6">
-              <button
-                onClick={() => {
-                  setCurrentPage(prev => Math.max(prev - 1, 1));
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                disabled={currentPage === 1}
-                className={`btn ${currentPage === 1 ? 'btn-outline' : 'btn-primary'}`}
-                style={{ padding: '12px 28px', borderRadius: '99px', opacity: currentPage === 1 ? 0.5 : 1 }}
-              >
-                Previous
-              </button>
-
-              <div className="flex flex-col items-center">
-                <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '1.1rem' }}>
-                  Page {currentPage} of {totalPages || 1}
-                </span>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
-                  Items {(currentPage - 1) * itemsPerPage + 1} - {Math.min(currentPage * itemsPerPage, filteredProducts.length)} of {filteredProducts.length}
-                </span>
-              </div>
-
-              <button
-                onClick={() => {
-                  setCurrentPage(prev => Math.min(prev + 1, totalPages));
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                disabled={currentPage === totalPages || totalPages === 0}
-                className={`btn ${currentPage === totalPages || totalPages === 0 ? 'btn-outline' : 'btn-primary'}`}
-                style={{ padding: '12px 28px', borderRadius: '99px', opacity: (currentPage === totalPages || totalPages === 0) ? 0.5 : 1 }}
-              >
-                Next
-              </button>
+                  <span style={{ fontSize: "0.95rem", color: selectedCategory === cat ? "#0F172A" : "#64748B", fontWeight: selectedCategory === cat ? "600" : "400" }}>{cat}</span>
+                  <input
+                    type="radio"
+                    name="category"
+                    style={{ display: "none" }}
+                    checked={selectedCategory === cat}
+                    onChange={() => {
+                      setSelectedCategory(cat);
+                      setSearchParams(prev => { prev.set("category", cat); return prev; });
+                    }}
+                  />
+                </label>
+              ))}
             </div>
           </div>
-        </>
-      ) : (
-        <div className="glass flex flex-col items-center justify-center" style={{ padding: '100px', borderRadius: '32px', textAlign: 'center' }}>
-          <SearchX size={48} color="var(--text-muted)" style={{ marginBottom: '24px' }} />
-          <h3 style={{ fontSize: '1.5rem', marginBottom: '8px' }}>No products found</h3>
-          <p>Try searching for something else or clear the search bar.</p>
+
+          {/* Price Range Filter */}
+          <div style={{ marginBottom: "32px" }}>
+            <h4 style={{ fontSize: "0.85rem", color: "#64748B", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px" }}>Price Range</h4>
+            <input
+              type="range"
+              min="0" max="2500"
+              value={priceRange}
+              onChange={(e) => setPriceRange(Number(e.target.value))}
+              style={{ width: "100%", accentColor: "#FF2E5B" }}
+            />
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "8px", fontSize: "0.85rem", color: "#0F172A", fontWeight: "600" }}>
+              <span>₹0</span>
+              <span>₹{priceRange}+</span>
+            </div>
+          </div>
+
+          {/* Color Filter */}
+          <div style={{ marginBottom: "32px" }}>
+            <h4 style={{ fontSize: "0.85rem", color: "#64748B", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px" }}>Color</h4>
+            <div style={{ display: "flex", gap: "12px" }}>
+              {colors.map((color, i) => (
+                <div key={i}
+                  onClick={() => setSelectedColor(selectedColor === color ? null : color)}
+                  style={{
+                    width: "24px", height: "24px",
+                    borderRadius: "50%",
+                    backgroundColor: color,
+                    border: color === "#FFFFFF" ? "1px solid #E2E8F0" : "none",
+                    cursor: "pointer",
+                    boxShadow: selectedColor === color ? "0 0 0 2px white, 0 0 0 4px #FF2E5B" : "none",
+                    transition: "all 0.2s"
+                  }}></div>
+              ))}
+            </div>
+          </div>
+
+          {/* Material Filter */}
+          <div>
+            <h4 style={{ fontSize: "0.85rem", color: "#64748B", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px" }}>Material</h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {materials.map(mat => (
+                <label key={mat} style={{ display: "flex", alignItems: "center", gap: "12px", cursor: "pointer" }}>
+                  <div style={{
+                    width: "18px", height: "18px",
+                    borderRadius: "4px",
+                    border: selectedMaterials.includes(mat) ? "none" : "2px solid #CBD5E1",
+                    backgroundColor: selectedMaterials.includes(mat) ? "#FF2E5B" : "transparent",
+                    display: "flex", alignItems: "center", justifyContent: "center"
+                  }}>
+                    {selectedMaterials.includes(mat) && <div style={{ width: "10px", height: "10px", backgroundColor: "white" }}></div>}
+                  </div>
+                  <span style={{ fontSize: "0.95rem", color: selectedMaterials.includes(mat) ? "#0F172A" : "#64748B", fontWeight: selectedMaterials.includes(mat) ? "600" : "400" }}>{mat}</span>
+                  <input
+                    type="checkbox"
+                    style={{ display: "none" }}
+                    checked={selectedMaterials.includes(mat)}
+                    onChange={() => {
+                      setSelectedMaterials(prev =>
+                        prev.includes(mat) ? prev.filter(m => m !== mat) : [...prev, mat]
+                      );
+                    }}
+                  />
+                </label>
+              ))}
+            </div>
+          </div>
         </div>
-      )}
+
+        {/* Right Area - Products Grid */}
+        <div className="home-content">
+
+          {/* Toolbar */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
+            <div style={{ fontSize: "0.95rem", color: "#64748B" }}>
+              Showing <span style={{ fontWeight: "600", color: "#0F172A" }}>{filteredProducts.length}</span> products
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.9rem", color: "#64748B" }}>
+              Sort by:
+              <select
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+                style={{ border: "none", backgroundColor: "transparent", fontWeight: "600", color: "#0F172A", cursor: "pointer", outline: "none" }}
+              >
+                <option>Most Popular</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Grid */}
+          {filteredProducts.length > 0 ? (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "30px" }}>
+              {filteredProducts.map((p, index) => {
+                const handleAddToCart = (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (!token) {
+                    navigate("/login");
+                    return;
+                  }
+                  addToCart(p._id);
+                };
+
+                return (
+                  <Link to={`/product/${p._id}`} key={p._id} style={{ display: "block", textDecoration: "none", color: "inherit" }}>
+                    <div style={{ backgroundColor: "#FFFFFF", borderRadius: "16px", padding: "16px", boxShadow: "0 4px 12px rgba(0,0,0,0.03)", transition: "transform 0.2s", ":hover": { transform: "translateY(-4px)" } }}>
+                      <div style={{ position: "relative", backgroundColor: "#F3F4F6", borderRadius: "12px", height: "220px", marginBottom: "16px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <img
+                          src={p.image || (p.images && p.images[0]) || "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=600&auto=format&fit=crop"}
+                          alt={p.name}
+                          style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "12px" }}
+                        />
+                        <button style={{ position: "absolute", top: "12px", right: "12px", width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.9)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 4px rgba(0,0,0,0.1)", cursor: "pointer" }}>
+                          <Heart size={16} color={index === 0 ? "#FF2E5B" : "#94A3B8"} fill={index === 0 ? "#FF2E5B" : "none"} />
+                        </button>
+                        {index % 3 === 0 && (
+                          <div style={{ position: "absolute", top: "12px", left: "12px", backgroundColor: "#FF2E5B", color: "white", fontSize: "0.7rem", fontWeight: "700", padding: "4px 8px", borderRadius: "4px", letterSpacing: "1px" }}>
+                            SALE
+                          </div>
+                        )}
+                      </div>
+
+                      <div style={{ fontSize: "0.75rem", color: "#FF2E5B", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "700", marginBottom: "4px" }}>
+                        {p.category || "Lighting"}
+                      </div>
+                      <h3 style={{ fontSize: "1rem", fontWeight: "700", color: "#0F172A", margin: "0 0 12px 0", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                        {p.name}
+                      </h3>
+
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div style={{ fontWeight: "700", color: "#0F172A", fontSize: "1.1rem" }}>
+                          ₹{p.price?.toFixed(2) || p.price}
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          ) : (
+            <div style={{ padding: "60px", textAlign: "center", color: "#64748B", backgroundColor: "white", borderRadius: "20px" }}>
+              <Search size={40} color="#CBD5E1" style={{ margin: "0 auto 16px" }} />
+              <h3 style={{ fontSize: "1.2rem", fontWeight: "600", color: "#0F172A", marginBottom: "8px" }}>No products found</h3>
+              <p>Try adjusting your category or price filters.</p>
+            </div>
+          )}
+
+          {filteredProducts.length > 0 && (
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "40px" }}>
+              <button className="btn" style={{ padding: "12px 32px", borderRadius: "50px", backgroundColor: "transparent", border: "2px solid #FF2E5B", color: "#FF2E5B", fontWeight: "600", fontSize: "0.95rem" }}>
+                Load More Products <ChevronDown size={18} style={{ marginLeft: "8px" }} />
+              </button>
+            </div>
+          )}
+
+        </div>
+      </div>
+
+
     </div>
   );
 };
 
 export default Home;
-

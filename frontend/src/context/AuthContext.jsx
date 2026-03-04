@@ -39,7 +39,12 @@ export const AuthProvider = ({ children }) => {
             return res.data;
         } catch (err) {
             console.error("Failed to fetch profile:", err);
-            if (err.response?.status === 401) logout();
+            // Clear invalid/expired token and log out
+            localStorage.removeItem("token");
+            setToken(null);
+            setUser(null);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -56,12 +61,6 @@ export const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     }, [token]);
-
-    useEffect(() => {
-        if (user) {
-            setLoading(false);
-        }
-    }, [user]);
 
     return (
         <AuthContext.Provider value={{ user, token, login, logout, signup, updateProfile, fetchProfile, isAuthenticated: !!token }}>

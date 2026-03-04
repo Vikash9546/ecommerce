@@ -1,181 +1,193 @@
 import { useEffect, useState } from "react";
 import API from "../api/api";
-import { motion } from "framer-motion";
-import { Package, Clock, CheckCircle, ArrowRight, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { User, Package, Heart, MapPin, CreditCard, LogOut } from "lucide-react";
 
 const Orders = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
-
 
   useEffect(() => {
     API.get(`order/history`)
       .then((res) => {
-        // Filter out cancelled orders so they don't appear
         const activeOrders = res.data.filter(o => o.status !== 'Cancelled');
         setOrders(activeOrders);
       })
       .catch(() => setOrders([]));
   }, []);
 
-  const [cancellingId, setCancellingId] = useState(null);
-
-  const handleCancelOrder = async (orderId) => {
-    if (!window.confirm("Are you sure you want to cancel this order?")) return;
-    try {
-      setCancellingId(orderId);
-      await API.put(`order/cancel/${orderId}`);
-      // Remove the order from the list immediately
-      setOrders(orders.filter(o => o._id !== orderId));
-    } catch (err) {
-      console.error(err);
-      alert("Failed to cancel order");
-    } finally {
-      setCancellingId(null);
-    }
-  };
-
-  const [cancellingItemId, setCancellingItemId] = useState(null);
-
-  const handleCancelItem = async (orderId, itemId) => {
-    if (!window.confirm("Remove this item from the order?")) return;
-    try {
-      setCancellingItemId(itemId);
-      const res = await API.put(`order/cancel-item/${orderId}/${itemId}`);
-
-      // If the order status is now 'Cancelled', remove it from the list
-      if (res.data.status === 'Cancelled') {
-        setOrders(orders.filter(o => o._id !== orderId));
-      } else {
-        // Otherwise update it in place
-        setOrders(orders.map(o => o._id === orderId ? res.data : o));
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Failed to remove item");
-    } finally {
-      setCancellingItemId(null);
-    }
+  const handleSignOut = () => {
+    logout();
+    navigate("/");
   };
 
   return (
-    <div className="container" style={{ paddingBottom: '100px' }}>
-      <div className="flex items-center gap-4" style={{ marginBottom: '40px' }}>
-        <Package size={32} color="var(--accent-primary)" />
-        <h2 style={{ fontSize: '2.5rem' }}>Your Orders</h2>
-      </div>
+    <div style={{ backgroundColor: "#F8F9FA", minHeight: "100vh", paddingBottom: "100px" }}>
+      <div className="container" style={{ padding: "40px 24px" }}>
 
-      <div className="flex flex-col gap-6">
-        {orders.map((order, index) => (
-          <motion.div
-            key={order._id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="glass"
-            style={{ padding: '32px', borderRadius: '32px' }}
-          >
-            <div className="flex justify-between items-center" style={{ marginBottom: '24px' }}>
-              <div>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Order ID</p>
-                <h3 style={{ fontSize: '1.1rem', letterSpacing: '1px' }}>#{order._id.slice(-8).toUpperCase()}</h3>
-              </div>
-              <div className="flex items-center gap-4">
-                {/* Status Badge */}
-                <div className="flex items-center gap-2" style={{
-                  padding: '8px 16px',
-                  borderRadius: '99px',
-                  background: order.status === 'Delivered' ? 'rgba(16, 185, 129, 0.1)' : order.status === 'Cancelled' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(99, 102, 241, 0.1)',
-                  color: order.status === 'Delivered' ? 'var(--accent-secondary)' : order.status === 'Cancelled' ? '#EF4444' : 'var(--accent-primary)',
-                  fontSize: '0.9rem',
-                  fontWeight: 600
-                }}>
-                  {order.status === 'Delivered' ? <CheckCircle size={16} /> : order.status === 'Cancelled' ? <Package size={16} /> : <Clock size={16} />}
-                  {order.status || "Processing"}
+        {/* Header Section */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px" }}>
+          <div>
+            <div style={{ fontSize: "0.85rem", color: "#64748B", marginBottom: "8px", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "600" }}>
+              Account &gt; <span style={{ color: "#FF2E5B" }}>Orders</span>
+            </div>
+            <h1 style={{ fontSize: "2.5rem", fontWeight: "700", color: "#0F172A", margin: 0 }}>Order History</h1>
+          </div>
+        </div>
+
+        <div className="account-layout">
+
+          {/* Left Sidebar */}
+          <div className="account-sidebar">
+            {/* User Info */}
+            <div style={{ borderBottom: "1px solid #F1F5F9", paddingBottom: "24px", marginBottom: "20px", display: "flex", flexDirection: "column", gap: "4px" }}>
+              <h3 style={{ fontSize: "1.1rem", fontWeight: "700", color: "#0F172A", margin: 0 }}>{user?.name || "User"}</h3>
+              <p style={{ fontSize: "0.85rem", color: "#64748B", margin: 0 }}>{user?.email || "user@example.com"}</p>
+            </div>
+
+            {/* Navigation Links */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              <Link to="/profile" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "10px", color: "#64748B", textDecoration: "none", transition: "all 0.2s" }}>
+                <User size={18} />
+                <span style={{ fontSize: "0.95rem", fontWeight: "500" }}>My Profile</span>
+              </Link>
+
+              <Link to="/orders" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "10px", backgroundColor: "#FFF0F3", color: "#FF2E5B", textDecoration: "none", transition: "all 0.2s" }}>
+                <Package size={18} />
+                <span style={{ fontSize: "0.95rem", fontWeight: "600" }}>My Orders</span>
+              </Link>
+
+              <Link to="/wishlist" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "10px", color: "#64748B", textDecoration: "none", transition: "all 0.2s" }}>
+                <Heart size={18} />
+                <span style={{ fontSize: "0.95rem", fontWeight: "500" }}>Wishlist</span>
+              </Link>
+
+              <Link to="/addresses" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "10px", color: "#64748B", textDecoration: "none", transition: "all 0.2s" }}>
+                <MapPin size={18} />
+                <span style={{ fontSize: "0.95rem", fontWeight: "500" }}>Saved Addresses</span>
+              </Link>
+
+              <Link to="/payments" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "10px", color: "#64748B", textDecoration: "none", transition: "all 0.2s" }}>
+                <CreditCard size={18} />
+                <span style={{ fontSize: "0.95rem", fontWeight: "500" }}>Payment Methods</span>
+              </Link>
+            </div>
+
+            {/* Sign Out */}
+            <div style={{ marginTop: "40px", borderTop: "1px solid #F1F5F9", paddingTop: "20px" }}>
+              <button onClick={handleSignOut} style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", background: "none", border: "none", color: "#64748B", cursor: "pointer", width: "100%", textAlign: "left" }}>
+                <LogOut size={18} />
+                <span style={{ fontSize: "0.95rem", fontWeight: "500" }}>Sign Out</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Right Content */}
+          <div className="account-content">
+
+            {/* Order History Table */}
+            <div className="scroll-x" style={{ backgroundColor: "#FFFFFF", borderRadius: "20px", boxShadow: "0 2px 10px rgba(0,0,0,0.02)", marginBottom: "40px" }}>
+              <div style={{ minWidth: "600px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr 1fr", padding: "20px 30px", borderBottom: "1px solid #F1F5F9", color: "#64748B", fontSize: "0.85rem", fontWeight: "600", textTransform: "uppercase", letterSpacing: "1px" }}>
+                  <div>Order</div>
+                  <div>Date</div>
+                  <div>Status</div>
+                  <div style={{ textAlign: "right" }}>Action</div>
                 </div>
 
-                {/* Cancel Order Button */}
-                {!['Delivered', 'Cancelled'].includes(order.status) && (
-                  <button
-                    onClick={() => handleCancelOrder(order._id)}
-                    className="btn btn-outline"
-                    disabled={cancellingId === order._id}
-                    style={{
-                      fontSize: '0.85rem',
-                      padding: '6px 16px',
-                      borderColor: '#EF4444',
-                      color: '#EF4444',
-                      opacity: cancellingId === order._id ? 0.5 : 1,
-                      cursor: cancellingId === order._id ? 'not-allowed' : 'pointer'
-                    }}
-                  >
-                    {cancellingId === order._id ? "Cancelling..." : "Cancel Order"}
-                  </button>
+                {orders.length === 0 ? (
+                  <div style={{ padding: "60px 30px", textAlign: "center", color: "#64748B" }}>
+                    No orders found.
+                  </div>
+                ) : (
+                  <div>
+                    {orders.map((order, index) => {
+                      const date = new Date(order.createdAt || Date.now()).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+
+                      let statusBg = "#F1F5F9";
+                      let statusColor = "#64748B";
+
+                      if (order.status === 'Delivered') {
+                        statusBg = "#D1FAE5";
+                        statusColor = "#10B981";
+                      } else if (order.status === 'Processing') {
+                        statusBg = "#E0E7FF";
+                        statusColor = "#6366F1";
+                      } else if (order.status === 'Shipped') {
+                        statusBg = "#FEF3C7";
+                        statusColor = "#D97706";
+                      }
+
+                      return (
+                        <div key={order._id || index} style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr 1fr", padding: "20px 30px", borderBottom: index < orders.length - 1 ? "1px solid #F1F5F9" : "none", alignItems: "center" }}>
+                          <div style={{ fontWeight: "600", color: "#0F172A", fontSize: "0.95rem" }}>
+                            #{String(order._id || "").slice(-6).toUpperCase()}
+                          </div>
+                          <div style={{ color: "#64748B", fontSize: "0.9rem" }}>
+                            {date}
+                          </div>
+                          <div>
+                            <span style={{ backgroundColor: statusBg, color: statusColor, padding: "6px 12px", borderRadius: "50px", fontSize: "0.8rem", fontWeight: "600", display: "inline-block" }}>
+                              • {order.status || "Processing"}
+                            </span>
+                          </div>
+                          <div style={{ textAlign: "right" }}>
+                            <button className="btn" style={{ backgroundColor: "#FF2E5B", color: "white", padding: "8px 20px", borderRadius: "50px", fontSize: "0.85rem", fontWeight: "600" }}>
+                              Track Order
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {orders.length > 0 && (
+                  <div style={{ padding: "20px", textAlign: "center", borderTop: "1px solid #F1F5F9" }}>
+                    <Link to="#" style={{ color: "#FF2E5B", fontWeight: "600", fontSize: "0.9rem", textDecoration: "none" }}>View All Orders</Link>
+                  </div>
                 )}
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
-              {(order.items || []).map((p) => {
-                const itemId = p._id || p.productId?._id;
-                return (
-                  <div key={itemId} className="flex gap-4 items-center" style={{ position: 'relative' }}>
-                    <div style={{ width: '56px', height: '56px', background: 'var(--bg-tertiary)', borderRadius: '12px', overflow: 'hidden' }}>
-                      <img
-                        src={p.productId?.image || "https://images.unsplash.com/photo-1560343090-f0409e92791a?q=80&w=1000&auto=format&fit=crop"}
-                        alt={p.productId?.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    </div>
-                    <div>
-                      <p style={{ fontWeight: 500, color: 'var(--text-primary)' }}>{p.productId?.name}</p>
-                      <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Qty: {p.quantity}</p>
-                    </div>
+            {/* Recommended for You */}
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+                <h2 style={{ fontSize: "1.5rem", fontWeight: "700", color: "#0F172A", margin: 0 }}>Recommended for You</h2>
+                <Link to="/" style={{ color: "#FF2E5B", fontWeight: "600", fontSize: "0.9rem", textDecoration: "none" }}>Shop More +</Link>
+              </div>
 
-                    {/* Item Cancel Button */}
-                    {!['Delivered', 'Cancelled'].includes(order.status) && (
-                      <button
-                        onClick={() => handleCancelItem(order._id, itemId)}
-                        disabled={cancellingItemId === itemId}
-                        style={{
-                          background: 'transparent',
-                          border: 'none',
-                          color: '#EF4444',
-                          cursor: 'pointer',
-                          marginLeft: 'auto',
-                          opacity: cancellingItemId === itemId ? 0.5 : 1
-                        }}
-                        title="Remove Item"
-                      >
-                        {cancellingItemId === itemId ? <Clock size={16} /> : <X size={18} />}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "24px" }}>
+                {/* Dummy Products to match design */}
+                {[
+                  { name: "Velvet Lounge Chair", category: "Furniture -> Seating", price: 299.00, img: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=600&auto=format&fit=crop" },
+                  { name: "Aura Brass Floor Lamp", category: "Decor -> Lighting", price: 145.00, img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=600&auto=format&fit=crop" },
+                  { name: "Ceramic Vase Set", category: "Decor -> Accessories", price: 89.00, img: "https://images.unsplash.com/photo-1578500494198-246f612d3b3d?q=80&w=600&auto=format&fit=crop" }
+                ].map((prod, idx) => (
+                  <div key={idx} style={{ backgroundColor: "#FFFFFF", borderRadius: "16px", padding: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                    <div style={{ position: "relative", backgroundColor: "#F8F9FA", borderRadius: "12px", height: "180px", marginBottom: "16px" }}>
+                      <img src={prod.img} alt={prod.name} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "12px" }} />
+                      <button style={{ position: "absolute", top: "10px", right: "10px", width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.8)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(4px)", cursor: "pointer" }}>
+                        <Heart size={16} color="#64748B" />
                       </button>
-                    )}
+                    </div>
+                    <div style={{ fontWeight: "700", color: "#0F172A", fontSize: "0.95rem", marginBottom: "4px" }}>{prod.name}</div>
+                    <div style={{ fontSize: "0.8rem", color: "#64748B", marginBottom: "12px" }}>{prod.category}</div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div style={{ fontWeight: "700", color: "#FF2E5B", fontSize: "1.1rem" }}>₹{prod.price.toFixed(2)}</div>
+                      <button style={{ padding: "6px", backgroundColor: "#F8F9FA", border: "1px solid #E9ECEF", borderRadius: "8px", cursor: "pointer" }}>
+                        <Package size={16} color="#0F172A" />
+                      </button>
+                    </div>
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
 
-            <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid var(--glass-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <p style={{ color: 'var(--text-secondary)' }}>Total Amount</p>
-              <p style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>₹{order.totalAmount}</p>
-            </div>
-          </motion.div>
-        ))}
-        {orders.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="glass"
-            style={{ padding: '80px 40px', borderRadius: '32px', textAlign: 'center' }}
-          >
-            <Package size={48} color="var(--text-muted)" style={{ margin: '0 auto 24px' }} />
-            <h3 style={{ fontSize: '1.5rem', marginBottom: '8px' }}>No orders yet</h3>
-            <p style={{ marginBottom: '32px' }}>Your order history will appear here once you make a purchase.</p>
-            <Link to="/" className="btn btn-primary">
-              Continue Shopping <ArrowRight size={18} />
-            </Link>
-          </motion.div>
-        )}
+          </div>
+        </div>
       </div>
     </div>
   );

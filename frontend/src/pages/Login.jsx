@@ -8,16 +8,18 @@ import { Mail, Lock, LogIn } from "lucide-react";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
     try {
       await login(email, password);
       navigate("/");
     } catch (err) {
-      alert("Invalid credentials. Try seeding data first.");
+      setError(err.response?.data?.message || "Login failed. Please check your credentials.");
     }
   };
 
@@ -35,6 +37,11 @@ const Login = () => {
         </div>
 
         <form onSubmit={handleLogin}>
+          {error && (
+            <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '12px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444', fontSize: '0.9rem', textAlign: 'center' }}>
+              {error}
+            </div>
+          )}
           <div className="input-group">
             <label style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Mail size={16} /> Email Address

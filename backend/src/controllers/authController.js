@@ -47,6 +47,10 @@ export const getProfile = async (req, res) => {
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   } catch (err) {
+    console.error("Error fetching profile:", err.message, "userId:", req.userId);
+    if (err.name === "CastError") {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
     res.status(500).json({ message: "Error fetching profile" });
   }
 };

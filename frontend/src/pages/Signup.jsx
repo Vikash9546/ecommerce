@@ -9,17 +9,18 @@ const Signup = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
     const { signup } = useAuth();
 
     const handleSignup = async (e) => {
         e.preventDefault();
+        setError("");
         try {
             await signup(name, email, password);
-            alert("Account created successfully! Please login.");
             navigate("/login");
         } catch (err) {
-            alert("Registration failed. Please try again.");
+            setError(err.response?.data?.message || "Registration failed. Please try again.");
         }
     };
 
@@ -37,6 +38,11 @@ const Signup = () => {
                 </div>
 
                 <form onSubmit={handleSignup}>
+                    {error && (
+                        <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '12px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444', fontSize: '0.9rem', textAlign: 'center' }}>
+                            {error}
+                        </div>
+                    )}
                     <div className="input-group">
                         <label style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                             <User size={16} /> Full Name
