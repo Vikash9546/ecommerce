@@ -1,6 +1,24 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 const Footer = () => {
+    const [email, setEmail] = useState("");
+
+    const handleSubscribe = (e) => {
+        e.preventDefault();
+        if (!email) {
+            toast.error("Please enter an email address.");
+            return;
+        }
+        if (!email.includes("@")) {
+            toast.error("Please enter a valid email address.");
+            return;
+        }
+        toast.success("Subscribed successfully! Welcome to Lumina.");
+        setEmail("");
+    };
+
     return (
         <footer style={{ backgroundColor: "#0F172A", color: "white", padding: "80px 24px 40px", marginTop: "auto" }}>
             <div className="container" style={{ display: "flex", flexWrap: "wrap", gap: "60px", justifyContent: "space-between", marginBottom: "60px" }}>
@@ -14,18 +32,18 @@ const Footer = () => {
                         Curating timeless pieces for modern living spaces since 2012. We believe that right lighting transforms any room.
                     </p>
                     <div style={{ display: "flex", gap: "16px", marginTop: "24px" }}>
-                        {/* Social Icons would go here */}
-                        <div style={{ width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)" }}></div>
-                        <div style={{ width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)" }}></div>
-                        <div style={{ width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)" }}></div>
+                        {/* Social Icons Mock */}
+                        <div style={{ width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", cursor: "pointer" }}></div>
+                        <div style={{ width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", cursor: "pointer" }}></div>
+                        <div style={{ width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", cursor: "pointer" }}></div>
                     </div>
                 </div>
 
                 <div style={{ flex: "1 1 150px" }}>
                     <h4 style={{ fontSize: "1rem", fontWeight: "700", marginBottom: "24px", textTransform: "uppercase", letterSpacing: "1px" }}>Shop</h4>
                     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                        <Link to="#" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>New Arrivals</Link>
-                        <Link to="#" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Bestsellers</Link>
+                        <Link to="/?category=Sales" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Sales & Offers</Link>
+                        <Link to="/?category=Chandeliers" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Chandeliers</Link>
                         <Link to="/?category=All Lighting" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Lighting</Link>
                         <Link to="/?category=Furniture" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Furniture</Link>
                         <Link to="/?category=Home Decor" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Home Decor</Link>
@@ -33,29 +51,31 @@ const Footer = () => {
                 </div>
 
                 <div style={{ flex: "1 1 150px" }}>
-                    <h4 style={{ fontSize: "1rem", fontWeight: "700", marginBottom: "24px", textTransform: "uppercase", letterSpacing: "1px" }}>Support</h4>
+                    <h4 style={{ fontSize: "1rem", fontWeight: "700", marginBottom: "24px", textTransform: "uppercase", letterSpacing: "1px" }}>My Account</h4>
                     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                        <Link to="#" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Shipping & Returns</Link>
-                        <Link to="#" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Store Locator</Link>
-                        <Link to="/orders" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Order Tracking</Link>
-                        <Link to="#" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>FAQ</Link>
-                        <Link to="#" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Contact Us</Link>
+                        <Link to="/profile" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>My Profile</Link>
+                        <Link to="/orders" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Order History</Link>
+                        <Link to="/wishlist" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Wishlist</Link>
+                        <Link to="/addresses" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Saved Addresses</Link>
+                        <Link to="/payments" style={{ color: "#94A3B8", textDecoration: "none", fontSize: "0.9rem" }}>Payment Methods</Link>
                     </div>
                 </div>
 
                 <div style={{ flex: "1 1 300px" }}>
                     <h4 style={{ fontSize: "1rem", fontWeight: "700", marginBottom: "16px", textTransform: "uppercase", letterSpacing: "1px" }}>Stay Inspired</h4>
                     <p style={{ color: "#94A3B8", fontSize: "0.9rem", marginBottom: "20px" }}>Join our newsletter for styling tips and exclusive offers.</p>
-                    <div style={{ display: "flex", gap: "10px" }}>
+                    <form onSubmit={handleSubscribe} style={{ display: "flex", gap: "10px" }}>
                         <input
-                            type="text"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             placeholder="Your email address"
                             style={{ flex: 1, backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", padding: "12px 16px", color: "white", outline: "none" }}
                         />
-                        <button style={{ backgroundColor: "#FF2E5B", color: "white", border: "none", borderRadius: "8px", padding: "0 24px", fontWeight: "600", cursor: "pointer" }}>
+                        <button type="submit" style={{ backgroundColor: "#FF2E5B", color: "white", border: "none", borderRadius: "8px", padding: "0 24px", fontWeight: "600", cursor: "pointer" }}>
                             Subscribe
                         </button>
-                    </div>
+                    </form>
                 </div>
 
             </div>
