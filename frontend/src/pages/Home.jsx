@@ -20,6 +20,9 @@ const Home = () => {
   const colors = ["#000000", "#FFFFFF", "#FBBF24", "#9CA3AF"];
   const materials = ["Brass", "Glass", "Wood"];
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 9;
+
   const { cart, addToCart } = useCart();
   const { token } = useAuth();
   const navigate = useNavigate();
@@ -70,6 +73,14 @@ const Home = () => {
   } else if (sortOrder === "Price: High to Low") {
     filteredProducts.sort((a, b) => b.price - a.price);
   }
+
+  // Reset pagination on filter change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategory, priceRange, selectedColor, selectedMaterials, sortOrder]);
+
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const currentProducts = filteredProducts.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
 
   return (
     <div style={{ backgroundColor: "#F8F9FA", minHeight: "100vh" }}>
@@ -210,7 +221,9 @@ const Home = () => {
           {/* Toolbar */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
             <div style={{ fontSize: "0.95rem", color: "#64748B" }}>
-              Showing <span style={{ fontWeight: "600", color: "#0F172A" }}>{filteredProducts.length}</span> products
+              Showing <span style={{ fontWeight: "600", color: "#0F172A" }}>
+                {filteredProducts.length > 0 ? (currentPage - 1) * productsPerPage + 1 : 0} - {Math.min(currentPage * productsPerPage, filteredProducts.length)}
+              </span> of <span style={{ fontWeight: "600", color: "#0F172A" }}>{filteredProducts.length}</span> products
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.9rem", color: "#64748B" }}>
               Sort by:
@@ -227,9 +240,9 @@ const Home = () => {
           </div>
 
           {/* Grid */}
-          {filteredProducts.length > 0 ? (
+          {currentProducts.length > 0 ? (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "30px" }}>
-              {filteredProducts.map((p, index) => {
+              {currentProducts.map((p, index) => {
                 const handleAddToCart = (e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -284,10 +297,41 @@ const Home = () => {
             </div>
           )}
 
-          {filteredProducts.length > 0 && (
-            <div style={{ display: "flex", justifyContent: "center", marginTop: "40px" }}>
-              <button className="btn" style={{ padding: "12px 32px", borderRadius: "50px", backgroundColor: "transparent", border: "2px solid #FF2E5B", color: "#FF2E5B", fontWeight: "600", fontSize: "0.95rem" }}>
-                Load More Products <ChevronDown size={18} style={{ marginLeft: "8px" }} />
+          {totalPages > 1 && (
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "40px", gap: "10px", flexWrap: "wrap" }}>
+              <button
+                onClick={() => {
+                  setCurrentPage(p => Math.max(1, p - 1));
+                  window.scrollTo({ top: 400, behavior: 'smooth' });
+                }}
+                disabled={currentPage === 1}
+                style={{ width: "40px", height: "40px", borderRadius: "50%", border: "1px solid #E2E8F0", backgroundColor: currentPage === 1 ? "#F8F9FA" : "white", color: currentPage === 1 ? "#CBD5E1" : "#0F172A", display: "flex", alignItems: "center", justifyContent: "center", cursor: currentPage === 1 ? "not-allowed" : "pointer", transition: "all 0.2s" }}
+              >
+                &lt;
+              </button>
+
+              {[...Array(totalPages)].map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setCurrentPage(i + 1);
+                    window.scrollTo({ top: 400, behavior: 'smooth' });
+                  }}
+                  style={{ width: "40px", height: "40px", borderRadius: "50%", border: currentPage === i + 1 ? "none" : "1px solid #E2E8F0", backgroundColor: currentPage === i + 1 ? "#FF2E5B" : "white", color: currentPage === i + 1 ? "white" : "#64748B", fontWeight: "600", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "all 0.2s" }}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button
+                onClick={() => {
+                  setCurrentPage(p => Math.min(totalPages, p + 1));
+                  window.scrollTo({ top: 400, behavior: 'smooth' });
+                }}
+                disabled={currentPage === totalPages}
+                style={{ width: "40px", height: "40px", borderRadius: "50%", border: "1px solid #E2E8F0", backgroundColor: currentPage === totalPages ? "#F8F9FA" : "white", color: currentPage === totalPages ? "#CBD5E1" : "#0F172A", display: "flex", alignItems: "center", justifyContent: "center", cursor: currentPage === totalPages ? "not-allowed" : "pointer", transition: "all 0.2s" }}
+              >
+                &gt;
               </button>
             </div>
           )}
