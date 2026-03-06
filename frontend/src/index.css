@@ -1,18 +1,19 @@
 :root {
-  /* Color Palette - Premium Light */
-  --bg-main: #FFFFFF;
-  --bg-secondary: #F8F9FA;
-  --bg-tertiary: #E9ECEF;
+  /* Color Palette - Monochrome (Black & White) */
+  --bg-main: var(--bg-main);
+  --bg-secondary: #FAFAFA;
+  --bg-tertiary: #F0F0F0;
 
-  --accent-primary: #FF2E5B;
-  /* Pink/Red */
-  --accent-secondary: #10B981;
-  /* Emerald */
-  --accent-hover: #E62A52;
+  --accent-primary: #000000;
+  /* Black */
+  --accent-secondary: #525252;
+  /* Dark Gray */
+  --accent-hover: #333333;
+  /* Darker Gray */
 
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
+  --text-primary: #000000;
+  --text-secondary: #404040;
+  --text-muted: #737373;
 
   --glass-bg: rgba(255, 255, 255, 0.9);
   --glass-border: rgba(0, 0, 0, 0.08);
@@ -21,7 +22,7 @@
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-glow: 0 0 20px rgba(255, 46, 91, 0.2);
+  --shadow-glow: 0 0 20px rgba(0, 0, 0, 0.1);
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -39,18 +40,18 @@
 }
 
 [data-theme='light'] {
-  --bg-main: #F8FAFC;
-  --bg-secondary: #F1F5F9;
-  --bg-tertiary: #E2E8F0;
+  --bg-main: var(--bg-main);
+  --bg-secondary: #F8F8F8;
+  --bg-tertiary: #E5E5E5;
 
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
+  --text-primary: #000000;
+  --text-secondary: #404040;
+  --text-muted: #737373;
 
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(0, 0, 0, 0.05);
 
-  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.1);
+  --shadow-glow: 0 0 20px rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -170,7 +171,7 @@ a:hover {
 .btn-primary:hover {
   background: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
 }
 
 .btn-outline {
@@ -206,7 +207,7 @@ input {
 input:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
 }
 
 /* Animations */
@@ -266,7 +267,7 @@ input:focus {
 
 .account-sidebar {
   flex: 0 0 280px;
-  background-color: #FFFFFF;
+  background-color: var(--bg-main);
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
@@ -426,6 +427,6 @@ input:focus {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.4) 100%);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.3) 100%);
   z-index: 0;
 }

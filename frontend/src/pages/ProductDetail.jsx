@@ -65,19 +65,19 @@ const ProductDetail = () => {
 
     if (loading) return (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "60vh" }}>
-            <div style={{ width: "40px", height: "40px", borderRadius: "50%", border: "3px solid #F1F5F9", borderTopColor: "#FF2E5B", animation: "spin 1s linear infinite" }} />
+            <div style={{ width: "40px", height: "40px", borderRadius: "50%", border: "3px solid var(--bg-tertiary)", borderTopColor: "var(--accent-primary)", animation: "spin 1s linear infinite" }} />
             <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
         </div>
     );
 
     if (!product) return (
         <div className="container" style={{ textAlign: "center", padding: "80px 20px" }}>
-            <h2 style={{ fontSize: '2rem', marginBottom: '20px', color: '#0F172A' }}>Product Not Found</h2>
-            <button onClick={() => navigate("/")} className="btn" style={{ padding: '12px 30px', backgroundColor: '#FF2E5B', color: 'white', borderRadius: '50px' }}>Back to Shop</button>
+            <h2 style={{ fontSize: '2rem', marginBottom: '20px', color: 'var(--text-primary)' }}>Product Not Found</h2>
+            <button onClick={() => navigate("/")} className="btn" style={{ padding: '12px 30px', backgroundColor: 'var(--accent-primary)', color: 'white', borderRadius: '50px' }}>Back to Shop</button>
         </div>
     );
 
-    const colors = ["#FDE047", "#DBEAFE", "#FFFFFF"]; // Mock colors for standard display
+    const colors = ["#000000", "#737373", "#FFFFFF"]; // Mock colors for standard display
     const images = product.images?.length > 0 ? product.images : [
         product.image || "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=600&auto=format&fit=crop",
         "https://images.unsplash.com/photo-1540932239986-30128078f3c5?q=80&w=600&auto=format&fit=crop",
@@ -150,16 +150,16 @@ const ProductDetail = () => {
     };
 
     return (
-        <div style={{ backgroundColor: "#FFFFFF", minHeight: "100vh", paddingBottom: "80px" }}>
+        <div style={{ backgroundColor: "var(--bg-main)", minHeight: "100vh", paddingBottom: "80px" }}>
             <div className="container" style={{ padding: "40px 24px" }}>
 
                 {/* Breadcrumbs */}
-                <div style={{ fontSize: "0.85rem", color: "#64748B", marginBottom: "30px", display: "flex", gap: "8px", fontWeight: "500" }}>
-                    <Link to="/" style={{ color: "#64748B", textDecoration: "none" }}>Home</Link>
+                <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "30px", display: "flex", gap: "8px", fontWeight: "500" }}>
+                    <Link to="/" style={{ color: "var(--text-muted)", textDecoration: "none" }}>Home</Link>
                     <span>/</span>
-                    <Link to={`/?category=${product.category || 'Lighting'}`} style={{ color: "#64748B", textDecoration: "none" }}>{product.category || "Lighting"}</Link>
+                    <Link to={`/?category=${product.category || 'Lighting'}`} style={{ color: "var(--text-muted)", textDecoration: "none" }}>{product.category || "Lighting"}</Link>
                     <span>/</span>
-                    <span style={{ color: "#0F172A", fontWeight: "700" }}>{product.name}</span>
+                    <span style={{ color: "var(--text-primary)", fontWeight: "700" }}>{product.name}</span>
                 </div>
 
                 <div className="product-detail-layout">
@@ -171,7 +171,7 @@ const ProductDetail = () => {
                         <div className="product-detail-image-container" style={{
                             width: "100%",
                             height: "550px",
-                            backgroundColor: "#F3F4F6",
+                            backgroundColor: "var(--bg-secondary)",
                             borderRadius: "24px",
                             overflow: "hidden",
                             marginBottom: "20px"
@@ -191,10 +191,10 @@ const ProductDetail = () => {
                                     height: "120px",
                                     borderRadius: "16px",
                                     overflow: "hidden",
-                                    border: i === 0 ? "2px solid #FF2E5B" : "2px solid transparent",
+                                    border: i === 0 ? "2px solid var(--accent-primary)" : "2px solid transparent",
                                     position: "relative",
                                     cursor: "pointer",
-                                    backgroundColor: "#F3F4F6"
+                                    backgroundColor: "var(--bg-secondary)"
                                 }}>
                                     <img src={img} alt={`Thumb ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                                     {i === 3 && images.length > 4 && (
@@ -207,29 +207,29 @@ const ProductDetail = () => {
                         </div>
 
                         {/* Specifications */}
-                        <h3 style={{ fontSize: "1.4rem", fontWeight: "800", color: "#0F172A", marginBottom: "20px" }}>Product Specifications</h3>
-                        <div style={{ border: "1px solid #F1F5F9", borderRadius: "16px", padding: "20px", marginBottom: "60px" }}>
-                            <div style={{ display: "grid", gridTemplateColumns: "150px 1fr", gap: "20px", padding: "12px 0", borderBottom: "1px solid #F1F5F9" }}>
-                                <span style={{ color: "#64748B", fontSize: "0.95rem" }}>Dimensions</span>
-                                <span style={{ color: "#0F172A", fontSize: "0.95rem", fontWeight: "500" }}>24" W x 32" H</span>
+                        <h3 style={{ fontSize: "1.4rem", fontWeight: "800", color: "var(--text-primary)", marginBottom: "20px" }}>Product Specifications</h3>
+                        <div style={{ border: "1px solid var(--bg-tertiary)", borderRadius: "16px", padding: "20px", marginBottom: "60px" }}>
+                            <div style={{ display: "grid", gridTemplateColumns: "150px 1fr", gap: "20px", padding: "12px 0", borderBottom: "1px solid var(--bg-tertiary)" }}>
+                                <span style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>Dimensions</span>
+                                <span style={{ color: "var(--text-primary)", fontSize: "0.95rem", fontWeight: "500" }}>24" W x 32" H</span>
                             </div>
-                            <div style={{ display: "grid", gridTemplateColumns: "150px 1fr", gap: "20px", padding: "12px 0", borderBottom: "1px solid #F1F5F9" }}>
-                                <span style={{ color: "#64748B", fontSize: "0.95rem" }}>Material</span>
-                                <span style={{ color: "#0F172A", fontSize: "0.95rem", fontWeight: "500" }}>Reclaimed Wood, Steel, Glass</span>
+                            <div style={{ display: "grid", gridTemplateColumns: "150px 1fr", gap: "20px", padding: "12px 0", borderBottom: "1px solid var(--bg-tertiary)" }}>
+                                <span style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>Material</span>
+                                <span style={{ color: "var(--text-primary)", fontSize: "0.95rem", fontWeight: "500" }}>Reclaimed Wood, Steel, Glass</span>
                             </div>
-                            <div style={{ display: "grid", gridTemplateColumns: "150px 1fr", gap: "20px", padding: "12px 0", borderBottom: "1px solid #F1F5F9" }}>
-                                <span style={{ color: "#64748B", fontSize: "0.95rem" }}>Bulb Type</span>
-                                <span style={{ color: "#0F172A", fontSize: "0.95rem", fontWeight: "500" }}>E26 Edison Bulbs (Included)</span>
+                            <div style={{ display: "grid", gridTemplateColumns: "150px 1fr", gap: "20px", padding: "12px 0", borderBottom: "1px solid var(--bg-tertiary)" }}>
+                                <span style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>Bulb Type</span>
+                                <span style={{ color: "var(--text-primary)", fontSize: "0.95rem", fontWeight: "500" }}>E26 Edison Bulbs (Included)</span>
                             </div>
                             <div style={{ display: "grid", gridTemplateColumns: "150px 1fr", gap: "20px", padding: "12px 0" }}>
-                                <span style={{ color: "#64748B", fontSize: "0.95rem" }}>Power Source</span>
-                                <span style={{ color: "#0F172A", fontSize: "0.95rem", fontWeight: "500" }}>Hardwired</span>
+                                <span style={{ color: "var(--text-muted)", fontSize: "0.95rem" }}>Power Source</span>
+                                <span style={{ color: "var(--text-primary)", fontSize: "0.95rem", fontWeight: "500" }}>Hardwired</span>
                             </div>
                         </div>
 
                         {/* Reviews */}
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-                            <h3 style={{ fontSize: "1.4rem", fontWeight: "800", color: "#0F172A" }}>Customer Reviews ({reviewStats.totalReviews})</h3>
+                            <h3 style={{ fontSize: "1.4rem", fontWeight: "800", color: "var(--text-primary)" }}>Customer Reviews ({reviewStats.totalReviews})</h3>
                             <button
                                 onClick={() => {
                                     if (!token) {
@@ -239,25 +239,25 @@ const ProductDetail = () => {
                                     }
                                     setShowReviewForm(!showReviewForm);
                                 }}
-                                style={{ background: "none", border: "none", color: "#FF2E5B", fontWeight: "600", cursor: "pointer", fontSize: "0.95rem" }}
+                                style={{ background: "none", border: "none", color: "var(--accent-primary)", fontWeight: "600", cursor: "pointer", fontSize: "0.95rem" }}
                             >
                                 {showReviewForm ? "Cancel" : "Write a Review"}
                             </button>
                         </div>
 
                         {showReviewForm && (
-                            <div style={{ padding: "24px", backgroundColor: "#F8F9FA", borderRadius: "16px", marginBottom: "24px" }}>
+                            <div style={{ padding: "24px", backgroundColor: "var(--bg-secondary)", borderRadius: "16px", marginBottom: "24px" }}>
                                 <h4 style={{ margin: "0 0 16px 0", fontSize: "1.1rem" }}>Write Your Review</h4>
                                 <form onSubmit={handleSubmitReview}>
                                     <div style={{ marginBottom: "16px" }}>
-                                        <label style={{ display: "block", marginBottom: "8px", fontSize: "0.9rem", color: "#475569" }}>Rating</label>
+                                        <label style={{ display: "block", marginBottom: "8px", fontSize: "0.9rem", color: "var(--text-secondary)" }}>Rating</label>
                                         <div style={{ display: "flex", gap: "8px" }}>
                                             {[1, 2, 3, 4, 5].map((star) => (
                                                 <Star
                                                     key={star}
                                                     size={24}
-                                                    color={star <= reviewRating ? "#FBBF24" : "#E2E8F0"}
-                                                    fill={star <= reviewRating ? "#FBBF24" : "none"}
+                                                    color={star <= reviewRating ? "var(--text-muted)" : "var(--bg-tertiary)"}
+                                                    fill={star <= reviewRating ? "var(--text-muted)" : "none"}
                                                     style={{ cursor: "pointer" }}
                                                     onClick={() => setReviewRating(star)}
                                                 />
@@ -265,19 +265,19 @@ const ProductDetail = () => {
                                         </div>
                                     </div>
                                     <div style={{ marginBottom: "16px" }}>
-                                        <label style={{ display: "block", marginBottom: "8px", fontSize: "0.9rem", color: "#475569" }}>Review Comment</label>
+                                        <label style={{ display: "block", marginBottom: "8px", fontSize: "0.9rem", color: "var(--text-secondary)" }}>Review Comment</label>
                                         <textarea
                                             value={reviewComment}
                                             onChange={(e) => setReviewComment(e.target.value)}
                                             placeholder="What do you think about this product?"
-                                            style={{ width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid #E2E8F0", minHeight: "100px", fontFamily: "inherit" }}
+                                            style={{ width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid var(--bg-tertiary)", minHeight: "100px", fontFamily: "inherit" }}
                                             required
                                         />
                                     </div>
                                     <button
                                         type="submit"
                                         disabled={submittingReview}
-                                        style={{ backgroundColor: "#0F172A", color: "white", padding: "10px 24px", borderRadius: "50px", border: "none", fontWeight: "600", cursor: "pointer" }}
+                                        style={{ backgroundColor: "var(--text-primary)", color: "white", padding: "10px 24px", borderRadius: "50px", border: "none", fontWeight: "600", cursor: "pointer" }}
                                     >
                                         {submittingReview ? "Submitting..." : "Submit Review"}
                                     </button>
@@ -287,32 +287,32 @@ const ProductDetail = () => {
 
                         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                             {reviews.length === 0 ? (
-                                <div style={{ textAlign: "center", padding: "40px", backgroundColor: "#F8F9FA", borderRadius: "16px" }}>
-                                    <MessageSquare size={32} color="#94A3B8" style={{ marginBottom: "12px" }} />
-                                    <p style={{ color: "#64748B", margin: 0 }}>No reviews yet. Be the first to review this product!</p>
+                                <div style={{ textAlign: "center", padding: "40px", backgroundColor: "var(--bg-secondary)", borderRadius: "16px" }}>
+                                    <MessageSquare size={32} color="var(--text-muted)" style={{ marginBottom: "12px" }} />
+                                    <p style={{ color: "var(--text-muted)", margin: 0 }}>No reviews yet. Be the first to review this product!</p>
                                 </div>
                             ) : (
                                 reviews.map((review) => (
-                                    <div key={review._id} style={{ border: "1px solid #F1F5F9", borderRadius: "16px", padding: "24px" }}>
+                                    <div key={review._id} style={{ border: "1px solid var(--bg-tertiary)", borderRadius: "16px", padding: "24px" }}>
                                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
                                             <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-                                                <div style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "#E2E8F0", display: "flex", alignItems: "center", justifyContent: "center", color: "#64748B", fontWeight: "700" }}>
+                                                <div style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "var(--bg-tertiary)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-muted)", fontWeight: "700" }}>
                                                     {review.user?.name ? review.user.name.charAt(0).toUpperCase() : "U"}
                                                 </div>
                                                 <div>
-                                                    <div style={{ fontWeight: "700", color: "#0F172A", fontSize: "0.95rem" }}>{review.user?.name || "Anonymous User"}</div>
-                                                    <div style={{ display: "flex", gap: "2px", color: "#FBBF24" }}>
+                                                    <div style={{ fontWeight: "700", color: "var(--text-primary)", fontSize: "0.95rem" }}>{review.user?.name || "Anonymous User"}</div>
+                                                    <div style={{ display: "flex", gap: "2px", color: "var(--text-muted)" }}>
                                                         {[...Array(5)].map((_, i) => (
-                                                            <Star key={i} size={12} fill={i < review.rating ? "currentColor" : "none"} color={i < review.rating ? "#FBBF24" : "#E2E8F0"} />
+                                                            <Star key={i} size={12} fill={i < review.rating ? "currentColor" : "none"} color={i < review.rating ? "var(--text-muted)" : "var(--bg-tertiary)"} />
                                                         ))}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <span style={{ fontSize: "0.8rem", color: "#94A3B8" }}>
+                                            <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
                                                 {new Date(review.createdAt).toLocaleDateString()}
                                             </span>
                                         </div>
-                                        <p style={{ color: "#475569", fontSize: "0.95rem", fontStyle: "italic", lineHeight: "1.6" }}>
+                                        <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", fontStyle: "italic", lineHeight: "1.6" }}>
                                             "{review.comment}"
                                         </p>
                                     </div>
@@ -325,32 +325,32 @@ const ProductDetail = () => {
                     {/* Right Column: Add to Cart Form (Sticky) */}
                     <div style={{ flex: "1 1 30%", position: "sticky", top: "120px" }}>
 
-                        <div style={{ color: "#FF2E5B", fontSize: "0.75rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: "12px" }}>
+                        <div style={{ color: "var(--accent-primary)", fontSize: "0.75rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: "12px" }}>
                             {product.category || "LIGHTING COLLECTION"}
                         </div>
 
-                        <h1 style={{ fontSize: "2.5rem", fontWeight: "900", color: "#0F172A", lineHeight: "1.1", marginBottom: "16px", letterSpacing: "-0.02em" }}>
+                        <h1 style={{ fontSize: "2.5rem", fontWeight: "900", color: "var(--text-primary)", lineHeight: "1.1", marginBottom: "16px", letterSpacing: "-0.02em" }}>
                             {product.name}
                         </h1>
 
                         <div style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "24px" }}>
-                            <span style={{ fontSize: "2rem", fontWeight: "800", color: "#0F172A" }}>₹{product.price}</span>
+                            <span style={{ fontSize: "2rem", fontWeight: "800", color: "var(--text-primary)" }}>₹{product.price}</span>
                             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                                <div style={{ display: "flex", color: "#FBBF24" }}>
+                                <div style={{ display: "flex", color: "var(--text-muted)" }}>
                                     {[...Array(5)].map((_, i) => (
-                                        <Star key={i} size={16} fill={i < Math.round(reviewStats.avgRating) ? "currentColor" : "none"} color={i < Math.round(reviewStats.avgRating) ? "#FBBF24" : "#E2E8F0"} />
+                                        <Star key={i} size={16} fill={i < Math.round(reviewStats.avgRating) ? "currentColor" : "none"} color={i < Math.round(reviewStats.avgRating) ? "var(--text-muted)" : "var(--bg-tertiary)"} />
                                     ))}
                                 </div>
-                                <span style={{ color: "#64748B", fontSize: "0.85rem", fontWeight: "500" }}>({reviewStats.totalReviews} Reviews)</span>
+                                <span style={{ color: "var(--text-muted)", fontSize: "0.85rem", fontWeight: "500" }}>({reviewStats.totalReviews} Reviews)</span>
                             </div>
                         </div>
 
-                        <p style={{ color: "#475569", lineHeight: "1.7", fontSize: "1rem", marginBottom: "32px", fontWeight: "400" }}>
+                        <p style={{ color: "var(--text-secondary)", lineHeight: "1.7", fontSize: "1rem", marginBottom: "32px", fontWeight: "400" }}>
                             {product.description || "Elevate your space with our Vintage Chandelier. Featuring industrial-style exposed bulbs and a handcrafted wooden frame, it represents the pinnacle of Lumina's Lighting collection. Engineered for both modern warmth and timeless elegance."}
                         </p>
 
                         <div style={{ marginBottom: "32px" }}>
-                            <div style={{ fontSize: "0.9rem", fontWeight: "700", color: "#0F172A", marginBottom: "12px" }}>Bulb Color</div>
+                            <div style={{ fontSize: "0.9rem", fontWeight: "700", color: "var(--text-primary)", marginBottom: "12px" }}>Bulb Color</div>
                             <div style={{ display: "flex", gap: "12px" }}>
                                 {colors.map((color, i) => (
                                     <button
@@ -359,8 +359,8 @@ const ProductDetail = () => {
                                         style={{
                                             width: "36px", height: "36px", borderRadius: "50%",
                                             backgroundColor: color,
-                                            border: "1px solid #E2E8F0",
-                                            boxShadow: selectedColor === i ? "0 0 0 2px white, 0 0 0 4px #FF2E5B" : "none",
+                                            border: "1px solid var(--bg-tertiary)",
+                                            boxShadow: selectedColor === i ? "0 0 0 2px white, 0 0 0 4px var(--accent-primary)" : "none",
                                             cursor: "pointer",
                                             transition: "all 0.2s"
                                         }}
@@ -371,12 +371,12 @@ const ProductDetail = () => {
 
                         <div style={{ display: "flex", gap: "16px", marginBottom: "40px" }}>
                             {/* Quantity */}
-                            <div style={{ display: "flex", alignItems: "center", backgroundColor: "#F8F9FA", borderRadius: "50px", padding: "4px" }}>
-                                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ width: "40px", height: "40px", borderRadius: "50%", border: "none", backgroundColor: "transparent", color: "#0F172A", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ display: "flex", alignItems: "center", backgroundColor: "var(--bg-secondary)", borderRadius: "50px", padding: "4px" }}>
+                                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ width: "40px", height: "40px", borderRadius: "50%", border: "none", backgroundColor: "transparent", color: "var(--text-primary)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                     <Minus size={16} />
                                 </button>
-                                <span style={{ width: "30px", textAlign: "center", fontWeight: "700", color: "#0F172A", fontSize: "1.1rem" }}>{quantity}</span>
-                                <button onClick={() => setQuantity(quantity + 1)} style={{ width: "40px", height: "40px", borderRadius: "50%", border: "none", backgroundColor: "transparent", color: "#0F172A", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <span style={{ width: "30px", textAlign: "center", fontWeight: "700", color: "var(--text-primary)", fontSize: "1.1rem" }}>{quantity}</span>
+                                <button onClick={() => setQuantity(quantity + 1)} style={{ width: "40px", height: "40px", borderRadius: "50%", border: "none", backgroundColor: "transparent", color: "var(--text-primary)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                     <Plus size={16} />
                                 </button>
                             </div>
@@ -384,7 +384,7 @@ const ProductDetail = () => {
                             {/* Add to Cart */}
                             <button
                                 onClick={handleAddToCart}
-                                style={{ flex: 1, backgroundColor: "#FF2E5B", color: "white", border: "none", borderRadius: "50px", fontSize: "1rem", fontWeight: "700", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", padding: "0 24px", boxShadow: "0 10px 25px rgba(255, 46, 91, 0.2)" }}
+                                style={{ flex: 1, backgroundColor: "var(--accent-primary)", color: "white", border: "none", borderRadius: "50px", fontSize: "1rem", fontWeight: "700", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", padding: "0 24px", boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)" }}
                             >
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                                 Add to Cart
@@ -395,58 +395,58 @@ const ProductDetail = () => {
                                 onClick={handleToggleWishlist}
                                 style={{
                                     width: "52px", height: "52px", borderRadius: "50%",
-                                    border: isWishlisted ? "1px solid #FF2E5B" : "1px solid #E2E8F0",
-                                    backgroundColor: isWishlisted ? "#FFF0F3" : "white",
-                                    color: isWishlisted ? "#FF2E5B" : "#0F172A",
+                                    border: isWishlisted ? "1px solid var(--accent-primary)" : "1px solid var(--bg-tertiary)",
+                                    backgroundColor: isWishlisted ? "var(--bg-secondary)" : "white",
+                                    color: isWishlisted ? "var(--accent-primary)" : "var(--text-primary)",
                                     display: "flex", alignItems: "center", justifyContent: "center",
                                     cursor: "pointer", transition: "all 0.2s"
                                 }}
                             >
-                                <Heart size={20} fill={isWishlisted ? "#FF2E5B" : "none"} />
+                                <Heart size={20} fill={isWishlisted ? "var(--accent-primary)" : "none"} />
                             </button>
                         </div>
 
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginBottom: "40px", paddingBottom: "40px", borderBottom: "1px solid #F1F5F9" }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginBottom: "40px", paddingBottom: "40px", borderBottom: "1px solid var(--bg-tertiary)" }}>
                             <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-                                <Truck color="#FF2E5B" size={24} style={{ opacity: 0.8 }} />
+                                <Truck color="var(--accent-primary)" size={24} style={{ opacity: 0.8 }} />
                                 <div>
-                                    <div style={{ fontSize: "0.85rem", fontWeight: "700", color: "#0F172A" }}>Free Delivery</div>
-                                    <div style={{ fontSize: "0.75rem", color: "#64748B" }}>Orders over ₹500</div>
+                                    <div style={{ fontSize: "0.85rem", fontWeight: "700", color: "var(--text-primary)" }}>Free Delivery</div>
+                                    <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Orders over ₹500</div>
                                 </div>
                             </div>
                             <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-                                <ShieldCheck color="#FF2E5B" size={24} style={{ opacity: 0.8 }} />
+                                <ShieldCheck color="var(--accent-primary)" size={24} style={{ opacity: 0.8 }} />
                                 <div>
-                                    <div style={{ fontSize: "0.85rem", fontWeight: "700", color: "#0F172A" }}>2 Year Warranty</div>
-                                    <div style={{ fontSize: "0.75rem", color: "#64748B" }}>Certified Lumina product</div>
+                                    <div style={{ fontSize: "0.85rem", fontWeight: "700", color: "var(--text-primary)" }}>2 Year Warranty</div>
+                                    <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Certified Lumina product</div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Ratings Breakdown Block */}
-                        <div style={{ backgroundColor: "#F8F9FA", borderRadius: "16px", padding: "24px" }}>
-                            <h4 style={{ fontSize: "1rem", fontWeight: "800", color: "#0F172A", margin: "0 0 20px 0" }}>Ratings Breakdown</h4>
+                        <div style={{ backgroundColor: "var(--bg-secondary)", borderRadius: "16px", padding: "24px" }}>
+                            <h4 style={{ fontSize: "1rem", fontWeight: "800", color: "var(--text-primary)", margin: "0 0 20px 0" }}>Ratings Breakdown</h4>
                             <div style={{ display: "flex", alignItems: "flex-start", gap: "30px" }}>
                                 <div>
-                                    <div style={{ fontSize: "3rem", fontWeight: "900", color: "#0F172A", lineHeight: "1" }}>{reviewStats.avgRating}<span style={{ fontSize: "1rem", fontWeight: "500", color: "#64748B" }}> / 5.0</span></div>
+                                    <div style={{ fontSize: "3rem", fontWeight: "900", color: "var(--text-primary)", lineHeight: "1" }}>{reviewStats.avgRating}<span style={{ fontSize: "1rem", fontWeight: "500", color: "var(--text-muted)" }}> / 5.0</span></div>
                                 </div>
                                 <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "8px" }}>
                                     {reviewStats.breakdown.length > 0 ? reviewStats.breakdown.map(r => (
                                         <div key={r.star} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                                            <span style={{ fontSize: "0.8rem", fontWeight: "700", color: "#0F172A", width: "10px" }}>{r.star}</span>
-                                            <div style={{ flex: 1, height: "6px", backgroundColor: "#E2E8F0", borderRadius: "10px", overflow: "hidden" }}>
-                                                <div style={{ width: `${r.pct}%`, height: "100%", backgroundColor: "#FF2E5B", borderRadius: "10px", transition: "width 0.5s ease" }} />
+                                            <span style={{ fontSize: "0.8rem", fontWeight: "700", color: "var(--text-primary)", width: "10px" }}>{r.star}</span>
+                                            <div style={{ flex: 1, height: "6px", backgroundColor: "var(--bg-tertiary)", borderRadius: "10px", overflow: "hidden" }}>
+                                                <div style={{ width: `${r.pct}%`, height: "100%", backgroundColor: "var(--accent-primary)", borderRadius: "10px", transition: "width 0.5s ease" }} />
                                             </div>
-                                            <span style={{ fontSize: "0.75rem", color: "#64748B", width: "24px", textAlign: "right" }}>{r.pct}%</span>
+                                            <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", width: "24px", textAlign: "right" }}>{r.pct}%</span>
                                         </div>
                                     )) : (
                                         [5, 4, 3, 2, 1].map(star => (
                                             <div key={star} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                                                <span style={{ fontSize: "0.8rem", fontWeight: "700", color: "#0F172A", width: "10px" }}>{star}</span>
-                                                <div style={{ flex: 1, height: "6px", backgroundColor: "#E2E8F0", borderRadius: "10px", overflow: "hidden" }}>
-                                                    <div style={{ width: `0%`, height: "100%", backgroundColor: "#FF2E5B", borderRadius: "10px" }} />
+                                                <span style={{ fontSize: "0.8rem", fontWeight: "700", color: "var(--text-primary)", width: "10px" }}>{star}</span>
+                                                <div style={{ flex: 1, height: "6px", backgroundColor: "var(--bg-tertiary)", borderRadius: "10px", overflow: "hidden" }}>
+                                                    <div style={{ width: `0%`, height: "100%", backgroundColor: "var(--accent-primary)", borderRadius: "10px" }} />
                                                 </div>
-                                                <span style={{ fontSize: "0.75rem", color: "#64748B", width: "24px", textAlign: "right" }}>0%</span>
+                                                <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", width: "24px", textAlign: "right" }}>0%</span>
                                             </div>
                                         ))
                                     )}
@@ -461,12 +461,12 @@ const ProductDetail = () => {
                 {relatedProducts.length > 0 && (
                     <div style={{ marginTop: "100px" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
-                            <h2 style={{ fontSize: "1.8rem", fontWeight: "800", color: "#0F172A" }}>You May Also Like</h2>
+                            <h2 style={{ fontSize: "1.8rem", fontWeight: "800", color: "var(--text-primary)" }}>You May Also Like</h2>
                             <div style={{ display: "flex", gap: "12px" }}>
-                                <button style={{ width: "40px", height: "40px", borderRadius: "50%", border: "1px solid #E2E8F0", backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#0F172A" }}>
+                                <button style={{ width: "40px", height: "40px", borderRadius: "50%", border: "1px solid var(--bg-tertiary)", backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-primary)" }}>
                                     <ArrowLeftIcon size={18} />
                                 </button>
-                                <button style={{ width: "40px", height: "40px", borderRadius: "50%", border: "1px solid #E2E8F0", backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#0F172A" }}>
+                                <button style={{ width: "40px", height: "40px", borderRadius: "50%", border: "1px solid var(--bg-tertiary)", backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-primary)" }}>
                                     <ArrowRight size={18} />
                                 </button>
                             </div>
@@ -475,20 +475,20 @@ const ProductDetail = () => {
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "30px" }}>
                             {relatedProducts.map(rp => (
                                 <Link to={`/product/${rp._id}`} key={rp._id} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
-                                    <div style={{ border: "1px solid #F1F5F9", borderRadius: "20px", padding: "20px", backgroundColor: "white", transition: "box-shadow 0.2s", ":hover": { boxShadow: "0 10px 30px rgba(0,0,0,0.05)" } }}>
-                                        <div style={{ height: "260px", backgroundColor: "#F8F9FA", borderRadius: "12px", marginBottom: "20px", overflow: "hidden" }}>
+                                    <div style={{ border: "1px solid var(--bg-tertiary)", borderRadius: "20px", padding: "20px", backgroundColor: "white", transition: "box-shadow 0.2s", ":hover": { boxShadow: "0 10px 30px rgba(0,0,0,0.05)" } }}>
+                                        <div style={{ height: "260px", backgroundColor: "var(--bg-secondary)", borderRadius: "12px", marginBottom: "20px", overflow: "hidden" }}>
                                             <img src={rp.image || (rp.images && rp.images[0])} alt={rp.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                                         </div>
-                                        <div style={{ fontSize: "0.7rem", color: "#FF2E5B", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "700", marginBottom: "8px" }}>
+                                        <div style={{ fontSize: "0.7rem", color: "var(--accent-primary)", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "700", marginBottom: "8px" }}>
                                             {rp.category || "LIGHTING"}
                                         </div>
-                                        <h3 style={{ fontSize: "1.1rem", fontWeight: "800", color: "#0F172A", marginBottom: "12px" }}>{rp.name}</h3>
-                                        <p style={{ color: "#64748B", fontSize: "0.9rem", lineHeight: "1.5", marginBottom: "20px", overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
+                                        <h3 style={{ fontSize: "1.1rem", fontWeight: "800", color: "var(--text-primary)", marginBottom: "12px" }}>{rp.name}</h3>
+                                        <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", lineHeight: "1.5", marginBottom: "20px", overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
                                             {rp.description || "The Elegant Lamp represents the pinnacle of Lumina's Lighting collection."}
                                         </p>
                                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                            <span style={{ fontSize: "1.4rem", fontWeight: "800", color: "#0F172A" }}>₹{rp.price}</span>
-                                            <button style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "#FF2E5B", border: "none", color: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                                            <span style={{ fontSize: "1.4rem", fontWeight: "800", color: "var(--text-primary)" }}>₹{rp.price}</span>
+                                            <button style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "var(--accent-primary)", border: "none", color: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                                             </button>
                                         </div>

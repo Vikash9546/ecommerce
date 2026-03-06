@@ -92,19 +92,19 @@ const Checkout = () => {
     const total = cartTotal + shippingCost + tax;
 
     return (
-        <div style={{ backgroundColor: "#F8F9FA", minHeight: "100vh", paddingBottom: "100px" }}>
+        <div style={{ backgroundColor: "var(--bg-secondary)", minHeight: "100vh", paddingBottom: "100px" }}>
             <div className="container" style={{ padding: "40px 24px" }}>
 
                 {/* Breadcrumb */}
-                <div style={{ fontSize: "0.85rem", color: "#64748B", marginBottom: "20px", display: "flex", gap: "8px" }}>
-                    <Link to="/" style={{ color: "#64748B" }}>Home</Link>
+                <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "20px", display: "flex", gap: "8px" }}>
+                    <Link to="/" style={{ color: "var(--text-muted)" }}>Home</Link>
                     <span>/</span>
-                    <Link to="/cart" style={{ color: "#64748B" }}>Cart</Link>
+                    <Link to="/cart" style={{ color: "var(--text-muted)" }}>Cart</Link>
                     <span>/</span>
-                    <span style={{ color: "#0F172A", fontWeight: "600" }}>Checkout</span>
+                    <span style={{ color: "var(--text-primary)", fontWeight: "600" }}>Checkout</span>
                 </div>
 
-                <h1 style={{ fontSize: "2rem", fontWeight: "700", marginBottom: "30px", color: "#0F172A" }}>Checkout</h1>
+                <h1 style={{ fontSize: "2rem", fontWeight: "700", marginBottom: "30px", color: "var(--text-primary)" }}>Checkout</h1>
 
                 <div className="checkout-layout">
 
@@ -112,115 +112,115 @@ const Checkout = () => {
                     <div style={{ flex: "1 1 500px", display: "flex", flexDirection: "column", gap: "40px" }}>
 
                         {/* 1. Shipping Information */}
-                        <div style={{ backgroundColor: "#FFFFFF", padding: "30px", borderRadius: "20px", boxShadow: "0 2px 10px rgba(0,0,0,0.02)" }}>
+                        <div style={{ backgroundColor: "var(--bg-main)", padding: "30px", borderRadius: "20px", boxShadow: "0 2px 10px rgba(0,0,0,0.02)" }}>
                             <h2 style={{ fontSize: "1.2rem", fontWeight: "700", marginBottom: "20px", display: "flex", alignItems: "center", gap: "10px" }}>
-                                <div style={{ width: "24px", height: "24px", borderRadius: "50%", backgroundColor: "#FF2E5B", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.8rem" }}>1</div>
+                                <div style={{ width: "24px", height: "24px", borderRadius: "50%", backgroundColor: "var(--accent-primary)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.8rem" }}>1</div>
                                 Shipping Information
                             </h2>
                             <div className="checkout-grid">
                                 <div className="input-group" style={{ marginBottom: "0" }}>
-                                    <label style={{ fontSize: "0.85rem", color: "#64748B", marginBottom: "8px" }}>First Name</label>
+                                    <label style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "8px" }}>First Name</label>
                                     <input
                                         value={shippingAddress.firstName}
                                         onChange={(e) => setShippingAddress({ ...shippingAddress, firstName: e.target.value })}
                                         placeholder="e.g. Alexander"
-                                        style={{ backgroundColor: "#F8F9FA", border: "1px solid #E9ECEF", borderRadius: "10px" }}
+                                        style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--bg-tertiary)", borderRadius: "10px" }}
                                     />
                                 </div>
                                 <div className="input-group" style={{ marginBottom: "0" }}>
-                                    <label style={{ fontSize: "0.85rem", color: "#64748B", marginBottom: "8px" }}>Last Name</label>
+                                    <label style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "8px" }}>Last Name</label>
                                     <input
                                         value={shippingAddress.lastName}
                                         onChange={(e) => setShippingAddress({ ...shippingAddress, lastName: e.target.value })}
                                         placeholder="e.g. Pierce"
-                                        style={{ backgroundColor: "#F8F9FA", border: "1px solid #E9ECEF", borderRadius: "10px" }}
+                                        style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--bg-tertiary)", borderRadius: "10px" }}
                                     />
                                 </div>
                                 <div className="input-group checkout-grid-span" style={{ marginBottom: "0" }}>
-                                    <label style={{ fontSize: "0.85rem", color: "#64748B", marginBottom: "8px" }}>Street Address</label>
+                                    <label style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "8px" }}>Street Address</label>
                                     <input
                                         value={shippingAddress.address}
                                         onChange={(e) => setShippingAddress({ ...shippingAddress, address: e.target.value })}
                                         placeholder="House number and street name"
-                                        style={{ backgroundColor: "#F8F9FA", border: "1px solid #E9ECEF", borderRadius: "10px" }}
+                                        style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--bg-tertiary)", borderRadius: "10px" }}
                                     />
                                 </div>
                                 <div className="input-group" style={{ marginBottom: "0" }}>
-                                    <label style={{ fontSize: "0.85rem", color: "#64748B", marginBottom: "8px" }}>City</label>
+                                    <label style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "8px" }}>City</label>
                                     <input
                                         value={shippingAddress.city}
                                         onChange={(e) => setShippingAddress({ ...shippingAddress, city: e.target.value })}
                                         placeholder="City"
-                                        style={{ backgroundColor: "#F8F9FA", border: "1px solid #E9ECEF", borderRadius: "10px" }}
+                                        style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--bg-tertiary)", borderRadius: "10px" }}
                                     />
                                 </div>
                                 <div className="input-group" style={{ marginBottom: "0" }}>
-                                    <label style={{ fontSize: "0.85rem", color: "#64748B", marginBottom: "8px" }}>Zip Code</label>
+                                    <label style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "8px" }}>Zip Code</label>
                                     <input
                                         value={shippingAddress.zipCode}
                                         onChange={(e) => setShippingAddress({ ...shippingAddress, zipCode: e.target.value })}
                                         placeholder="10001"
-                                        style={{ backgroundColor: "#F8F9FA", border: "1px solid #E9ECEF", borderRadius: "10px" }}
+                                        style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--bg-tertiary)", borderRadius: "10px" }}
                                     />
                                 </div>
                             </div>
                         </div>
 
                         {/* 2. Delivery Method */}
-                        <div style={{ backgroundColor: "#FFFFFF", padding: "30px", borderRadius: "20px", boxShadow: "0 2px 10px rgba(0,0,0,0.02)" }}>
+                        <div style={{ backgroundColor: "var(--bg-main)", padding: "30px", borderRadius: "20px", boxShadow: "0 2px 10px rgba(0,0,0,0.02)" }}>
                             <h2 style={{ fontSize: "1.2rem", fontWeight: "700", marginBottom: "20px", display: "flex", alignItems: "center", gap: "10px" }}>
-                                <div style={{ width: "24px", height: "24px", borderRadius: "50%", backgroundColor: "#FF2E5B", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.8rem" }}>2</div>
+                                <div style={{ width: "24px", height: "24px", borderRadius: "50%", backgroundColor: "var(--accent-primary)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.8rem" }}>2</div>
                                 Delivery Method
                             </h2>
                             <div className="checkout-grid">
                                 <div
                                     onClick={() => setDeliveryMode("standard")}
-                                    style={{ border: deliveryMode === "standard" ? "2px solid #FF2E5B" : "2px solid #E9ECEF", borderRadius: "12px", padding: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: deliveryMode === "standard" ? "#FFF0F3" : "#FFFFFF" }}
+                                    style={{ border: deliveryMode === "standard" ? "2px solid var(--accent-primary)" : "2px solid var(--bg-tertiary)", borderRadius: "12px", padding: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: deliveryMode === "standard" ? "var(--bg-secondary)" : "var(--bg-main)" }}
                                 >
                                     <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                                        <div style={{ width: "20px", height: "20px", borderRadius: "50%", border: deliveryMode === "standard" ? "0" : "2px solid #CBD5E1", backgroundColor: deliveryMode === "standard" ? "#FF2E5B" : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <div style={{ width: "20px", height: "20px", borderRadius: "50%", border: deliveryMode === "standard" ? "0" : "2px solid var(--bg-tertiary)", backgroundColor: deliveryMode === "standard" ? "var(--accent-primary)" : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                             {deliveryMode === "standard" && <Check size={12} color="white" />}
                                         </div>
                                         <div>
-                                            <div style={{ fontWeight: "600", color: "#0F172A" }}>Standard Delivery</div>
-                                            <div style={{ fontSize: "0.8rem", color: "#64748B" }}>4-7 business days</div>
+                                            <div style={{ fontWeight: "600", color: "var(--text-primary)" }}>Standard Delivery</div>
+                                            <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>4-7 business days</div>
                                         </div>
                                     </div>
-                                    <div style={{ fontWeight: "600", color: "#FF2E5B" }}>Free</div>
+                                    <div style={{ fontWeight: "600", color: "var(--accent-primary)" }}>Free</div>
                                 </div>
 
                                 <div
                                     onClick={() => setDeliveryMode("express")}
-                                    style={{ border: deliveryMode === "express" ? "2px solid #FF2E5B" : "2px solid #E9ECEF", borderRadius: "12px", padding: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: deliveryMode === "express" ? "#FFF0F3" : "#FFFFFF" }}
+                                    style={{ border: deliveryMode === "express" ? "2px solid var(--accent-primary)" : "2px solid var(--bg-tertiary)", borderRadius: "12px", padding: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: deliveryMode === "express" ? "var(--bg-secondary)" : "var(--bg-main)" }}
                                 >
                                     <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                                        <div style={{ width: "20px", height: "20px", borderRadius: "50%", border: deliveryMode === "express" ? "0" : "2px solid #CBD5E1", backgroundColor: deliveryMode === "express" ? "#FF2E5B" : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <div style={{ width: "20px", height: "20px", borderRadius: "50%", border: deliveryMode === "express" ? "0" : "2px solid var(--bg-tertiary)", backgroundColor: deliveryMode === "express" ? "var(--accent-primary)" : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                             {deliveryMode === "express" && <Check size={12} color="white" />}
                                         </div>
                                         <div>
-                                            <div style={{ fontWeight: "600", color: "#0F172A" }}>Express Delivery</div>
-                                            <div style={{ fontSize: "0.8rem", color: "#64748B" }}>1-2 business days</div>
+                                            <div style={{ fontWeight: "600", color: "var(--text-primary)" }}>Express Delivery</div>
+                                            <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>1-2 business days</div>
                                         </div>
                                     </div>
-                                    <div style={{ fontWeight: "600", color: "#0F172A" }}>₹15.00</div>
+                                    <div style={{ fontWeight: "600", color: "var(--text-primary)" }}>₹15.00</div>
                                 </div>
                             </div>
                         </div>
 
                         {/* 3. Payment Method */}
-                        <div style={{ backgroundColor: "#FFFFFF", padding: "30px", borderRadius: "20px", boxShadow: "0 2px 10px rgba(0,0,0,0.02)" }}>
+                        <div style={{ backgroundColor: "var(--bg-main)", padding: "30px", borderRadius: "20px", boxShadow: "0 2px 10px rgba(0,0,0,0.02)" }}>
                             <h2 style={{ fontSize: "1.2rem", fontWeight: "700", marginBottom: "20px", display: "flex", alignItems: "center", gap: "10px" }}>
-                                <div style={{ width: "24px", height: "24px", borderRadius: "50%", backgroundColor: "#FF2E5B", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.8rem" }}>3</div>
+                                <div style={{ width: "24px", height: "24px", borderRadius: "50%", backgroundColor: "var(--accent-primary)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.8rem" }}>3</div>
                                 Payment Method
                             </h2>
                             <div style={{ display: "flex", gap: "10px", marginBottom: "30px" }}>
-                                <button onClick={() => setPaymentMethod("card")} className="btn" style={{ backgroundColor: paymentMethod === "card" ? "#0F172A" : "#F8F9FA", color: paymentMethod === "card" ? "white" : "#64748B", borderRadius: "8px", padding: "10px 20px", fontSize: "0.9rem", flex: 1 }}>
+                                <button onClick={() => setPaymentMethod("card")} className="btn" style={{ backgroundColor: paymentMethod === "card" ? "var(--text-primary)" : "var(--bg-secondary)", color: paymentMethod === "card" ? "white" : "var(--text-muted)", borderRadius: "8px", padding: "10px 20px", fontSize: "0.9rem", flex: 1 }}>
                                     <CreditCard size={18} /> Credit Card
                                 </button>
-                                <button onClick={() => setPaymentMethod("upi")} className="btn" style={{ backgroundColor: paymentMethod === "upi" ? "#0F172A" : "#F8F9FA", color: paymentMethod === "upi" ? "white" : "#64748B", borderRadius: "8px", padding: "10px 20px", fontSize: "0.9rem", flex: 1 }}>
+                                <button onClick={() => setPaymentMethod("upi")} className="btn" style={{ backgroundColor: paymentMethod === "upi" ? "var(--text-primary)" : "var(--bg-secondary)", color: paymentMethod === "upi" ? "white" : "var(--text-muted)", borderRadius: "8px", padding: "10px 20px", fontSize: "0.9rem", flex: 1 }}>
                                     <Component size={18} /> UPI
                                 </button>
-                                <button onClick={() => setPaymentMethod("netbanking")} className="btn" style={{ backgroundColor: paymentMethod === "netbanking" ? "#0F172A" : "#F8F9FA", color: paymentMethod === "netbanking" ? "white" : "#64748B", borderRadius: "8px", padding: "10px 20px", fontSize: "0.9rem", flex: 1 }}>
+                                <button onClick={() => setPaymentMethod("netbanking")} className="btn" style={{ backgroundColor: paymentMethod === "netbanking" ? "var(--text-primary)" : "var(--bg-secondary)", color: paymentMethod === "netbanking" ? "white" : "var(--text-muted)", borderRadius: "8px", padding: "10px 20px", fontSize: "0.9rem", flex: 1 }}>
                                     <Landmark size={18} /> Net Banking
                                 </button>
                             </div>
@@ -228,42 +228,42 @@ const Checkout = () => {
                             {paymentMethod === "card" && (
                                 <div className="checkout-grid">
                                     <div className="input-group checkout-grid-span" style={{ marginBottom: "0" }}>
-                                        <label style={{ fontSize: "0.85rem", color: "#64748B", marginBottom: "8px" }}>Cardholder Name</label>
+                                        <label style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "8px" }}>Cardholder Name</label>
                                         <input
                                             value={paymentData.name}
                                             onChange={(e) => setPaymentData({ ...paymentData, name: e.target.value })}
                                             placeholder="Full name on card"
-                                            style={{ backgroundColor: "#F8F9FA", border: "1px solid #E9ECEF", borderRadius: "10px" }}
+                                            style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--bg-tertiary)", borderRadius: "10px" }}
                                         />
                                     </div>
                                     <div className="input-group checkout-grid-span" style={{ marginBottom: "0" }}>
-                                        <label style={{ fontSize: "0.85rem", color: "#64748B", marginBottom: "8px" }}>Card Number</label>
+                                        <label style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "8px" }}>Card Number</label>
                                         <div style={{ position: "relative" }}>
-                                            <CreditCard size={18} style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "#94A3B8" }} />
+                                            <CreditCard size={18} style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} />
                                             <input
                                                 value={paymentData.cardNumber}
                                                 onChange={(e) => setPaymentData({ ...paymentData, cardNumber: e.target.value })}
                                                 placeholder="0000 0000 0000 0000"
-                                                style={{ paddingLeft: "42px", backgroundColor: "#F8F9FA", border: "1px solid #E9ECEF", borderRadius: "10px", width: "100%" }}
+                                                style={{ paddingLeft: "42px", backgroundColor: "var(--bg-secondary)", border: "1px solid var(--bg-tertiary)", borderRadius: "10px", width: "100%" }}
                                             />
                                         </div>
                                     </div>
                                     <div className="input-group" style={{ marginBottom: "0" }}>
-                                        <label style={{ fontSize: "0.85rem", color: "#64748B", marginBottom: "8px" }}>Expiration Date</label>
+                                        <label style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "8px" }}>Expiration Date</label>
                                         <input
                                             value={paymentData.expiry}
                                             onChange={(e) => setPaymentData({ ...paymentData, expiry: e.target.value })}
                                             placeholder="MM / YY"
-                                            style={{ backgroundColor: "#F8F9FA", border: "1px solid #E9ECEF", borderRadius: "10px" }}
+                                            style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--bg-tertiary)", borderRadius: "10px" }}
                                         />
                                     </div>
                                     <div className="input-group" style={{ marginBottom: "0" }}>
-                                        <label style={{ fontSize: "0.85rem", color: "#64748B", marginBottom: "8px" }}>CVV</label>
+                                        <label style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "8px" }}>CVV</label>
                                         <input
                                             value={paymentData.cvv}
                                             onChange={(e) => setPaymentData({ ...paymentData, cvv: e.target.value })}
                                             placeholder="123"
-                                            style={{ backgroundColor: "#F8F9FA", border: "1px solid #E9ECEF", borderRadius: "10px" }}
+                                            style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--bg-tertiary)", borderRadius: "10px" }}
                                         />
                                     </div>
                                 </div>
@@ -274,45 +274,45 @@ const Checkout = () => {
                     </div>
 
                     {/* Right Column - Order Summary */}
-                    <div style={{ flex: "1 1 350px", backgroundColor: "#FFFFFF", padding: "30px", borderRadius: "20px", boxShadow: "0 10px 40px rgba(0,0,0,0.06)", position: "sticky", top: "120px" }}>
+                    <div style={{ flex: "1 1 350px", backgroundColor: "var(--bg-main)", padding: "30px", borderRadius: "20px", boxShadow: "0 10px 40px rgba(0,0,0,0.06)", position: "sticky", top: "120px" }}>
                         <h2 style={{ fontSize: "1.2rem", fontWeight: "700", marginBottom: "24px" }}>Order Summary</h2>
 
-                        <div style={{ display: "flex", flexDirection: "column", gap: "20px", marginBottom: "30px", borderBottom: "1px solid #F1F5F9", paddingBottom: "24px" }}>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "20px", marginBottom: "30px", borderBottom: "1px solid var(--bg-tertiary)", paddingBottom: "24px" }}>
                             {cart?.items?.map((item) => (
                                 <div key={item.productId?._id} style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-                                    <div style={{ width: "60px", height: "60px", backgroundColor: "#F8F9FA", borderRadius: "8px", overflow: "hidden" }}>
+                                    <div style={{ width: "60px", height: "60px", backgroundColor: "var(--bg-secondary)", borderRadius: "8px", overflow: "hidden" }}>
                                         <img src={item.productId?.images?.[0] || item.productId?.image || 'https://via.placeholder.com/60'} alt={item.productId?.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                                     </div>
                                     <div style={{ flex: 1 }}>
-                                        <div style={{ fontWeight: "600", fontSize: "0.95rem", color: "#0F172A", marginBottom: "2px" }}>{item.productId?.name}</div>
-                                        <div style={{ fontSize: "0.8rem", color: "#64748B" }}>Qty: {item.quantity}</div>
+                                        <div style={{ fontWeight: "600", fontSize: "0.95rem", color: "var(--text-primary)", marginBottom: "2px" }}>{item.productId?.name}</div>
+                                        <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>Qty: {item.quantity}</div>
                                     </div>
-                                    <div style={{ fontWeight: "600", color: "#FF2E5B" }}>₹{item.productId?.price?.toFixed(2) || (item.productId?.price)}</div>
+                                    <div style={{ fontWeight: "600", color: "var(--accent-primary)" }}>₹{item.productId?.price?.toFixed(2) || (item.productId?.price)}</div>
                                 </div>
                             ))}
                         </div>
 
                         <div style={{ display: "flex", gap: "10px", marginBottom: "24px" }}>
-                            <input placeholder="Promo Code" style={{ flex: 1, backgroundColor: "#F8F9FA", border: "1px solid #E9ECEF", borderRadius: "8px", padding: "10px 16px" }} />
-                            <button className="btn" style={{ backgroundColor: "#0F172A", color: "white", borderRadius: "8px", padding: "10px 20px" }}>Apply</button>
+                            <input placeholder="Promo Code" style={{ flex: 1, backgroundColor: "var(--bg-secondary)", border: "1px solid var(--bg-tertiary)", borderRadius: "8px", padding: "10px 16px" }} />
+                            <button className="btn" style={{ backgroundColor: "var(--text-primary)", color: "white", borderRadius: "8px", padding: "10px 20px" }}>Apply</button>
                         </div>
 
                         <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "24px" }}>
-                            <div style={{ display: "flex", justifyContent: "space-between", color: "#475569", fontSize: "0.9rem" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", color: "var(--text-secondary)", fontSize: "0.9rem" }}>
                                 <span>Subtotal</span>
                                 <span>₹{cartTotal?.toFixed(2)}</span>
                             </div>
-                            <div style={{ display: "flex", justifyContent: "space-between", color: "#475569", fontSize: "0.9rem" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", color: "var(--text-secondary)", fontSize: "0.9rem" }}>
                                 <span>Shipping</span>
-                                <span style={{ color: shippingCost === 0 ? "#10B981" : "#475569" }}>{shippingCost === 0 ? "Free" : `₹${shippingCost.toFixed(2)}`}</span>
+                                <span style={{ color: shippingCost === 0 ? "var(--text-primary)" : "var(--text-secondary)" }}>{shippingCost === 0 ? "Free" : `₹${shippingCost.toFixed(2)}`}</span>
                             </div>
-                            <div style={{ display: "flex", justifyContent: "space-between", color: "#475569", fontSize: "0.9rem" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", color: "var(--text-secondary)", fontSize: "0.9rem" }}>
                                 <span>Tax (8%)</span>
                                 <span>₹{tax.toFixed(2)}</span>
                             </div>
-                            <div style={{ display: "flex", justifyContent: "space-between", color: "#0F172A", fontSize: "1.2rem", fontWeight: "700", marginTop: "12px", paddingTop: "12px", borderTop: "1px dashed #E2E8F0" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", color: "var(--text-primary)", fontSize: "1.2rem", fontWeight: "700", marginTop: "12px", paddingTop: "12px", borderTop: "1px dashed var(--bg-tertiary)" }}>
                                 <span>Total</span>
-                                <span style={{ color: "#FF2E5B" }}>₹{total.toFixed(2)}</span>
+                                <span style={{ color: "var(--accent-primary)" }}>₹{total.toFixed(2)}</span>
                             </div>
                         </div>
 
@@ -320,11 +320,11 @@ const Checkout = () => {
                             onClick={handlePlaceOrder}
                             disabled={loading}
                             className="btn btn-primary"
-                            style={{ width: "100%", padding: "16px", borderRadius: "50px", fontSize: "1.05rem", fontWeight: "600", display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", backgroundColor: "#FF2E5B" }}
+                            style={{ width: "100%", padding: "16px", borderRadius: "50px", fontSize: "1.05rem", fontWeight: "600", display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", backgroundColor: "var(--accent-primary)" }}
                         >
                             {loading ? <Loader2 className="animate-spin" /> : <>Place Order <ArrowRight size={20} /></>}
                         </button>
-                        <div style={{ textAlign: "center", fontSize: "0.75rem", color: "#94A3B8", marginTop: "16px" }}>
+                        <div style={{ textAlign: "center", fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "16px" }}>
                             SECURE PAYMENT PROCESSED VIA STRIPE ENCRYPTION
                         </div>
                     </div>
