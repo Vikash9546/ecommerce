@@ -5,6 +5,7 @@ import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { Search, Heart, SlidersHorizontal, ChevronDown } from "lucide-react";
+import toast from "react-hot-toast";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -26,12 +27,19 @@ const Home = () => {
   const { cart, addToCart } = useCart();
   const { token } = useAuth();
   const navigate = useNavigate();
+  const [wishlistIds, setWishlistIds] = useState([]);
 
   useEffect(() => {
     API.get("products")
       .then((res) => setProducts(res.data))
       .catch(() => setProducts([]));
-  }, []);
+
+    if (token) {
+      API.get("wishlist")
+        .then((res) => setWishlistIds(res.data.map(item => item.product?._id)))
+        .catch(() => { });
+    }
+  }, [token]);
 
   useEffect(() => {
     const cat = searchParams.get("category");
@@ -264,6 +272,29 @@ const Home = () => {
                     return;
                   }
                   addToCart(p._id);
+                  toast.success("Added to cart");
+                };
+
+                const handleToggleWishlist = async (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (!token) {
+                    toast.error("Please login to use wishlist");
+                    navigate("/login");
+                    return;
+                  }
+                  try {
+                    const res = await API.post("wishlist/toggle", { productId: p._id });
+                    if (res.data.wishlisted) {
+                      setWishlistIds([...wishlistIds, p._id]);
+                      toast.success("Added to wishlist");
+                    } else {
+                      setWishlistIds(wishlistIds.filter(id => id !== p._id));
+                      toast.success("Removed from wishlist");
+                    }
+                  } catch (err) {
+                    toast.error("Failed to update wishlist");
+                  }
                 };
 
                 return (
@@ -275,8 +306,11 @@ const Home = () => {
                           alt={p.name}
                           style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "12px" }}
                         />
-                        <button style={{ position: "absolute", top: "12px", right: "12px", width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.9)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 4px rgba(0,0,0,0.1)", cursor: "pointer" }}>
-                          <Heart size={16} color={index === 0 ? "#EF4444" : "var(--text-muted)"} fill={index === 0 ? "#EF4444" : "none"} />
+                        <button
+                          onClick={handleToggleWishlist}
+                          style={{ position: "absolute", top: "12px", right: "12px", width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.9)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 4px rgba(0,0,0,0.1)", cursor: "pointer", zIndex: 10 }}
+                        >
+                          <Heart size={16} color={wishlistIds.includes(p._id) ? "#EF4444" : "var(--text-muted)"} fill={wishlistIds.includes(p._id) ? "#EF4444" : "none"} />
                         </button>
                         {index % 3 === 0 && (
                           <div style={{ position: "absolute", top: "12px", left: "12px", backgroundColor: "var(--accent-primary)", color: "white", fontSize: "0.7rem", fontWeight: "700", padding: "4px 8px", borderRadius: "4px", letterSpacing: "1px" }}>
