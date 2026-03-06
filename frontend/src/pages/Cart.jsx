@@ -68,7 +68,7 @@ const Cart = () => {
                 </div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <p style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px' }}>
+                <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#2563EB', marginBottom: '8px' }}>
                   ₹{(p.productId?.price || 0) * p.quantity}
                 </p>
                 {p.quantity > 1 && (
@@ -112,7 +112,7 @@ const Cart = () => {
             <h3 style={{ fontSize: '1.5rem', marginBottom: '24px' }}>Order Summary</h3>
             <div className="flex justify-between" style={{ marginBottom: '12px' }}>
               <span style={{ color: 'var(--text-secondary)' }}>Subtotal</span>
-              <span>₹{cartTotal}</span>
+              <span style={{ color: '#2563EB', fontWeight: 600 }}>₹{cartTotal}</span>
             </div>
             <div className="flex justify-between" style={{ marginBottom: '24px', color: 'var(--text-secondary)' }}>
               <span>Shipping</span>
@@ -121,7 +121,7 @@ const Cart = () => {
             <div style={{ height: '1px', background: 'var(--glass-border)', marginBottom: '24px' }}></div>
             <div className="flex justify-between" style={{ marginBottom: '32px', fontSize: '1.5rem', fontWeight: 700 }}>
               <span>Total</span>
-              <span>₹{cartTotal}</span>
+              <span style={{ color: '#2563EB' }}>₹{cartTotal}</span>
             </div>
             <button
               className="btn btn-primary"

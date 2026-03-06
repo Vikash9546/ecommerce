@@ -1,6 +1,6 @@
 :root {
   /* Color Palette - Monochrome (Black & White) */
-  --bg-main: var(--bg-main);
+  --bg-main: #FFFFFF;
   --bg-secondary: #FAFAFA;
   --bg-tertiary: #F0F0F0;
 
@@ -398,7 +398,7 @@ input:focus {
   bottom: -20%;
   font-size: 16rem;
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.05);
   line-height: 1;
   white-space: nowrap;
 }

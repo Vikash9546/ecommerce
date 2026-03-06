@@ -75,8 +75,8 @@ const Navbar = () => {
                 </form>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    <Link to="/wishlist" style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center' }}>
-                        <Heart size={20} />
+                    <Link to="/wishlist" style={{ color: "#EF4444", display: 'flex', alignItems: 'center' }}>
+                        <Heart size={20} fill="#EF4444" fillOpacity={0.1} />
                     </Link>
 
                     <Link to="/cart" style={{ color: 'var(--text-secondary)', position: 'relative', display: 'flex', alignItems: 'center' }}>

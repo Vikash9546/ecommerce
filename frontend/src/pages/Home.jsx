@@ -99,20 +99,20 @@ const Home = () => {
           >
             <source src="https://assets.mixkit.co/videos/preview/mixkit-sturdy-antique-wooden-furniture-in-a-sunny-home-40324-large.mp4" type="video/mp4" />
           </video>
-          <div className="hero-overlay" style={{ background: "linear-gradient(to right, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 100%)" }}></div>
+          <div className="hero-overlay" style={{ background: "linear-gradient(to right, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 100%)" }}></div>
 
           {/* Decorative Elements */}
           <div style={{ position: "absolute", right: "10%", top: "40%", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(0, 0, 0, 0.15) 0%, transparent 70%)", transform: "translateY(-50%)", zIndex: 0 }}></div>
           <div className="home-hero-text" style={{ zIndex: 0 }}>LUMINA</div>
 
           <div style={{ position: "relative", zIndex: 1, maxWidth: "600px" }}>
-            <div style={{ color: "var(--accent-primary)", fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
-              <span style={{ color: "var(--text-muted)" }}>Home /</span> Lighting
+            <div style={{ color: "#FFFFFF", fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+              <span style={{ color: "rgba(255,255,255,0.6)" }}>Home /</span> Lighting
             </div>
-            <h1 style={{ color: "var(--bg-main)", fontSize: "4rem", fontWeight: "800", lineHeight: "1.1", marginBottom: "24px" }}>
+            <h1 style={{ color: "#FFFFFF", fontSize: "4rem", fontWeight: "800", lineHeight: "1.1", marginBottom: "24px", textShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>
               Illuminate Your<br />Space
             </h1>
-            <p style={{ color: "var(--text-muted)", fontSize: "1.1rem", lineHeight: "1.6", marginBottom: "40px", maxWidth: "480px" }}>
+            <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1.1rem", lineHeight: "1.6", marginBottom: "40px", maxWidth: "480px" }}>
               Discover our curated range of chandeliers, floor lamps, and lanterns designed to transform your home.
             </p>
           </div>
@@ -276,7 +276,7 @@ const Home = () => {
                           style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "12px" }}
                         />
                         <button style={{ position: "absolute", top: "12px", right: "12px", width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.9)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 4px rgba(0,0,0,0.1)", cursor: "pointer" }}>
-                          <Heart size={16} color={index === 0 ? "var(--accent-primary)" : "var(--text-muted)"} fill={index === 0 ? "var(--accent-primary)" : "none"} />
+                          <Heart size={16} color={index === 0 ? "#EF4444" : "var(--text-muted)"} fill={index === 0 ? "#EF4444" : "none"} />
                         </button>
                         {index % 3 === 0 && (
                           <div style={{ position: "absolute", top: "12px", left: "12px", backgroundColor: "var(--accent-primary)", color: "white", fontSize: "0.7rem", fontWeight: "700", padding: "4px 8px", borderRadius: "4px", letterSpacing: "1px" }}>
@@ -293,7 +293,7 @@ const Home = () => {
                       </h3>
 
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <div style={{ fontWeight: "700", color: "var(--text-primary)", fontSize: "1.1rem" }}>
+                        <div style={{ fontWeight: "700", color: "#2563EB", fontSize: "1.1rem" }}>
                           ₹{p.price?.toFixed(2) || p.price}
                         </div>
                       </div>

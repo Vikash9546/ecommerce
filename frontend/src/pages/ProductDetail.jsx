@@ -334,7 +334,7 @@ const ProductDetail = () => {
                         </h1>
 
                         <div style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "24px" }}>
-                            <span style={{ fontSize: "2rem", fontWeight: "800", color: "var(--text-primary)" }}>₹{product.price}</span>
+                            <span style={{ fontSize: "2rem", fontWeight: "800", color: "#2563EB" }}>₹{product.price}</span>
                             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                                 <div style={{ display: "flex", color: "var(--text-muted)" }}>
                                     {[...Array(5)].map((_, i) => (
@@ -397,12 +397,12 @@ const ProductDetail = () => {
                                     width: "52px", height: "52px", borderRadius: "50%",
                                     border: isWishlisted ? "1px solid var(--accent-primary)" : "1px solid var(--bg-tertiary)",
                                     backgroundColor: isWishlisted ? "var(--bg-secondary)" : "white",
-                                    color: isWishlisted ? "var(--accent-primary)" : "var(--text-primary)",
+                                    color: isWishlisted ? "#EF4444" : "var(--text-primary)",
                                     display: "flex", alignItems: "center", justifyContent: "center",
                                     cursor: "pointer", transition: "all 0.2s"
                                 }}
                             >
-                                <Heart size={20} fill={isWishlisted ? "var(--accent-primary)" : "none"} />
+                                <Heart size={20} fill={isWishlisted ? "#EF4444" : "none"} color={isWishlisted ? "#EF4444" : "var(--text-primary)"} />
                             </button>
                         </div>
 

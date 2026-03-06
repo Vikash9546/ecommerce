@@ -60,7 +60,7 @@ const Orders = () => {
               </Link>
 
               <Link to="/wishlist" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "10px", color: "var(--text-muted)", textDecoration: "none", transition: "all 0.2s" }}>
-                <Heart size={18} />
+                <Heart size={18} color="#EF4444" fill="#EF4444" fillOpacity={0.1} />
                 <span style={{ fontSize: "0.95rem", fontWeight: "500" }}>Wishlist</span>
               </Link>
 
@@ -170,13 +170,13 @@ const Orders = () => {
                     <div style={{ position: "relative", backgroundColor: "var(--bg-secondary)", borderRadius: "12px", height: "180px", marginBottom: "16px" }}>
                       <img src={prod.img} alt={prod.name} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "12px" }} />
                       <button style={{ position: "absolute", top: "10px", right: "10px", width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.8)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(4px)", cursor: "pointer" }}>
-                        <Heart size={16} color="var(--text-muted)" />
+                        <Heart size={16} color="var(--text-muted)" fill="none" />
                       </button>
                     </div>
                     <div style={{ fontWeight: "700", color: "var(--text-primary)", fontSize: "0.95rem", marginBottom: "4px" }}>{prod.name}</div>
                     <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginBottom: "12px" }}>{prod.category}</div>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <div style={{ fontWeight: "700", color: "var(--accent-primary)", fontSize: "1.1rem" }}>₹{prod.price.toFixed(2)}</div>
+                      <div style={{ fontWeight: "700", color: "#2563EB", fontSize: "1.1rem" }}>₹{prod.price.toFixed(2)}</div>
                       <button style={{ padding: "6px", backgroundColor: "var(--bg-secondary)", border: "1px solid var(--bg-tertiary)", borderRadius: "8px", cursor: "pointer" }}>
                         <Package size={16} color="var(--text-primary)" />
                       </button>

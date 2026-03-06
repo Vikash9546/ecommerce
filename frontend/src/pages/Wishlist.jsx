@@ -84,8 +84,8 @@ const Wishlist = () => {
                                 <Package size={18} />
                                 <span style={{ fontSize: "0.95rem", fontWeight: "500" }}>My Orders</span>
                             </Link>
-                            <Link to="/wishlist" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "10px", backgroundColor: "var(--bg-secondary)", color: "var(--accent-primary)", textDecoration: "none" }}>
-                                <Heart size={18} />
+                            <Link to="/wishlist" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "10px", backgroundColor: "var(--bg-secondary)", color: "#EF4444", textDecoration: "none" }}>
+                                <Heart size={18} fill="#EF4444" fillOpacity={0.1} />
                                 <span style={{ fontSize: "0.95rem", fontWeight: "600" }}>Wishlist</span>
                             </Link>
                             <Link to="/addresses" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "10px", color: "var(--text-muted)", textDecoration: "none" }}>
@@ -117,7 +117,7 @@ const Wishlist = () => {
                                 </div>
                             ) : items.length === 0 ? (
                                 <div style={{ textAlign: "center", padding: "60px 20px" }}>
-                                    <Heart size={64} color="var(--bg-tertiary)" style={{ marginBottom: "20px" }} />
+                                    <Heart size={64} color="#FECACA" style={{ marginBottom: "20px" }} />
                                     <h3 style={{ fontSize: "1.3rem", fontWeight: "700", color: "var(--text-primary)", marginBottom: "8px" }}>Your wishlist is empty</h3>
                                     <p style={{ color: "var(--text-muted)", marginBottom: "24px" }}>Start adding products you love to your wishlist!</p>
                                     <Link to="/" style={{ display: "inline-flex", alignItems: "center", gap: "8px", backgroundColor: "var(--accent-primary)", color: "white", padding: "12px 28px", borderRadius: "50px", textDecoration: "none", fontWeight: "600", fontSize: "0.95rem" }}>
@@ -155,7 +155,7 @@ const Wishlist = () => {
                                                             {p.category || "Product"}
                                                         </div>
                                                         <h4 style={{ fontSize: "1rem", fontWeight: "700", color: "var(--text-primary)", marginBottom: "8px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name}</h4>
-                                                        <div style={{ fontSize: "1.2rem", fontWeight: "800", color: "var(--text-primary)" }}>₹{p.price}</div>
+                                                        <div style={{ fontSize: "1.2rem", fontWeight: "800", color: "#2563EB" }}>₹{p.price}</div>
                                                     </div>
                                                 </Link>
 

@@ -186,7 +186,7 @@ const Checkout = () => {
                                             <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>4-7 business days</div>
                                         </div>
                                     </div>
-                                    <div style={{ fontWeight: "600", color: "var(--accent-primary)" }}>Free</div>
+                                    <div style={{ fontWeight: "600", color: "#2563EB" }}>Free</div>
                                 </div>
 
                                 <div
@@ -202,7 +202,7 @@ const Checkout = () => {
                                             <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>1-2 business days</div>
                                         </div>
                                     </div>
-                                    <div style={{ fontWeight: "600", color: "var(--text-primary)" }}>₹15.00</div>
+                                    <div style={{ fontWeight: "600", color: "#2563EB" }}>₹15.00</div>
                                 </div>
                             </div>
                         </div>
@@ -287,7 +287,7 @@ const Checkout = () => {
                                         <div style={{ fontWeight: "600", fontSize: "0.95rem", color: "var(--text-primary)", marginBottom: "2px" }}>{item.productId?.name}</div>
                                         <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>Qty: {item.quantity}</div>
                                     </div>
-                                    <div style={{ fontWeight: "600", color: "var(--accent-primary)" }}>₹{item.productId?.price?.toFixed(2) || (item.productId?.price)}</div>
+                                    <div style={{ fontWeight: "600", color: "#2563EB" }}>₹{item.productId?.price?.toFixed(2) || (item.productId?.price)}</div>
                                 </div>
                             ))}
                         </div>
@@ -300,19 +300,19 @@ const Checkout = () => {
                         <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "24px" }}>
                             <div style={{ display: "flex", justifyContent: "space-between", color: "var(--text-secondary)", fontSize: "0.9rem" }}>
                                 <span>Subtotal</span>
-                                <span>₹{cartTotal?.toFixed(2)}</span>
+                                <span style={{ color: "#2563EB" }}>₹{cartTotal?.toFixed(2)}</span>
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between", color: "var(--text-secondary)", fontSize: "0.9rem" }}>
                                 <span>Shipping</span>
-                                <span style={{ color: shippingCost === 0 ? "var(--text-primary)" : "var(--text-secondary)" }}>{shippingCost === 0 ? "Free" : `₹${shippingCost.toFixed(2)}`}</span>
+                                <span style={{ color: "#2563EB" }}>{shippingCost === 0 ? "Free" : `₹${shippingCost.toFixed(2)}`}</span>
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between", color: "var(--text-secondary)", fontSize: "0.9rem" }}>
                                 <span>Tax (8%)</span>
-                                <span>₹{tax.toFixed(2)}</span>
+                                <span style={{ color: "#2563EB" }}>₹{tax.toFixed(2)}</span>
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between", color: "var(--text-primary)", fontSize: "1.2rem", fontWeight: "700", marginTop: "12px", paddingTop: "12px", borderTop: "1px dashed var(--bg-tertiary)" }}>
                                 <span>Total</span>
-                                <span style={{ color: "var(--accent-primary)" }}>₹{total.toFixed(2)}</span>
+                                <span style={{ color: "#2563EB" }}>₹{total.toFixed(2)}</span>
                             </div>
                         </div>
 

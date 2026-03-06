@@ -46,7 +46,7 @@ const Payments = () => {
                             </Link>
 
                             <Link to="/wishlist" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderRadius: "10px", color: "var(--text-muted)", textDecoration: "none" }}>
-                                <Heart size={18} />
+                                <Heart size={18} color="#EF4444" fill="#EF4444" fillOpacity={0.1} />
                                 <span style={{ fontSize: "0.95rem", fontWeight: "500" }}>Wishlist</span>
                             </Link>
 
