@@ -18,7 +18,15 @@ const Home = () => {
   const [selectedMaterials, setSelectedMaterials] = useState([]);
 
   const categories = ["All Lighting", "Chandeliers", "Floor Lamps", "Lanterns", "Furniture", "Home Decor", "Sales"];
-  const colors = ["#000000", "#FFFFFF", "#737373", "#A3A3A3"];
+  const colors = ["#000000", "#FFFFFF", "#737373", "#EF4444", "#3B82F6", "#F59E0B"];
+  const colorNames = {
+    "#000000": "Black",
+    "#FFFFFF": "White",
+    "#737373": "Gray",
+    "#EF4444": "Red",
+    "#3B82F6": "Blue",
+    "#F59E0B": "Gold"
+  };
   const materials = ["Brass", "Glass", "Wood"];
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -193,15 +201,28 @@ const Home = () => {
               {colors.map((color, i) => (
                 <div key={i}
                   onClick={() => setSelectedColor(selectedColor === color ? null : color)}
+                  title={colorNames[color]}
                   style={{
-                    width: "24px", height: "24px",
+                    width: "28px", height: "28px",
                     borderRadius: "50%",
                     backgroundColor: color,
-                    border: color === "var(--bg-main)" ? "1px solid var(--bg-tertiary)" : "none",
+                    border: "1px solid rgba(0,0,0,0.1)",
                     cursor: "pointer",
-                    boxShadow: selectedColor === color ? "0 0 0 2px white, 0 0 0 4px var(--accent-primary)" : "none",
-                    transition: "all 0.2s"
-                  }}></div>
+                    boxShadow: selectedColor === color ? `0 0 0 2px var(--bg-main), 0 0 0 4px var(--accent-primary)` : "none",
+                    transition: "all 0.2s",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}>
+                  {selectedColor === color && (
+                    <div style={{
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "50%",
+                      backgroundColor: (color === "#FFFFFF" || color === "#F59E0B") ? "black" : "white"
+                    }}></div>
+                  )}
+                </div>
               ))}
             </div>
           </div>

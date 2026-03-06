@@ -77,7 +77,8 @@ const ProductDetail = () => {
         </div>
     );
 
-    const colors = ["#000000", "#737373", "#FFFFFF"]; // Mock colors for standard display
+    const colors = ["#000000", "#FFFFFF", "#737373", "#EF4444", "#3B82F6", "#F59E0B"];
+    const colorNames = ["Black", "White", "Gray", "Red", "Blue", "Gold"];
     const images = product.images?.length > 0 ? product.images : [
         product.image || "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=600&auto=format&fit=crop",
         "https://images.unsplash.com/photo-1540932239986-30128078f3c5?q=80&w=600&auto=format&fit=crop",
@@ -350,7 +351,9 @@ const ProductDetail = () => {
                         </p>
 
                         <div style={{ marginBottom: "32px" }}>
-                            <div style={{ fontSize: "0.9rem", fontWeight: "700", color: "var(--text-primary)", marginBottom: "12px" }}>Bulb Color</div>
+                            <div style={{ fontSize: "0.9rem", fontWeight: "700", color: "var(--text-primary)", marginBottom: "12px" }}>
+                                Color: <span style={{ color: "var(--text-muted)", fontWeight: "400" }}>{colorNames[selectedColor]}</span>
+                            </div>
                             <div style={{ display: "flex", gap: "12px" }}>
                                 {colors.map((color, i) => (
                                     <button
