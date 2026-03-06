@@ -47,6 +47,8 @@ const Home = () => {
       setSelectedCategory(cat);
       // Scroll to main content area smoothly
       window.scrollTo({ top: 400, behavior: 'smooth' });
+    } else {
+      setSelectedCategory("All Lighting");
     }
   }, [searchParams]);
 
