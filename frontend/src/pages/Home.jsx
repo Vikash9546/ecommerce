@@ -97,6 +97,18 @@ const Home = () => {
     setCurrentPage(1);
   }, [searchQuery, selectedCategory, priceRange, selectedColor, selectedMaterials, sortOrder]);
 
+  const handleClearFilters = () => {
+    setSelectedCategory("All Lighting");
+    setPriceRange(2000);
+    setSelectedColor(null);
+    setSelectedMaterials([]);
+    setSortOrder("Most Popular");
+    setSearchParams({});
+    toast.success("Filters cleared");
+  };
+
+  const hasActiveFilters = selectedCategory !== "All Lighting" || priceRange !== 2000 || selectedColor !== null || selectedMaterials.length > 0 || searchParams.get("search");
+
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const currentProducts = filteredProducts.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
 
@@ -142,9 +154,31 @@ const Home = () => {
 
         {/* Left Sidebar - Filters */}
         <div className="home-sidebar">
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "30px" }}>
-            <SlidersHorizontal size={20} color="var(--accent-primary)" />
-            <h3 style={{ fontSize: "1.2rem", fontWeight: "700", color: "var(--text-primary)", margin: 0 }}>Filters</h3>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "30px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <SlidersHorizontal size={20} color="var(--accent-primary)" />
+              <h3 style={{ fontSize: "1.2rem", fontWeight: "700", color: "var(--text-primary)", margin: 0 }}>Filters</h3>
+            </div>
+            {hasActiveFilters && (
+              <button
+                onClick={handleClearFilters}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#EF4444",
+                  fontSize: "0.8rem",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px",
+                  padding: "4px 8px",
+                  borderRadius: "4px",
+                  backgroundColor: "rgba(239, 68, 68, 0.05)"
+                }}
+              >
+                Clear All
+              </button>
+            )}
           </div>
 
           {/* Category Filter */}
