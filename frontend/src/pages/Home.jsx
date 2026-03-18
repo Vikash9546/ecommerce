@@ -10,14 +10,14 @@ import toast from "react-hot-toast";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const categoryParam = searchParams.get("category") || "All Lighting";
+  const categoryParam = searchParams.get("category") || "Show all products";
   const [selectedCategory, setSelectedCategory] = useState(categoryParam);
   const [sortOrder, setSortOrder] = useState("Most Popular");
   const [priceRange, setPriceRange] = useState(2000);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedMaterials, setSelectedMaterials] = useState([]);
 
-  const categories = ["All Lighting", "Chandeliers", "Floor Lamps", "Lanterns", "Furniture", "Home Decor", "Sales"];
+  const categories = ["Show all products", "Furniture", "Home Decor", "Sales"];
   const colors = ["#000000", "#FFFFFF", "#737373", "#EF4444", "#3B82F6", "#F59E0B"];
   const colorNames = {
     "#000000": "Black",
@@ -56,7 +56,7 @@ const Home = () => {
       // Scroll to main content area smoothly
       window.scrollTo({ top: 400, behavior: 'smooth' });
     } else {
-      setSelectedCategory("All Lighting");
+      setSelectedCategory("Show all products");
     }
   }, [searchParams]);
 
@@ -70,7 +70,7 @@ const Home = () => {
       p.description?.toLowerCase().includes(searchQuery);
 
     const apiCat = p.category || "";
-    const matchesCategory = selectedCategory === "All Lighting" || apiCat.includes(selectedCategory) || selectedCategory.includes(apiCat);
+    const matchesCategory = selectedCategory === "Show all products" || apiCat.includes(selectedCategory) || selectedCategory.includes(apiCat);
 
     const matchesPrice = (p.price || 0) <= priceRange;
 
@@ -98,7 +98,7 @@ const Home = () => {
   }, [searchQuery, selectedCategory, priceRange, selectedColor, selectedMaterials, sortOrder]);
 
   const handleClearFilters = () => {
-    setSelectedCategory("All Lighting");
+    setSelectedCategory("Show all products");
     setPriceRange(2000);
     setSelectedColor(null);
     setSelectedMaterials([]);
@@ -107,7 +107,7 @@ const Home = () => {
     toast.success("Filters cleared");
   };
 
-  const hasActiveFilters = selectedCategory !== "All Lighting" || priceRange !== 2000 || selectedColor !== null || selectedMaterials.length > 0 || searchParams.get("search");
+  const hasActiveFilters = selectedCategory !== "Show all products" || priceRange !== 2000 || selectedColor !== null || selectedMaterials.length > 0 || searchParams.get("search");
 
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const currentProducts = filteredProducts.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
@@ -137,13 +137,13 @@ const Home = () => {
 
           <div style={{ position: "relative", zIndex: 1, maxWidth: "600px" }}>
             <div style={{ color: "#FFFFFF", fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
-              <span style={{ color: "rgba(255,255,255,0.6)" }}>Home /</span> Lighting
+              <span style={{ color: "rgba(255,255,255,0.6)" }}>Home /</span> Products
             </div>
             <h1 style={{ color: "#FFFFFF", fontSize: "4rem", fontWeight: "800", lineHeight: "1.1", marginBottom: "24px", textShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>
               Illuminate Your<br />Space
             </h1>
             <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1.1rem", lineHeight: "1.6", marginBottom: "40px", maxWidth: "480px" }}>
-              Discover our curated range of chandeliers, floor lamps, and lanterns designed to transform your home.
+              Explore our curated selection of high-quality furniture and home decor designed to elevate your living space.
             </p>
           </div>
         </div>
@@ -377,7 +377,7 @@ const Home = () => {
                       </div>
 
                       <div style={{ fontSize: "0.75rem", color: "var(--accent-primary)", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "700", marginBottom: "4px" }}>
-                        {p.category || "Lighting"}
+                        {p.category || "All Products"}
                       </div>
                       <h3 style={{ fontSize: "1rem", fontWeight: "700", color: "var(--text-primary)", margin: "0 0 12px 0", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                         {p.name}

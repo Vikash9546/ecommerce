@@ -48,7 +48,7 @@ const Navbar = () => {
                 <Link to="/" className="nav-link" style={{ fontWeight: 600 }}>Home</Link>
                 <Link to="/?category=Furniture" className="nav-link">Furniture</Link>
                 <Link to="/?category=Home Decor" className="nav-link">Home Decor</Link>
-                <Link to="/?category=All Lighting" className="nav-link">Lighting</Link>
+                <Link to="/?category=Show all products" className="nav-link">All Products</Link>
                 <Link to="/?category=Sales" className="nav-link" style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>Sales</Link>
             </div>
 
@@ -130,7 +130,7 @@ const Navbar = () => {
                         <Link to="/" className="nav-link-mobile" onClick={() => setIsOpen(false)}>Home</Link>
                         <Link to="/?category=Furniture" className="nav-link-mobile" onClick={() => setIsOpen(false)}>Furniture</Link>
                         <Link to="/?category=Home Decor" className="nav-link-mobile" onClick={() => setIsOpen(false)}>Home Decor</Link>
-                        <Link to="/?category=All Lighting" className="nav-link-mobile" onClick={() => setIsOpen(false)}>Lighting</Link>
+                        <Link to="/?category=Show all products" className="nav-link-mobile" onClick={() => setIsOpen(false)}>All Products</Link>
                         <Link to="/?category=Sales" className="nav-link-mobile" style={{ color: 'var(--accent-primary)' }} onClick={() => setIsOpen(false)}>Sales</Link>
                         <Link to="/wishlist" className="nav-link-mobile" onClick={() => setIsOpen(false)}>Wishlist</Link>
                         <Link to="/cart" className="nav-link-mobile" onClick={() => setIsOpen(false)}>Cart ({cartCount})</Link>

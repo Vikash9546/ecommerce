@@ -65,8 +65,7 @@ const Footer = () => {
                     <h4 style={{ fontSize: "1rem", fontWeight: "700", marginBottom: "24px", textTransform: "uppercase", letterSpacing: "1px" }}>Shop</h4>
                     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                         <Link to="/?category=Sales" className="footer-link">Sales & Offers</Link>
-                        <Link to="/?category=Chandeliers" className="footer-link">Chandeliers</Link>
-                        <Link to="/?category=All Lighting" className="footer-link">Lighting</Link>
+                        <Link to="/?category=Show all products" className="footer-link">Show all products</Link>
                         <Link to="/?category=Furniture" className="footer-link">Furniture</Link>
                         <Link to="/?category=Home Decor" className="footer-link">Home Decor</Link>
                     </div>
