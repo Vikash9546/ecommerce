@@ -2,7 +2,34 @@
 
 A premium, minimalist e-commerce platform built with React, Node.js, and MongoDB.
 
-## 📁 Folder Structure
+## 📝 Description
+Lumina is a modern e-commerce solution designed for a seamless shopping experience. It features a clean, responsive interface, robust backend management, and a focus on visual aesthetics and user convenience. Whether you're browsing products, managing your cart, or tracking orders, Lumina provides a fluid and premium feel.
+
+## ✨ Key Features
+- **User Authentication**: Secure signup and login with JWT-based authentication.
+- **Product Discovery**: Browse a wide range of products with detailed views, high-quality images, and customer reviews.
+- **Shopping Cart**: Real-time cart management to add, remove, and update item quantities.
+- **Order Management**: Complete checkout process with order history and real-time status tracking.
+- **Wishlist**: Save favorite items for later with a dedicated wishlist view.
+- **Rating & Reviews**: Share feedback and view ratings from other shoppers to make informed decisions.
+- **Profile Management**: Personal user profiles to manage addresses and view order details.
+- **Responsive Design**: Optimized for mobile, tablet, and desktop views for a consistent experience.
+
+## 🏗️ System Design
+The application follows a **Client-Server Architecture**:
+- **Frontend**: A Single Page Application (SPA) built with React, communicating with the backend via RESTful APIs.
+- **Backend**: A Node.js and Express server that handles business logic, security, and database interactions.
+- **Database**: MongoDB for persistent storage, structured with Mongoose models for data integrity.
+- **Authentication**: Secure JWT-based sessions with hashed passwords stored in the database.
+- **State Management**: React Context API is used for global state (Auth, Cart) to ensure data consistency across the app.
+
+## 🛠️ Tech Stack
+- **Frontend**: React, Vite, Tailwind CSS, Axios, Lucide-React, Framer Motion.
+- **Backend**: Node.js, Express.js, Mongoose, JWT.
+- **Database**: MongoDB.
+- **Deployment**: Render (Static Site for Frontend, Web Service for Backend).
+
+## 📁 Folder Structure & File Functionality
 
 ### 🖥️ Frontend (`/frontend`)
 The frontend is built with **React**, **Vite**, and **Tailwind CSS**.
@@ -26,7 +53,7 @@ The backend is a **Node.js** and **Express** server using **MongoDB** (Mongoose)
 
 - **`src/configs/`**: Database connection and other configuration files.
 - **`src/controllers/`**: Logical handlers for each route:
-  - `authController.js`: User authentication logic.
+  - `authController.js`: User authentication logic (signup, login).
   - `productController.js`: Operations for fetching and managing products.
   - `cartController.js`: Operations for adding or removing items from the cart.
   - `orderController.js`: Logic for processing and retrieving orders.
@@ -39,11 +66,27 @@ The backend is a **Node.js** and **Express** server using **MongoDB** (Mongoose)
 - **`server.js`**: Entry point that starts the server listening on a port.
 - **`bulkSeed.js`**: Script to seed the database with initial product and user data.
 
-## 🚀 Deployment on Render (Separate Services)
+## 🚀 Getting Started
 
-You can deploy the frontend and backend as two distinct services on Render for better performance and separation.
+### 📦 Local Development
 
-### 1. Backend (Web Service)
+#### 1. Backend Setup
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+#### 2. Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### 🌍 Deployment on Render (Separate Services)
+
+#### 1. Backend (Web Service)
 - **Repo**: This repo
 - **Root Directory**: `backend`
 - **Build Command**: `npm install`
@@ -54,26 +97,10 @@ You can deploy the frontend and backend as two distinct services on Render for b
   - `FRONTEND_URL`: `https://your-frontend-link.onrender.com`
   - `NODE_ENV`: `production`
 
-### 2. Frontend (Static Site)
+#### 2. Frontend (Static Site)
 - **Repo**: This repo
 - **Root Directory**: `frontend`
 - **Build Command**: `npm run build`
 - **Publish Directory**: `dist`
 - **Environment Variables**:
   - `VITE_API_BASE_URL`: `https://your-backend-link.onrender.com/api`
-
-## 🛠️ Local Development
-
-### 1. Backend
-```bash
-cd backend
-npm install
-npm run dev
-```
-
-### 2. Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
