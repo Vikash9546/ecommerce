@@ -23,6 +23,15 @@ The application follows a **Client-Server Architecture**:
 - **Authentication**: Secure JWT-based sessions with hashed passwords stored in the database.
 - **State Management**: React Context API is used for global state (Auth, Cart) to ensure data consistency across the app.
 
+```mermaid
+graph TD
+    User([User/Browser]) -->|Interaction| Frontend[React SPA]
+    Frontend -->|API Calls / Axios| Backend[Express Server]
+    Backend -->|JWT Validation| Middleware[Auth Middleware]
+    Middleware --> Controllers[Business Logic]
+    Controllers -->|Mongoose Models| DB[(MongoDB)]
+```
+
 ## 🛠️ Tech Stack
 - **Frontend**: React, Vite, Tailwind CSS, Axios, Lucide-React, Framer Motion.
 - **Backend**: Node.js, Express.js, Mongoose, JWT.
