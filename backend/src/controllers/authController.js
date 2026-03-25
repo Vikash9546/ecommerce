@@ -14,7 +14,13 @@ export const register = async (req, res) => {
       password: hashedPassword,
     });
 
-    res.json({ message: "User registered" });
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    res.json({ message: "User registered", token });
   } catch (err) {
     if (err.code === 11000) {
       return res.status(400).json({ message: "Email already exists" });
