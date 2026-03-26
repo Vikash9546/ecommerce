@@ -2,10 +2,10 @@
 
 A premium, minimalist e-commerce platform built with React, Node.js, and MongoDB.
 
-## 📝 Description
+## Description
 Lumina is a modern e-commerce solution designed for a seamless shopping experience. It features a clean, responsive interface, robust backend management, and a focus on visual aesthetics and user convenience. Whether you're browsing products, managing your cart, or tracking orders, Lumina provides a fluid and premium feel.
 
-## ✨ Key Features
+## Key Features
 - **User Authentication**: Secure signup and login with JWT-based authentication.
 - **Product Discovery**: Browse a wide range of products with detailed views, high-quality images, and customer reviews.
 - **Shopping Cart**: Real-time cart management to add, remove, and update item quantities.
@@ -15,7 +15,7 @@ Lumina is a modern e-commerce solution designed for a seamless shopping experien
 - **Profile Management**: Personal user profiles to manage addresses and view order details.
 - **Responsive Design**: Optimized for mobile, tablet, and desktop views for a consistent experience.
 
-## 🏗️ System Design
+## System Design
 The application follows a **Client-Server Architecture**:
 - **Frontend**: A Single Page Application (SPA) built with React, communicating with the backend via RESTful APIs.
 - **Backend**: A Node.js and Express server that handles business logic, security, and database interactions.
@@ -32,15 +32,15 @@ graph TD
     Controllers -->|Mongoose Models| DB[(MongoDB)]
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 - **Frontend**: React, Vite, Tailwind CSS, Axios, Lucide-React, Framer Motion.
 - **Backend**: Node.js, Express.js, Mongoose, JWT.
 - **Database**: MongoDB.
 - **Deployment**: Render (Static Site for Frontend, Web Service for Backend).
 
-## 📁 Folder Structure & File Functionality
+## Folder Structure & File Functionality
 
-### 🖥️ Frontend (`/frontend`)
+### Frontend (`/frontend`)
 The frontend is built with **React**, **Vite**, and **Tailwind CSS**.
 
 - **`src/api/`**: Contains `api.js` for Axios configuration and centralized API request functions.
@@ -57,7 +57,7 @@ The frontend is built with **React**, **Vite**, and **Tailwind CSS**.
 - **`src/App.jsx`**: Main routing logic and application wrapper.
 - **`src/main.jsx`**: Entry point for the React application.
 
-### ⚙️ Backend (`/backend`)
+### Backend (`/backend`)
 The backend is a **Node.js** and **Express** server using **MongoDB** (Mongoose).
 
 - **`src/configs/`**: Database connection and other configuration files.
@@ -75,9 +75,9 @@ The backend is a **Node.js** and **Express** server using **MongoDB** (Mongoose)
 - **`server.js`**: Entry point that starts the server listening on a port.
 - **`bulkSeed.js`**: Script to seed the database with initial product and user data.
 
-## 🚀 Getting Started
+## Getting Started
 
-### 📦 Local Development
+### Local Development
 
 #### 1. Backend Setup
 ```bash
@@ -93,7 +93,7 @@ npm install
 npm run dev
 ```
 
-### 🌍 Deployment on Render (Separate Services)
+### Deployment on Render (Separate Services)
 
 #### 1. Backend (Web Service)
 - **Repo**: This repo
